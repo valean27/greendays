@@ -49,43 +49,44 @@
         document.getElementById('date').value = new Date().toDateInputValue();
     });
 
-    imgInp.onchange = evt => {
-        const [file] = imgInp.files
+    uploadfoaieParcurs.onchange = evt => {
+        const [file] = uploadfoaieParcurs.files
         if (file) {
-            blah.style.visibility = 'visible';
-            blah.src = URL.createObjectURL(file)
-            var removeButton = document.getElementById("removeImageButton");
+            imagineFoaieParcurs.style.visibility = 'visible';
+            imagineFoaieParcurs.src = URL.createObjectURL(file)
+            var removeButton = document.getElementById("removeFoaieParcurs");
             removeButton.style.visibility = 'visible';
         } else {
-            setImageVisible("blah", "hidden")
+            imagineFoaieParcurs.style.visibility = 'hidden';
         }
+        uploadfoaieParcurs.value = null;
     }
 
-    imgInp2.onmousedown = evt => {
-        const [file] = imgInp2.files
+    uploadTalonCantarire.onchange = evt => {
+        const [file] = uploadTalonCantarire.files
         if (file) {
-            blah.style.visibility = 'visible';
-            blah2.src = URL.createObjectURL(file)
-            var removeButton = document.getElementById("removeImageButton2");
+            imagineTalonCantarire.style.visibility = 'visible';
+            imagineTalonCantarire.src = URL.createObjectURL(file)
+            var removeButton = document.getElementById("removeTalonCantarire");
             removeButton.style.visibility = 'visible';
         } else {
-            setImageVisible("blah2", "hidden")
+            imagineTalonCantarire.style.visibility = 'hidden';
         }
+        uploadTalonCantarire.value = null;
     }
 
-    removeImageButton.onmousedown = () => {
-        var removeButton = document.getElementById("removeImageButton");
-        blah.src = "#";
-        blah.style.visibility = 'hidden';
+    removeFoaieParcurs.onmousedown = () => {
+        var removeButton = document.getElementById("removeFoaieParcurs");
         removeButton.style.visibility = 'hidden';
-        imgInp.files.splice(1);
+        imagineFoaieParcurs.src = "#";
+        imagineFoaieParcurs.style.visibility = 'hidden';
     }
 
-    removeImageButton2.onmousedown = () => {
-        var removeButton = document.getElementById("removeImageButton2");
-        blah2.src = "#";
-        blah2.style.visibility = 'hidden';
+    removeTalonCantarire.onmousedown = () => {
+        var removeButton = document.getElementById("removeTalonCantarire");
         removeButton.style.visibility = 'hidden';
+        imagineTalonCantarire.src = "#";
+        imagineTalonCantarire.style.visibility = 'hidden';
     }
 
     function validate(input) {
