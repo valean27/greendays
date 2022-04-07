@@ -5,5 +5,5 @@ Date.prototype.toDateInputValue = (function() {
 });
 $( document ).ready(function() {
     console.log( "ready!" );
-    document.getElementById('txtDate').value = new Date().toDateInputValue();
+    document.getElementById('date').value = new Date().toDateInputValue();
 });
