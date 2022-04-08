@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import java.util.Arrays;
 
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
 public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 //
 //    @Autowired
@@ -40,27 +40,27 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
 //        http.addFilterAfter(new CustomFilter(),
 //                BasicAuthenticationFilter.class);
 //    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Override
-    public UserDetailsService userDetailsServiceBean() throws Exception {
-        User.UserBuilder myuser = User.builder()
-                .username("bfilio")
-                .password(passwordEncoder().encode("myPassword"))
-                .roles("SEF");
-        return new InMemoryUserDetailsManager(Arrays.asList(myuser.build()));
-    }
-
-    @Override
-    protected UserDetailsService userDetailsService() {
-         User.UserBuilder myuser = User.builder()
-                 .username("bfilio")
-                 .password(passwordEncoder().encode("myPassword"))
-                 .roles("SEF");
-         return new InMemoryUserDetailsManager(Arrays.asList(myuser.build()));
-    }
+//
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+//
+//    @Override
+//    public UserDetailsService userDetailsServiceBean() throws Exception {
+//        User.UserBuilder myuser = User.builder()
+//                .username("bfilio")
+//                .password(passwordEncoder().encode("myPassword"))
+//                .roles("SEF");
+//        return new InMemoryUserDetailsManager(Arrays.asList(myuser.build()));
+//    }
+//
+//    @Override
+//    protected UserDetailsService userDetailsService() {
+//         User.UserBuilder myuser = User.builder()
+//                 .username("bfilio")
+//                 .password(passwordEncoder().encode("myPassword"))
+//                 .roles("SEF");
+//         return new InMemoryUserDetailsManager(Arrays.asList(myuser.build()));
+//    }
 }

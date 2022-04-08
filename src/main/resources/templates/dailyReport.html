@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Contact V5</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" th:href="@{/images/icons/favicon.ico}"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/fonts/font-awesome-4.7.0/css/font-awesome.min.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/fonts/iconic/css/material-design-iconic-font.min.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/animate/animate.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/css-hamburgers/hamburgers.min.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/animsition/css/animsition.min.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/select2/select2.min.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/daterangepicker/daterangepicker.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/noui/nouislider.min.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+    <!--===============================================================================================-->
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <!--===============================================================================================-->
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container-contact100">
+    <form class="contact100-form validate-form">
+				<span class="contact100-form-title">
+					Raport Zilnic
+				</span>
+        <div class="wrap-input100 bg1 rs1-wrap-input100" >
+            <span class="label-input100">Data</span>
+            <input id="date" class="input100" type="date" name="name">
+        </div>
+        <div class="wrap-input100 bg1 rs1-wrap-input100" >
+            <span class="label-input100">Numar traseu</span>
+            <div>
+                <select class="js-select2" name="service">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                </select>
+                <div class="dropDownSelect2"></div>
+            </div>
+        </div>
+        <div class="wrap-input100 input100-select bg1 rs1-wrap-input100">
+            <span class="label-input100">Cod Deseu</span>
+            <div>
+                <select class="js-select2" name="service">
+                    <option>00:12:12</option>
+                    <option>01:11:11</option>
+                    <option>00:11:22</option>
+                </select>
+                <div class="dropDownSelect2"></div>
+            </div>
+        </div>
+        <div class="wrap-input100 validate-input bg1 rs1-wrap-input100">
+            <span class="label-input100">Denumire</span>
+            <input class="input100" type="text" name="name" placeholder="Denumire deseu">
+        </div>
+        <div class="wrap-input100 validate-input bg1 rs1-wrap-input100" data-validate="Introduceti numele soferului">
+            <span class="label-input100">Numele conducator auto</span>
+            <input class="input100" type="text" name="name" placeholder="Numele soferului">
+        </div>
+        <div class="wrap-input100 validate-input bg1 rs1-wrap-input100">
+            <span class="label-input100">Cantitate Colectata</span>
+            <input class="input100" type="text" name="name" placeholder="0">
+        </div>
+        <div class="wrap-input100 validate-input bg1 rs1-wrap-input100">
+            <span class="label-input100">UAT</span>
+            <input class="input100" type="text" name="name">
+        </div>
+        <div class="wrap-input100 input100-select bg1 rs1-wrap-input100">
+            <span class="label-input100">Tip Client</span>
+            <div>
+                <select class="js-select2" name="service">
+                    <option>Casnic</option>
+                    <option>Non-Casnic</option>
+                    <option>Mixt</option>
+                </select>
+                <div class="dropDownSelect2"></div>
+            </div>
+        </div>
+        <div class="wrap-input100 validate-input bg1 rs1-wrap-input100">
+            <span class="label-input100">Destinatie</span>
+            <input class="input100" type="text" name="name" placeholder="Denumire deseu">
+        </div>
+        <div class="wrap-input100 input100-select bg1 rs1-wrap-input100">
+            <span class="label-input100">Incident</span>
+            <div>
+                <select class="js-select2" name="service">
+                    <option>Nu e cazul</option>
+                    <option>Avarie Utilaj</option>
+                    <option>Incident</option>
+                </select>
+                <div class="dropDownSelect2"></div>
+            </div>
+        </div>
+        <div class="wrap-input100 validate-input bg1 rs1-wrap-input100">
+            <label for="observatii" class="label-input100">Observatii incident</label>
+            <textarea id="observatii" class="input100" name="observatii" placeholder="Observatii.."></textarea>
+        </div>
+        <div class="wrap-input100 validate-input bg1 rs1-wrap-input100">
+            <span class="label-input100">Registru Alte Probleme</span>
+            <input class="input100" type="text" name="name" placeholder="Alte probleme..">
+        </div>
+        <div class="wrap-input100 validate-input bg1 rs1-wrap-input100">
+            <span class="label-input100">Foaie Parcurs</span>
+            <label for="uploadfoaieParcurs" class="custom-file-upload">
+                <i class="fa fa-cloud-upload"></i> Alegeti fisierul
+            </label>
+            <input accept="image/*" id="uploadfoaieParcurs" type="file"/>
+            <img id="imagineFoaieParcurs" src="#" style="width:30px; height: 30px; visibility: hidden"/>
+            <button type="button" class="btn" id="removeFoaieParcurs" style="visibility: hidden"><span class="btn btn-outline-danger">Sterge</span></button>
+        </div>
+
+        <div class="wrap-input100 validate-input bg1 rs1-wrap-input100">
+            <span class="label-input100">Talon Cantarire</span>
+            <label for="uploadTalonCantarire" class="custom-file-upload">
+                <i class="fa fa-cloud-upload"></i> Alegeti fisierul
+            </label>
+            <input id="uploadTalonCantarire" type="file"/>
+            <img id="imagineTalonCantarire" src="#" style="width:30px; height: 30px; visibility: hidden"/>
+            <button type="button" class="btn" id="removeTalonCantarire" style="visibility: hidden"><span class="btn btn-outline-danger">Sterge</span></button>
+        </div>
+
+        <div class="container-contact100-form-btn">
+            <button class="contact100-form-btn">
+						<span>
+							Submit
+							<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+						</span>
+            </button>
+        </div>
+    </form>
+</div>
+
+
+
+<!--===============================================================================================-->
+<script th:src="@{/vendor/jquery/jquery-3.2.1.min.js}"></script>
+<!--===============================================================================================-->
+<script th:src="@{/vendor/animsition/js/animsition.min.js}"></script>
+<!--===============================================================================================-->
+<script th:src="@{/vendor/bootstrap/js/popper.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+<!--===============================================================================================-->
+<script th:src="@{/vendor/select2/select2.min.js}"></script>
+<script>
+    $(".js-select2").each(function(){
+        $(this).select2({
+            minimumResultsForSearch: 20,
+            dropdownParent: $(this).next('.dropDownSelect2')
+        });
+    })
+</script>
+<!--===============================================================================================-->
+<script th:src="@{/vendor/daterangepicker/moment.min.js}"></script>
+<script th:src="@{/vendor/daterangepicker/daterangepicker.js}"></script>
+<!--===============================================================================================-->
+<script th:src="@{/vendor/countdowntime/countdowntime.js}"></script>
+<!--===============================================================================================-->
+<script th:src="@{/vendor/noui/nouislider.min.js}"></script>
+<script>
+    var filterBar = document.getElementById('filter-bar');
+
+    noUiSlider.create(filterBar, {
+        start: [ 1500, 3900 ],
+        connect: true,
+        range: {
+            'min': 1500,
+            'max': 7500
+        }
+    });
+
+    var skipValues = [
+        document.getElementById('value-lower'),
+        document.getElementById('value-upper')
+    ];
+
+    filterBar.noUiSlider.on('update', function( values, handle ) {
+        skipValues[handle].innerHTML = Math.round(values[handle]);
+        $('.contact100-form-range-value input[name="from-value"]').val($('#value-lower').html());
+        $('.contact100-form-range-value input[name="to-value"]').val($('#value-upper').html());
+    });
+</script>
+<!--===============================================================================================-->
+<script th:src="@{/js/main.js}"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-23581568-13');
+</script>
+
+</body>
+</html>

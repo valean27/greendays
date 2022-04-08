@@ -45,7 +45,20 @@ body, html {
 	height: 100%;
 	font-family: Poppins-Regular, sans-serif;
 }
+.navigation-bar ul {
+  padding: 0px;
+  margin: 0px;
+  text-align: center;
+  display:inline-block;
+  vertical-align:top;
+}
 
+.toplogo img {
+  align-self: center;
+  align-content: center;
+  height : 50px;
+  width : 50px;
+}
 /*---------------------------------------------*/
 a {
 	font-family: Poppins-Regular;
