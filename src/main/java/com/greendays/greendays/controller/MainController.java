@@ -8,24 +8,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class MainController {
 
-    @GetMapping("/home")
+    @GetMapping("/")
     public String index() {
         return "index";
     }
 
-    @GetMapping("/rapoarte")
-    public String rapoarte(@RequestParam(name = "name", required = false, defaultValue = "Stefan")String name, Model model) {
+    @GetMapping("/dailyReport")
+    public String dailyReport(@RequestParam(name = "name", required = false, defaultValue = "Stefan")String name, Model model) {
         model.addAttribute("name", name);
-        return "rapoarte";
+        return "dailyReport";
     }
 
-    @GetMapping("/statistici")
-    public String statistici() {
-        return "statistici";
+    @GetMapping("/monthlyReport")
+    public String monthlyReport(@RequestParam(name = "name", required = false, defaultValue = "Stefan")String name, Model model) {
+        model.addAttribute("name", name);
+        return "monthlyReport";
     }
 
-    @GetMapping("/export")
-    public String export() {
-        return "export";
+    @GetMapping("/trimestrialReport")
+    public String trimestrialReport(@RequestParam(name = "name", required = false, defaultValue = "Stefan")String name, Model model) {
+        model.addAttribute("name", name);
+        return "trimestrialReport";
+    }
+
+    @GetMapping("/anualReport")
+    public String anualReport(@RequestParam(name = "name", required = false, defaultValue = "Stefan")String name, Model model) {
+        model.addAttribute("name", name);
+        return "anualReport";
     }
 }
