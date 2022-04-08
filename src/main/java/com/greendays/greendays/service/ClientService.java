@@ -1,18 +1,25 @@
 package com.greendays.greendays.service;
 
+import com.greendays.greendays.model.Client;
 import com.greendays.greendays.repository.ClientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ClientService {
-    @Autowired
-    private ClientRepository clientRepository;
 
-    public List<String> getClientTypes() {
-//return clientRepository.
-        return null;
+    private final ClientRepository clientRepository;
+
+    public List<Client> getClients() {
+        return clientRepository.findAll();
+    }
+
+    public void insertClient(String clientType){
+        Client client = new Client();
+        client.setClientType(clientType);
+        clientRepository.save(client);
     }
 }

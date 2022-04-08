@@ -89,10 +89,10 @@
         <div class="wrap-input100 input100-select bg1 rs1-wrap-input100">
             <span class="label-input100">Tip Client</span>
             <div>
-                <select class="js-select2" name="service">
-                    <option>Casnic</option>
-                    <option>Non-Casnic</option>
-                    <option>Mixt</option>
+                <select th:field="*{clientTypes}" class="js-select2" name="service">
+                    <option th:each="client : ${clientTypes}"
+                            th:value="${client.toString()}"
+                            th:text="${client.toString()}"></option>
                 </select>
                 <div class="dropDownSelect2"></div>
             </div>

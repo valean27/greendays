@@ -1,6 +1,9 @@
 package com.greendays.greendays.model;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 
 import javax.persistence.*;
 
@@ -13,6 +16,6 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "client_type", nullable = true)
-    private Integer clientType;
+    @Column(name = "client_type", nullable = false)
+    private String clientType;
 }
