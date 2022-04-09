@@ -19,7 +19,8 @@ public class GeneratePdfReport {
 
         Document document = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-
+        document.addTitle("Raport Lunar");
+        document.addHeader("header", "Raport Lunar");
         try {
 
             PdfPTable table = new PdfPTable(4);
@@ -41,7 +42,7 @@ public class GeneratePdfReport {
             hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(hcell);
 
-            hcell = new PdfPCell(new Phrase("Statie Transfer -Destinatie finala", headFont));
+            hcell = new PdfPCell(new Phrase("Statie Transfer - Destinatie finala", headFont));
             hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(hcell);
 
@@ -63,12 +64,12 @@ public class GeneratePdfReport {
                 cell = new PdfPCell(new Phrase(report.getQuantity().toString()));
                 cell.setPaddingLeft(5);
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-                cell.setHorizontalAlignment(Element.ALIGN_MIDDLE);
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
                 cell = new PdfPCell(new Phrase(report.getDestination()));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-                cell.setHorizontalAlignment(Element.ALIGN_MIDDLE);
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 cell.setPaddingRight(5);
                 table.addCell(cell);
             }
