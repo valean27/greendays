@@ -64,7 +64,7 @@
             <span class="label-input100">Cod Deseu</span>
             <div>
                 <div>
-                    <select th:field="*{garbageList}" class="js-select2" th:name="codDeseu">
+                    <select class="js-select2" th:name="codDeseu">
                         <option th:each="garbage : ${garbageList}"
                                 th:value="${garbage.getGarbageCode()}"
                                 th:text="${garbage.getGarbageCode()}"></option>
@@ -92,7 +92,7 @@
         <div class="wrap-input100 input100-select bg1 rs1-wrap-input100">
             <span class="label-input100">Tip Client</span>
             <div>
-                <select th:field="*{clientTypes}" class="js-select2" th:name="client">
+                <select class="js-select2" th:name="client">
                     <option th:each="client : ${clientTypes}"
                             th:value="${client}"
                             th:text="${client}"></option>

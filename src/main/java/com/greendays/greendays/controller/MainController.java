@@ -67,7 +67,7 @@ public class MainController {
         report.setDate(Date.valueOf(Objects.requireNonNull(paramMap.getFirst("data"))));
         report.setDestination(paramMap.getFirst("destinatie"));
         report.setDriverName(paramMap.getFirst("numeSofer"));
-        report.setProblems(paramMap.getFirst("probleme"));
+        report.setProblems(paramMap.getFirst("alteProbleme"));
         report.setRouteNumber(Integer.valueOf(Objects.requireNonNull(paramMap.getFirst("numarTraseu"))));
         report.setQuantity(Double.valueOf(Objects.requireNonNull(paramMap.getFirst("cantitate"))));
         Incident incident = new Incident();
@@ -78,6 +78,7 @@ public class MainController {
         garbage.setGarbageName(paramMap.getFirst("denumireDeseu"));
         garbage.setGarbageCode(paramMap.getFirst("codDeseu"));
         report.setGarbage(garbage);
+        report.setUat(paramMap.getFirst("uat"));
         return report;
     }
 

@@ -6,6 +6,11 @@ import com.greendays.greendays.repository.DailyReportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class DailyReportService {
@@ -21,4 +26,7 @@ public class DailyReportService {
         return "Raport Salvat!";
     }
 
+    public List<DailyReport> getAllReportsFromThisMonth() {
+        return dailyReportRepository.findAllByDateBetween(Date.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth())), Date.valueOf(LocalDate.now().with(TemporalAdjusters.lastDayOfMonth())));
+    }
 }
