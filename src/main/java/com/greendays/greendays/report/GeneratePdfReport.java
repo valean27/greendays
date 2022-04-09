@@ -63,12 +63,12 @@ public class GeneratePdfReport {
                 cell = new PdfPCell(new Phrase(report.getQuantity().toString()));
                 cell.setPaddingLeft(5);
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                cell.setHorizontalAlignment(Element.ALIGN_MIDDLE);
                 table.addCell(cell);
 
                 cell = new PdfPCell(new Phrase(report.getDestination()));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                cell.setHorizontalAlignment(Element.ALIGN_MIDDLE);
                 cell.setPaddingRight(5);
                 table.addCell(cell);
             }
