@@ -8,4 +8,4 @@ import java.util.List;
 
 public interface DailyReportRepository extends JpaRepository<DailyReport,Long> {
     List<DailyReport> findAllByDateBetween(Date startDate, Date endDate);
-}
+ }

@@ -29,7 +29,9 @@ public class ReportController {
 
         List<DailyReport> dailyReports = dailyReportService.getAllReportsFromThisMonth();
 
-        ByteArrayInputStream bis = GeneratePdfReport.monthlyReport(dailyReports);
+//        ByteArrayInputStream bis = GeneratePdfReport.monthlyReport(dailyReports);
+//        ByteArrayInputStream bis = GeneratePdfReport.trimestrialRaportPlataAdiSalubris();
+        ByteArrayInputStream bis = GeneratePdfReport.trimestrialRaportPlataUAT();
 
         var headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=monthlyReport.pdf");
