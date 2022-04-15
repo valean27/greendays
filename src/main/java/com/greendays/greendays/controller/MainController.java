@@ -4,10 +4,7 @@ import com.greendays.greendays.model.Client;
 import com.greendays.greendays.model.DailyReport;
 import com.greendays.greendays.model.Garbage;
 import com.greendays.greendays.model.Incident;
-import com.greendays.greendays.service.ClientService;
-import com.greendays.greendays.service.DailyReportService;
-import com.greendays.greendays.service.GarbageService;
-import com.greendays.greendays.service.IncidentService;
+import com.greendays.greendays.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,9 +12,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -30,6 +28,8 @@ public class MainController {
     private final DailyReportService dailyReportService;
     private final GarbageService garbageService;
     private final IncidentService incidentService;
+    private final StorageService storageService;
+
 
     @GetMapping("/")
     public String index() {
@@ -51,12 +51,23 @@ public class MainController {
     }
 
     @PostMapping("/postDailyReport")
-    public String postDailyReport(@RequestParam MultiValueMap<String,String> paramMap, Model model){
+    public String postDailyReport(@RequestParam MultiValueMap<String, String> paramMap,@RequestParam("foaieParcurs") MultipartFile foaieParcurs, @RequestParam("talonCantarire") MultipartFile talonCantarire, Model model, RedirectAttributes redirectAttributes) {
+        if(!foaieParcurs.isEmpty()){
+            storageService.store(foaieParcurs);
+            redirectAttributes.addFlashAttribute("message",
+                    "You successfully uploaded " + foaieParcurs.getOriginalFilename() + "!");
+        }
+        if(!talonCantarire.isEmpty()){
+            storageService.store(talonCantarire);
+            redirectAttributes.addFlashAttribute("message",
+                    "You successfully uploaded " + talonCantarire.getOriginalFilename() + "!");
+        }
+
         initializeDailyReportModel(model);
         DailyReport report = populateReportFromParamMap(paramMap);
         String result = dailyReportService.postDailyReport(report);
         model.addAttribute("result", result);
-        return "dailyReport";
+        return "redirect:dailyReport";
     }
 
     private DailyReport populateReportFromParamMap(MultiValueMap<String, String> paramMap) {
@@ -92,19 +103,19 @@ public class MainController {
     }
 
     @GetMapping("/monthlyReport")
-    public String monthlyReport(@RequestParam(name = "name", required = false, defaultValue = "Stefan")String name, Model model) {
+    public String monthlyReport(@RequestParam(name = "name", required = false, defaultValue = "Stefan") String name, Model model) {
         model.addAttribute("name", name);
         return "monthlyReport";
     }
 
     @GetMapping("/trimestrialReport")
-    public String trimestrialReport(@RequestParam(name = "name", required = false, defaultValue = "Stefan")String name, Model model) {
+    public String trimestrialReport(@RequestParam(name = "name", required = false, defaultValue = "Stefan") String name, Model model) {
         model.addAttribute("name", name);
         return "trimestrialReport";
     }
 
     @GetMapping("/anualReport")
-    public String anualReport(@RequestParam(name = "name", required = false, defaultValue = "Stefan")String name, Model model) {
+    public String anualReport(@RequestParam(name = "name", required = false, defaultValue = "Stefan") String name, Model model) {
         model.addAttribute("name", name);
         return "anualReport";
     }

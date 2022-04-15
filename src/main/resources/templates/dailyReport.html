@@ -35,7 +35,7 @@
 <body>
 <div th:replace="fragments/header :: header"></div>
 <div class="container-contact100">
-    <form class="contact100-form validate-form" th:action="postDailyReport" th:method="post" id="dailyReportForm">
+    <form class="contact100-form validate-form" th:action="postDailyReport" th:method="post" id="dailyReportForm" enctype="multipart/form-data">
 				<span class="contact100-form-title">
 					Raport Zilnic
 				</span>
@@ -128,7 +128,7 @@
             <label for="uploadfoaieParcurs" class="custom-file-upload">
                 <i class="fa fa-cloud-upload"></i> Alegeti fisierul
             </label>
-            <input accept="image/*" id="uploadfoaieParcurs" type="file" name="foaieParcurs"/>
+            <input accept="image/*" id="uploadfoaieParcurs" type="file" name="foaieParcurs" />
             <img id="imagineFoaieParcurs" src="#" style="width:30px; height: 30px; visibility: hidden"/>
             <button type="button" class="btn" id="removeFoaieParcurs" style="visibility: hidden"><span
                     class="btn btn-outline-danger">Sterge</span></button>
