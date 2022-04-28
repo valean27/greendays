@@ -31,7 +31,7 @@ public class ReportController {
 
 //        ByteArrayInputStream bis = GeneratePdfReport.monthlyReport(dailyReports);
 //        ByteArrayInputStream bis = GeneratePdfReport.trimestrialRaportPlataAdiSalubris();
-        ByteArrayInputStream bis = GeneratePdfReport.trimestrialRaportPlataUAT();
+        ByteArrayInputStream bis = new GeneratePdfReport().headerReportTable();
 
         var headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=monthlyReport.pdf");

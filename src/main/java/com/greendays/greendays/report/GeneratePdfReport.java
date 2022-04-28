@@ -1,22 +1,25 @@
 package com.greendays.greendays.report;
 
 import com.greendays.greendays.model.DailyReport;
+import com.greendays.greendays.report.tables.ReportTables;
 import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPHeaderCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.access.method.P;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class GeneratePdfReport {
 
     private static final Logger logger = LoggerFactory.getLogger(GeneratePdfReport.class.getName());
+    public static final String FONT = "src/main/resources/FreeSans.ttf";
+    public static final String FONT_BOLD = "src/main/resources/FreeSansBold.ttf";
 
     public static ByteArrayInputStream monthlyReport(List<DailyReport> dailyReports) {
         Document document = new Document();
@@ -88,6 +91,46 @@ public class GeneratePdfReport {
         }
 
         return new ByteArrayInputStream(out.toByteArray());
+    }
+
+    public ByteArrayInputStream headerReportTable() {
+        Document document = new Document();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        document.addTitle("Raport Lunar");
+        document.addHeader("header", "Raport Lunar");
+
+        BaseFont bf = null;
+        Font font = null;
+        Font boldFont = null;
+        try {
+            bf = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            BaseFont boldBaseFont = BaseFont.createFont(FONT_BOLD, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            font = new Font(bf);
+            boldFont = new Font(boldBaseFont);
+            PdfWriter.getInstance(document, out);
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        document.open();
+        ReportTables reportTables = new ReportTables();
+        try {
+            reportTables.createFirstReportTable1(document, boldFont, font);
+            reportTables.createCentralisingTable2(document, boldFont, font);
+            reportTables.createUrbanEnvTable3(document, boldFont, font);
+            reportTables.createRuralEnvTable4(document, boldFont, font);
+            reportTables.createRecyclableUrbanTable5(document, boldFont, font);
+            reportTables.createRecyclableRuralTable6(document, boldFont, font);
+
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+
+        document.close();
+
+        return new ByteArrayInputStream(out.toByteArray());
+
     }
 
     //TODO vezi ce se baga in raportul asta
