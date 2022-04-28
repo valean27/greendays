@@ -51,6 +51,8 @@
 
     uploadfoaieParcurs.onchange = evt => {
         const [file] = uploadfoaieParcurs.files
+        var path = (window.URL || window.webkitURL).createObjectURL(file);
+        console.log('path', path);
         if (file) {
             imagineFoaieParcurs.style.visibility = 'visible';
             imagineFoaieParcurs.src = URL.createObjectURL(file)
@@ -59,11 +61,13 @@
         } else {
             imagineFoaieParcurs.style.visibility = 'hidden';
         }
-        uploadfoaieParcurs.value = null;
+        // uploadfoaieParcurs.value = null;
     }
 
     uploadTalonCantarire.onchange = evt => {
         const [file] = uploadTalonCantarire.files
+        var path = (window.URL || window.webkitURL).createObjectURL(file);
+        console.log('path', path);
         if (file) {
             imagineTalonCantarire.style.visibility = 'visible';
             imagineTalonCantarire.src = URL.createObjectURL(file)
@@ -72,8 +76,10 @@
         } else {
             imagineTalonCantarire.style.visibility = 'hidden';
         }
-        uploadTalonCantarire.value = null;
+        // uploadTalonCantarire.value = null;
     }
+        var path = (window.URL || window.webkitURL).createObjectURL(file);
+        console.log('path', path);
 
     removeFoaieParcurs.onmousedown = () => {
         var removeButton = document.getElementById("removeFoaieParcurs");
