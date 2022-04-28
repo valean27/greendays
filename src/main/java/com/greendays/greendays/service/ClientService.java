@@ -1,6 +1,6 @@
 package com.greendays.greendays.service;
 
-import com.greendays.greendays.model.Client;
+import com.greendays.greendays.model.dal.Client;
 import com.greendays.greendays.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

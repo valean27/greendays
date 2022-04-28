@@ -1,6 +1,6 @@
 package com.greendays.greendays.controller;
 
-import com.greendays.greendays.model.DailyReport;
+import com.greendays.greendays.model.dal.DailyReport;
 import com.greendays.greendays.report.GeneratePdfReport;
 import com.greendays.greendays.service.DailyReportService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.ByteArrayInputStream;
-import java.time.LocalDate;
 import java.util.List;
 
 @Controller

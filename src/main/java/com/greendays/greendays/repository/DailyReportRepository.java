@@ -1,6 +1,6 @@
 package com.greendays.greendays.repository;
 
-import com.greendays.greendays.model.DailyReport;
+import com.greendays.greendays.model.dal.DailyReport;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.sql.Date;

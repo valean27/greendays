@@ -45,6 +45,8 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
         super.configure(web);
         web
                 .ignoring()
-                .antMatchers("/h2-console/**");
+                .antMatchers("/h2-console/**").and().ignoring().antMatchers("/garbage/**");
     }
+
+
 }

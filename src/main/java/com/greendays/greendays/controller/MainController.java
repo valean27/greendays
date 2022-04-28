@@ -1,9 +1,9 @@
 package com.greendays.greendays.controller;
 
-import com.greendays.greendays.model.Client;
-import com.greendays.greendays.model.DailyReport;
-import com.greendays.greendays.model.Garbage;
-import com.greendays.greendays.model.Incident;
+import com.greendays.greendays.model.dal.Client;
+import com.greendays.greendays.model.dal.DailyReport;
+import com.greendays.greendays.model.dal.Garbage;
+import com.greendays.greendays.model.dal.Incident;
 import com.greendays.greendays.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -120,5 +120,10 @@ public class MainController {
         return "anualReport";
     }
 
+    @GetMapping("/tabelArhiva")
+    public String archiveTable(@RequestParam(name = "name", required = false, defaultValue = "Stefan") String name, Model model) {
+        model.addAttribute("name", name);
+        return "tabelArhiva";
+    }
 
 }

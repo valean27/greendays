@@ -1,8 +1,7 @@
 package com.greendays.greendays.repository;
 
-import com.greendays.greendays.model.Incident;
+import com.greendays.greendays.model.dal.Incident;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 
 public interface IncidentRepository extends JpaRepository<Incident,Long> {
 }

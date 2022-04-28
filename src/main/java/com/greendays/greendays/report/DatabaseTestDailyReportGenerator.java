@@ -1,13 +1,9 @@
 package com.greendays.greendays.report;
 
-import com.greendays.greendays.model.Client;
-import com.greendays.greendays.model.DailyReport;
-import com.greendays.greendays.model.Garbage;
+import com.greendays.greendays.model.dal.DailyReport;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
 import java.time.LocalDate;
-import java.util.Random;
 
 @Component
 //TODO: Create this after creating the garbage database

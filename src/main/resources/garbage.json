@@ -1,0 +1,502 @@
+[
+  {
+    "id": 1,
+    "garbageCode": "Benedict Blankenship",
+    "garbageName": "Fritz Spears"
+  },
+  {
+    "id": 2,
+    "garbageCode": "Briar Andrews",
+    "garbageName": "Simone Harper"
+  },
+  {
+    "id": 3,
+    "garbageCode": "Burton Kirkland",
+    "garbageName": "Odessa Colon"
+  },
+  {
+    "id": 4,
+    "garbageCode": "James Knight",
+    "garbageName": "Ulla Dixon"
+  },
+  {
+    "id": 5,
+    "garbageCode": "Nichole Gomez",
+    "garbageName": "Stone Ray"
+  },
+  {
+    "id": 6,
+    "garbageCode": "Drew Bauer",
+    "garbageName": "Kirby Gillespie"
+  },
+  {
+    "id": 7,
+    "garbageCode": "Grady Shepherd",
+    "garbageName": "Hayley Mullins"
+  },
+  {
+    "id": 8,
+    "garbageCode": "Oscar Maynard",
+    "garbageName": "Hanna Chandler"
+  },
+  {
+    "id": 9,
+    "garbageCode": "Berk Tran",
+    "garbageName": "Lacota Rose"
+  },
+  {
+    "id": 10,
+    "garbageCode": "John Collier",
+    "garbageName": "Reese Bryan"
+  },
+  {
+    "id": 11,
+    "garbageCode": "Kieran Ford",
+    "garbageName": "Rhonda Perry"
+  },
+  {
+    "id": 12,
+    "garbageCode": "Ulla Charles",
+    "garbageName": "Lacey Richmond"
+  },
+  {
+    "id": 13,
+    "garbageCode": "Keefe Monroe",
+    "garbageName": "Jack Hays"
+  },
+  {
+    "id": 14,
+    "garbageCode": "Dorian Holcomb",
+    "garbageName": "Eve Clarke"
+  },
+  {
+    "id": 15,
+    "garbageCode": "Hall Simon",
+    "garbageName": "Melodie Mosley"
+  },
+  {
+    "id": 16,
+    "garbageCode": "Yuli Davenport",
+    "garbageName": "Hiroko Dickson"
+  },
+  {
+    "id": 17,
+    "garbageCode": "Maile Burris",
+    "garbageName": "Phelan Martinez"
+  },
+  {
+    "id": 18,
+    "garbageCode": "Aidan Solomon",
+    "garbageName": "Rhoda Hanson"
+  },
+  {
+    "id": 19,
+    "garbageCode": "Harding Mcdaniel",
+    "garbageName": "Ann Roth"
+  },
+  {
+    "id": 20,
+    "garbageCode": "Omar Mcgowan",
+    "garbageName": "Ocean Velasquez"
+  },
+  {
+    "id": 21,
+    "garbageCode": "Jackson Serrano",
+    "garbageName": "Leilani Trujillo"
+  },
+  {
+    "id": 22,
+    "garbageCode": "Robin Lara",
+    "garbageName": "Xaviera Stephenson"
+  },
+  {
+    "id": 23,
+    "garbageCode": "Joan Cline",
+    "garbageName": "Dana Vang"
+  },
+  {
+    "id": 24,
+    "garbageCode": "Quynn Robles",
+    "garbageName": "Travis Mcintosh"
+  },
+  {
+    "id": 25,
+    "garbageCode": "Donovan Hensley",
+    "garbageName": "Odysseus York"
+  },
+  {
+    "id": 26,
+    "garbageCode": "Heather Santana",
+    "garbageName": "Lucas Cox"
+  },
+  {
+    "id": 27,
+    "garbageCode": "Summer Massey",
+    "garbageName": "Candice Tanner"
+  },
+  {
+    "id": 28,
+    "garbageCode": "Signe Cooper",
+    "garbageName": "Linda Hahn"
+  },
+  {
+    "id": 29,
+    "garbageCode": "Gay Mcgee",
+    "garbageName": "Dolan Trujillo"
+  },
+  {
+    "id": 30,
+    "garbageCode": "Stone Riggs",
+    "garbageName": "Tamekah May"
+  },
+  {
+    "id": 31,
+    "garbageCode": "Justin Andrews",
+    "garbageName": "Geoffrey Holland"
+  },
+  {
+    "id": 32,
+    "garbageCode": "Alec Meyers",
+    "garbageName": "Garth Herrera"
+  },
+  {
+    "id": 33,
+    "garbageCode": "Kaseem Kline",
+    "garbageName": "Kirby Madden"
+  },
+  {
+    "id": 34,
+    "garbageCode": "Wynter Hopper",
+    "garbageName": "Carter Rowe"
+  },
+  {
+    "id": 35,
+    "garbageCode": "Lillith Guerrero",
+    "garbageName": "Donna Blanchard"
+  },
+  {
+    "id": 36,
+    "garbageCode": "Rashad Carrillo",
+    "garbageName": "Blossom Barr"
+  },
+  {
+    "id": 37,
+    "garbageCode": "Hoyt Petersen",
+    "garbageName": "Colby Dean"
+  },
+  {
+    "id": 38,
+    "garbageCode": "Ayanna Rosales",
+    "garbageName": "Haley Boyd"
+  },
+  {
+    "id": 39,
+    "garbageCode": "Bianca Griffith",
+    "garbageName": "Hasad Powell"
+  },
+  {
+    "id": 40,
+    "garbageCode": "Thomas Burke",
+    "garbageName": "Tara Oliver"
+  },
+  {
+    "id": 41,
+    "garbageCode": "Fulton Barr",
+    "garbageName": "Acton Conrad"
+  },
+  {
+    "id": 42,
+    "garbageCode": "Zephania Bolton",
+    "garbageName": "Allistair Cummings"
+  },
+  {
+    "id": 43,
+    "garbageCode": "Latifah Howard",
+    "garbageName": "Vanna Wright"
+  },
+  {
+    "id": 44,
+    "garbageCode": "Omar Lynch",
+    "garbageName": "Shaine Thomas"
+  },
+  {
+    "id": 45,
+    "garbageCode": "Cairo Wade",
+    "garbageName": "Reese Wright"
+  },
+  {
+    "id": 46,
+    "garbageCode": "Lynn Ferrell",
+    "garbageName": "Lois Tanner"
+  },
+  {
+    "id": 47,
+    "garbageCode": "Nichole Beck",
+    "garbageName": "Fleur Dudley"
+  },
+  {
+    "id": 48,
+    "garbageCode": "Gabriel Fernandez",
+    "garbageName": "Coby Parsons"
+  },
+  {
+    "id": 49,
+    "garbageCode": "Ivy Valdez",
+    "garbageName": "Evelyn Bryant"
+  },
+  {
+    "id": 50,
+    "garbageCode": "Jack Maynard",
+    "garbageName": "Keefe Glenn"
+  },
+  {
+    "id": 51,
+    "garbageCode": "Norman Mason",
+    "garbageName": "Jillian King"
+  },
+  {
+    "id": 52,
+    "garbageCode": "Elmo Stark",
+    "garbageName": "Eve Garner"
+  },
+  {
+    "id": 53,
+    "garbageCode": "Tashya Strickland",
+    "garbageName": "Dustin Mclean"
+  },
+  {
+    "id": 54,
+    "garbageCode": "Lani Livingston",
+    "garbageName": "Zane Winters"
+  },
+  {
+    "id": 55,
+    "garbageCode": "Brody Osborn",
+    "garbageName": "Vance Perez"
+  },
+  {
+    "id": 56,
+    "garbageCode": "Quyn Garrett",
+    "garbageName": "Quentin Rasmussen"
+  },
+  {
+    "id": 57,
+    "garbageCode": "Ursa Walls",
+    "garbageName": "Kevin Clemons"
+  },
+  {
+    "id": 58,
+    "garbageCode": "Forrest Howell",
+    "garbageName": "Cyrus Becker"
+  },
+  {
+    "id": 59,
+    "garbageCode": "Austin Shannon",
+    "garbageName": "Quynn Oneil"
+  },
+  {
+    "id": 60,
+    "garbageCode": "Selma Park",
+    "garbageName": "Yeo Hardin"
+  },
+  {
+    "id": 61,
+    "garbageCode": "Avram Daniels",
+    "garbageName": "Yasir Parks"
+  },
+  {
+    "id": 62,
+    "garbageCode": "Hakeem Franco",
+    "garbageName": "Dieter Pope"
+  },
+  {
+    "id": 63,
+    "garbageCode": "Fuller Owens",
+    "garbageName": "Felix Ford"
+  },
+  {
+    "id": 64,
+    "garbageCode": "Alana Atkins",
+    "garbageName": "Chester Douglas"
+  },
+  {
+    "id": 65,
+    "garbageCode": "William Roman",
+    "garbageName": "Ruby Wilson"
+  },
+  {
+    "id": 66,
+    "garbageCode": "Palmer Underwood",
+    "garbageName": "Jacob Warner"
+  },
+  {
+    "id": 67,
+    "garbageCode": "Chadwick Gilmore",
+    "garbageName": "Jelani Wong"
+  },
+  {
+    "id": 68,
+    "garbageCode": "Vaughan Stout",
+    "garbageName": "Nigel James"
+  },
+  {
+    "id": 69,
+    "garbageCode": "Cameran Phillips",
+    "garbageName": "Rafael Anthony"
+  },
+  {
+    "id": 70,
+    "garbageCode": "Gary Stanton",
+    "garbageName": "Ian Joseph"
+  },
+  {
+    "id": 71,
+    "garbageCode": "Emily Emerson",
+    "garbageName": "Lydia Rios"
+  },
+  {
+    "id": 72,
+    "garbageCode": "Nita Campos",
+    "garbageName": "Elaine Mckenzie"
+  },
+  {
+    "id": 73,
+    "garbageCode": "Lavinia Duncan",
+    "garbageName": "Hakeem Shaffer"
+  },
+  {
+    "id": 74,
+    "garbageCode": "Galvin Holcomb",
+    "garbageName": "Mollie Chavez"
+  },
+  {
+    "id": 75,
+    "garbageCode": "Dylan Key",
+    "garbageName": "Simone Rocha"
+  },
+  {
+    "id": 76,
+    "garbageCode": "Violet Blanchard",
+    "garbageName": "Ria Massey"
+  },
+  {
+    "id": 77,
+    "garbageCode": "Alyssa Sanders",
+    "garbageName": "Veda Meyer"
+  },
+  {
+    "id": 78,
+    "garbageCode": "Orson Pierce",
+    "garbageName": "Lael Melendez"
+  },
+  {
+    "id": 79,
+    "garbageCode": "Upton Herrera",
+    "garbageName": "Sheila Walls"
+  },
+  {
+    "id": 80,
+    "garbageCode": "Yuli Phelps",
+    "garbageName": "Brian Osborn"
+  },
+  {
+    "id": 81,
+    "garbageCode": "Karina Sellers",
+    "garbageName": "Griffith Ramos"
+  },
+  {
+    "id": 82,
+    "garbageCode": "Yoko Castaneda",
+    "garbageName": "Ramona Mueller"
+  },
+  {
+    "id": 83,
+    "garbageCode": "Signe Palmer",
+    "garbageName": "Nayda Carpenter"
+  },
+  {
+    "id": 84,
+    "garbageCode": "Josephine Savage",
+    "garbageName": "Glenna Grant"
+  },
+  {
+    "id": 85,
+    "garbageCode": "Tucker Sears",
+    "garbageName": "Jade Rich"
+  },
+  {
+    "id": 86,
+    "garbageCode": "Kylie Perez",
+    "garbageName": "Breanna Cox"
+  },
+  {
+    "id": 87,
+    "garbageCode": "Matthew Erickson",
+    "garbageName": "Adrienne Wilder"
+  },
+  {
+    "id": 88,
+    "garbageCode": "Tanek Porter",
+    "garbageName": "Melanie Jones"
+  },
+  {
+    "id": 89,
+    "garbageCode": "Jaquelyn Rutledge",
+    "garbageName": "Andrew Andrews"
+  },
+  {
+    "id": 90,
+    "garbageCode": "Clio Campos",
+    "garbageName": "Eleanor Dickson"
+  },
+  {
+    "id": 91,
+    "garbageCode": "Tamara Pope",
+    "garbageName": "Cassidy Everett"
+  },
+  {
+    "id": 92,
+    "garbageCode": "Yuli Ayers",
+    "garbageName": "Colette Hayden"
+  },
+  {
+    "id": 93,
+    "garbageCode": "Nell Pruitt",
+    "garbageName": "Rogan Huff"
+  },
+  {
+    "id": 94,
+    "garbageCode": "Xavier Jenkins",
+    "garbageName": "Josiah Cotton"
+  },
+  {
+    "id": 95,
+    "garbageCode": "Julian Knapp",
+    "garbageName": "Thor Livingston"
+  },
+  {
+    "id": 96,
+    "garbageCode": "Veda Reeves",
+    "garbageName": "Graham Ratliff"
+  },
+  {
+    "id": 97,
+    "garbageCode": "Scarlett English",
+    "garbageName": "Colby Gross"
+  },
+  {
+    "id": 98,
+    "garbageCode": "Abdul Cohen",
+    "garbageName": "Callum Rosa"
+  },
+  {
+    "id": 99,
+    "garbageCode": "Teagan Byers",
+    "garbageName": "Jessamine Hodge"
+  },
+  {
+    "id": 100,
+    "garbageCode": "Marcia Buchanan",
+    "garbageName": "Len Ferguson"
+  }
+]

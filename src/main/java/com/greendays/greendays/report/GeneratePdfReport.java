@@ -1,6 +1,6 @@
 package com.greendays.greendays.report;
 
-import com.greendays.greendays.model.DailyReport;
+import com.greendays.greendays.model.dal.DailyReport;
 import com.greendays.greendays.report.tables.ReportTables;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;

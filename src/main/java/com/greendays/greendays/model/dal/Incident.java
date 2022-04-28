@@ -1,4 +1,4 @@
-package com.greendays.greendays.model;
+package com.greendays.greendays.model.dal;
 
 import lombok.Data;
 
