@@ -79,26 +79,33 @@
     </div>
 </nav>
 
-
-<div class="container">
+<div class="mr-4 ml-4">
     <div class="row">
-        <div class="col-lg-10 mt-5 mb-5">
-            <h3>Datatable using list of Objects in data parameter</h3>
-            <table id="example" class="table table-bordered table-responsive" style="width: 100%">
-                <thead>
+
+        <div class="col-lg-12 mt-5 mb-5">
+            <h3>Tabel Arhiva</h3>
+            <table id="tabelRapoarteZilnice" class="table table-bordered table-responsive" style="width: 100%">
+                <thead class="table-light">
                 <tr>
                     <th>Id</th>
-                    <th>Garbage Name</th>
-                    <th>Garbage Code</th>
+                    <th>Data</th>
+                    <th>Numar ruta</th>
+                    <th>UAT</th>
+                    <th>Cantitate</th>
+                    <th>Destinatie</th>
+                    <th>Nume Conducator Auto</th>
+                    <th>Numar Autoturism</th>
+                    <th>Probleme</th>
+                    <th>Tip Incident</th>
+                    <th>Observatii Incident</th>
+                    <th>Tip Client</th>
+                    <th>Cod Deseu</th>
+                    <th>Nume Deseu</th>
+                    <th>Foaie Traseu</th>
+                    <th>Talon Cantarire</th>
                 </tr>
                 </thead>
-                <tfoot>
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Code</th>
-                </tr>
-                </tfoot>
+
             </table>
         </div>
     </div>
@@ -111,7 +118,7 @@
 <script th:src="@{assets/datatable/datatables.js}"></script>
 
 <script>
-    $('#example').DataTable({
+    $('#tabelRapoarteZilnice').DataTable({
         "processing": true,
         "serverSide": true,
         "ajax": {
@@ -124,24 +131,23 @@
             }
         },
         "columns": [
-            {"data": "id", "width": "20%"},
-            {"data": "garbageName","width": "20%"},
-            {"data": "garbageCode", "width": "20%"}
+            {"data": "id", "width": "10%"},
+            {"data": "date", "width": "20%"},
+            {"data": "routeNumber", "width": "20%"},
+            {"data": "uat", "width": "20%"},
+            {"data": "quantity", "width": "20%"},
+            {"data": "destination", "width": "20%"},
+            {"data": "driverName", "width": "20%"},
+            {"data": "carNumber", "width": "20%"},
+            {"data": "problems", "width": "20%"},
+            {"data": "incidentType", "width": "20%"},
+            {"data": "observations", "width": "20%"},
+            {"data": "clientType", "width": "20%"},
+            {"data": "garbageCode", "width": "20%"},
+            {"data": "garbageName", "width": "20%"},
+            {"data": "routeSheet", "width": "20%"},
+            {"data": "weightTalon", "width": "20%"},
         ]
-    });
-
-    $('#exampleArray').DataTable({
-        "processing": true,
-        "serverSide": true,
-        "ajax": {
-            "url": "/garbage/array",
-            "type": "POST",
-            "dataType": "json",
-            "contentType": "application/json",
-            "data": function (d) {
-                return JSON.stringify(d);
-            }
-        }
     });
 </script>
 
