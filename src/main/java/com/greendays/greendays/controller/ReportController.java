@@ -29,4 +29,18 @@ public class ReportController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(new PdfReportGenerator().generateTrimestrialPdfReport()));
     }
+
+
+    @RequestMapping(value = "/pdfMonthlyReport", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> monthlyReport() {
+        var headers = new HttpHeaders();
+        headers.add("Content-Disposition", "inline; filename=monthlyReport.pdf");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(new PdfReportGenerator().generateMonthlyPdfReport()));
+    }
 }

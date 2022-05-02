@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Contact V5</title>
     <meta charset="UTF-8">
@@ -35,11 +35,29 @@
 <body>
 <div th:replace="fragments/header :: header"></div>
 <div class="container-contact100">
-    <span class="contact100-form-title">
-					Raport Lunar
+    <form class="contact100-form validate-form" th:action="pdfMonthlyReport" th:method="GET" id="monthlyReportGenerator" enctype="multipart/form-data">
+				<span class="contact100-form-title">
+					Generare Raport Lunar
 				</span>
-</div>
+        <div class="wrap-input100 bg1 rs1-wrap-input100">
+            <span class="label-input100">Din Data De</span>
+            <input id="fromDate" class="input100" type="date" name="data">
+        </div>
+        <div class="wrap-input100 bg1 rs1-wrap-input100">
+            <span class="label-input100">Pana In Data De</span>
+            <input id="toDate" class="input100" type="date" name="data">
+        </div>
+        <div class="container-contact100-form-btn">
+            <button th:type="submit" class="contact100-form-btn" th:form="monthlyReportGenerator">
+						<span>
+							Genereaza Raport Lunar
+							<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+						</span>
+            </button>
+        </div>
+    </form>
 
+</div>
 
 <!--===============================================================================================-->
 <script th:src="@{/vendor/jquery/jquery-3.2.1.min.js}"></script>

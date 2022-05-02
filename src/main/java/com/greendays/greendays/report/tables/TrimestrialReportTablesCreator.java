@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 
 import static java.util.Arrays.asList;
 
-public class TrimestrialReportTables {
+public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
     public static final String FONT = "/Users/bogdan.filip/Desktop/greendays/src/main/resources/FreeSans.ttf";
 
     public void createFirstReportTable1(Document document, Font headFont, Font mainFont) throws DocumentException {
@@ -502,42 +502,6 @@ public class TrimestrialReportTables {
             document.add(table);
         } catch (DocumentException ex) {
             System.out.println(ex);
-        }
-    }
-
-    private PdfPTable getCentralisingTable(int colNumber) throws DocumentException {
-        PdfPTable mainTable = new PdfPTable(colNumber);
-        mainTable.setWidthPercentage(80);
-        mainTable.setWidths(new int[]{4, 4, 4, 4});
-        mainTable.setKeepTogether(true);
-        return mainTable;
-    }
-
-    public void addCellToTable(PdfPTable pdfPTable, String phrase, Font font) {
-        PdfPCell pdfPCell = new PdfPCell(new Phrase(phrase, font));
-        pdfPTable.addCell(pdfPCell);
-    }
-
-    public void addCellToTable(PdfPTable pdfPTable, String phrase, Font font, int minHeight) {
-        PdfPCell pdfPCell = new PdfPCell(new Phrase(phrase, font));
-        pdfPTable.addCell(pdfPCell);
-        pdfPCell.setMinimumHeight(20f);
-    }
-
-    public void addTableToTable(PdfPTable pdfPTable, int rowNumber, Font font, java.util.List<String> args) {
-        PdfPTable innerTable = new PdfPTable(1);
-        for (int i = 0; i < rowNumber; i++) {
-            PdfPCell cell = new PdfPCell(new Phrase(args.get(i), font));
-            innerTable.addCell(cell);
-        }
-        PdfPCell innerCell = new PdfPCell(innerTable);
-        innerCell.setBorder(0);
-        pdfPTable.addCell(innerCell);
-    }
-
-    public void multiplyCodeForGarbageType(Consumer<String> code, java.util.List<String> args) {
-        for (String arg : args) {
-            code.accept(arg);
         }
     }
 }

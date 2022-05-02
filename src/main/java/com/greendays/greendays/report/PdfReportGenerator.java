@@ -1,6 +1,7 @@
 package com.greendays.greendays.report;
 
-import com.greendays.greendays.report.tables.TrimestrialReportTables;
+import com.greendays.greendays.report.tables.MonthlyReportTables;
+import com.greendays.greendays.report.tables.TrimestrialReportTablesCreator;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -40,7 +41,7 @@ public class PdfReportGenerator {
         }
         document.open();
 
-        TrimestrialReportTables trimestrialReportTables = new TrimestrialReportTables();
+        TrimestrialReportTablesCreator trimestrialReportTablesCreator = new TrimestrialReportTablesCreator();
         try {
 
             document.add(new Paragraph("Raport trimestrial\n \n" +
@@ -48,7 +49,7 @@ public class PdfReportGenerator {
             document.add(new Paragraph("\n"));
             document.add(new Paragraph("\n"));
 
-            trimestrialReportTables.createFirstReportTable1(document, boldFont, font);
+            trimestrialReportTablesCreator.createFirstReportTable1(document, boldFont, font);
 
             addParagraphToDocument(document, font, "\n");
             addParagraphToDocument(document, boldFont, "Secțiunea I – Aspecte tehnice\n" +
@@ -56,19 +57,19 @@ public class PdfReportGenerator {
             addParagraphToDocument(document, font, "Operatorul delegat prezintă un tabel centralizator privind cantitățile de deșeuri municipale colectate din aria delegării și defalcată pe surse (beneficiari casnici și non-casnici) pentru trimestrul aferent raportului. ");
             addParagraphToDocument(document, boldFont, "Tabel 1: Tabel centralizator deșeuri colectate\n\n\n");
 
-            trimestrialReportTables.createCentralisingTable2(document, boldFont, font);
+            trimestrialReportTablesCreator.createCentralisingTable2(document, boldFont, font);
             addParagraphToDocument(document, font, "\n");
             addParagraphToDocument(document, font, "Operatorul delegat prezintă tabele privind cantitățile de deșeuri colectate, pe tipuri de deșeuri, pentru trimestrul aferent raportului:\n");
             addParagraphToDocument(document, boldFont, "1.1. Deșeuri reziduale colectate\n" +
                     "1.1.1. Mediul urban:\n" +
                     "Tabel 2: Deșeuri reziduale colectate\n");
-            trimestrialReportTables.createUrbanEnvTable3(document, boldFont, font);
+            trimestrialReportTablesCreator.createUrbanEnvTable3(document, boldFont, font);
             addParagraphToDocument(document, font, "Notă:\t\t\n" +
                     "* TMB, depozitare\n" +
                     "\n");
             addParagraphToDocument(document, boldFont, "1.1.2. Mediul rural:\n" +
                     "Tabel 3: Deșeuri reziduale colectate \n");
-            trimestrialReportTables.createRuralEnvTable4(document, boldFont, font);
+            trimestrialReportTablesCreator.createRuralEnvTable4(document, boldFont, font);
             addParagraphToDocument(document, boldFont, "Notă:\t\t\n" +
                     "* TMB, depozitare\n" +
                     "\n" +
@@ -77,26 +78,26 @@ public class PdfReportGenerator {
                     "       1.2. Deșeuri reciclabile colectate\n" +
                     "1.2.1. Mediul urban: \n" +
                     "Tabel 4: Deșeuri reciclabile colectate separat\n");
-            trimestrialReportTables.createRecyclableUrbanTable5(document, boldFont, font);
+            trimestrialReportTablesCreator.createRecyclableUrbanTable5(document, boldFont, font);
             addParagraphToDocument(document, boldFont, "Notă:\n" +
                     "* stație sortare, depozitare\n" +
                     "\n" +
                     "1.2.2. Mediul rural: \n" +
                     "Tabel 5: Deșeuri reciclabile colectate separat\n");
-            trimestrialReportTables.createRecyclableRuralTable6(document, boldFont, font);
+            trimestrialReportTablesCreator.createRecyclableRuralTable6(document, boldFont, font);
             addParagraphToDocument(document, boldFont, "Notă:\n" +
                     "* stație sortare, depozitare\n" +
                     "1.3. Alte tipuri de deșeuri colectate\n" +
                     "1.3.1. Mediul urban: \n" +
                     "\n" +
                     "Tabel 6: Alte tipuri de deșeuri colectate\n");
-            trimestrialReportTables.createUrbanOtherTypesOfGarbageTable7(document, boldFont, font);
+            trimestrialReportTablesCreator.createUrbanOtherTypesOfGarbageTable7(document, boldFont, font);
             addParagraphToDocument(document, boldFont, "Notă:\n" +
                     "* CMID Galda de Jos\n" +
                     "1.3.2. Mediul rural: \n" +
                     "\n" +
                     "Tabel 7: Alte tipuri de deșeuri colectate\n");
-            trimestrialReportTables.createRuralOtherTypesOfGarbageTable8(document, boldFont, font);
+            trimestrialReportTablesCreator.createRuralOtherTypesOfGarbageTable8(document, boldFont, font);
             addParagraphToDocument(document, boldFont, "\n" +
                     "  Notă:\n" +
                     "* CMID Galda de Jos\n" +
@@ -105,11 +106,11 @@ public class PdfReportGenerator {
                     "\n" +
                     "Tabel 8: Deșeuri predate stației de sortare\n" +
                     "\n");
-            trimestrialReportTables.createSortingStationTable9(document, boldFont, font);
+            trimestrialReportTablesCreator.createSortingStationTable9(document, boldFont, font);
             addParagraphToDocument(document, boldFont, "\nTabel 9: Deșeuri predate stației de tratare mecano-biologică\n");
-            trimestrialReportTables.createBioTreatmentTable10(document, boldFont, font);
+            trimestrialReportTablesCreator.createBioTreatmentTable10(document, boldFont, font);
             addParagraphToDocument(document, boldFont, "\nTabel 10: Deșeuri predate depozitului de deșeuri\n");
-            trimestrialReportTables.createGarbageSubmittedToDepositTable11(document, boldFont, font);
+            trimestrialReportTablesCreator.createGarbageSubmittedToDepositTable11(document, boldFont, font);
             addParagraphToDocument(document, font, "\nOperatorul prezintă situația cantităților de deșeuri colectate din locuri neamenajate/nepermise, precum și a deșeurilor respinse la colectare și cauzele respingerii.\n" +
                     "Operatorul prezintă o listă a tuturor beneficiarilor cu care au un contract de prestări de servicii încheiat.\n" +
                     "\n");
@@ -128,57 +129,57 @@ public class PdfReportGenerator {
                     "Capitolul 5. Redevența și taxa de administrare\n" +
                     "        1. Redevența\n" +
                     "   \n\n   Tabel 10: Calculul și plata redevenței datorate UAT-urilor pentru trimestrul ...\n");
-            trimestrialReportTables.createTrimestrialUatPaymentTable13(document, boldFont, font);
+            trimestrialReportTablesCreator.createTrimestrialUatPaymentTable13(document, boldFont, font);
 
             addParagraphToDocument(document, boldFont, "        2. Taxa de administrare \n" +
                     "       Tabel 11: Calculul și plata taxei de administrare datorată către ADI Salubris Alba pentru trimestrul ...\n");
 
-            trimestrialReportTables.createAdiSalubrisPaymentTable12(document, boldFont, font);
+            trimestrialReportTablesCreator.createAdiSalubrisPaymentTable12(document, boldFont, font);
 
             addParagraphToDocument(document, font, "\n" +
                     "       Observații:   (dacă este cazul).\n");
 
             addParagraphToDocument(document, boldFont, "\nCapitolul. 6 Probleme întâmpinate în prestarea serviciului\n" +
                     "Întreruperea activității de colectare\n");
-            addParagraphToDocument(document, font, "În situația în care apar întreruperi ale activității de colectare în trimestrul aferent raportării, Operatorul anexează următoarele:\n" +
-                    "Înregistrări ale problemelor întâmpinate în ziua respectivă: \n" +
-                    "întreruperi programate și/sau neprogramate;\n" +
-                    "defecțiuni și accidente;\n" +
-                    "timpul de oprire al autospecialelor sau unor subansamble ale acestora;\n" +
-                    "natura fiecărei defecțiuni;\n" +
-                    "activitățile de reparație/întreținere;\n" +
-                    "înlocuiri ale vehiculelor, utilajelor, containerelor sau personalului;\n" +
-                    "condiții meteo, etc.\n" +
-                    "Înregistrări ale lucrărilor de întreținere și reparații la autospeciale sau alte vehicule, puncte de      colectare și containere;  \n" +
-                    "Rapoarte ale personalului desemnat pentru supervizare și monitorizare;\n" +
-                    "Rapoarte ale conducătorilor de autovehicule și operatorilor de pe autovehicule: \n" +
-                    "vehicule utilizate/neutilizate;\n" +
-                    "motive pentru scoaterea din uz a vehiculelor;\n" +
-                    "media sarcinilor utile;\n" +
-                    "distanța parcursă etc.\n" +
+            addParagraphToDocument(document, font, "\nÎn situația în care apar întreruperi ale activității de colectare în trimestrul aferent raportării, Operatorul anexează următoarele:\n" +
+                    "- Înregistrări ale problemelor întâmpinate în ziua respectivă: \n" +
+                    "- întreruperi programate și/sau neprogramate;\n" +
+                    "- defecțiuni și accidente;\n" +
+                    "- timpul de oprire al autospecialelor sau unor subansamble ale acestora;\n" +
+                    "- natura fiecărei defecțiuni;\n" +
+                    "- activitățile de reparație/întreținere;\n" +
+                    "- înlocuiri ale vehiculelor, utilajelor, containerelor sau personalului;\n" +
+                    "- condiții meteo, etc.\n" +
+                    "- Înregistrări ale lucrărilor de întreținere și reparații la autospeciale sau alte vehicule, puncte de      colectare și containere;  \n" +
+                    "- Rapoarte ale personalului desemnat pentru supervizare și monitorizare;\n" +
+                    "    \nRapoarte ale conducătorilor de autovehicule și operatorilor de pe autovehicule: \n" +
+                    "- vehicule utilizate/neutilizate;\n" +
+                    "- motive pentru scoaterea din uz a vehiculelor;\n" +
+                    "- media sarcinilor utile;\n" +
+                    "- distanța parcursă etc.\n" +
                     "\n" +
-                    "Starea containerelor și a punctelor de colectare\n" +
-                    "Operatorul delegat prezintă o situație privind starea containerelor și a punctelor de colectare individuale și colective pentru fiecare comună, oraș și municipiu: \n" +
-                    "Numărul și tipul containerelor plasate;\n" +
-                    "Numărul containerelor reparate; \n" +
-                    "Numărul containerelor înlocuite;\n" +
-                    "Numărul containerelor furate, distruse și avariate; \n" +
-                    "Numărul punctelor de colectare avariate și reparate;\n" +
-                    "Numărul punctelor de colectare care au trebuit mai întâi să fie curățate înainte ca vehiculul să ajungă la containere.\n");
+                    "\n  Starea containerelor și a punctelor de colectare\n" +
+                    "- Operatorul delegat prezintă o situație privind starea containerelor și a punctelor de colectare individuale și colective pentru fiecare comună, oraș și municipiu: \n" +
+                    "- Numărul și tipul containerelor plasate;\n" +
+                    "- Numărul containerelor reparate; \n" +
+                    "- Numărul containerelor înlocuite;\n" +
+                    "- Numărul containerelor furate, distruse și avariate; \n" +
+                    "- Numărul punctelor de colectare avariate și reparate;\n" +
+                    "- Numărul punctelor de colectare care au trebuit mai întâi să fie curățate înainte ca vehiculul să ajungă la containere.\n \n \n \n");
 
             addParagraphToDocument(document, boldFont, "Reclamații ");
 
             addParagraphToDocument(document, font, "\nÎn situația în care se primesc reclamații privind activitatea de colectare, Operatorul delegat include în raport înregistrări ale acestora. \n");
 
-            addParagraphToDocument(document,boldFont,"\nAlte probleme\n");
-            addParagraphToDocument(document,font,"Înregistrări accidente de muncă, situații de urgență;\n" +
-                    "Servicii neprogramate suplimentare;\n" +
-                    "Orice alte rapoarte și procese verbale solicitate de ADI Salubris Alba.\n");
+            addParagraphToDocument(document, boldFont, "\nAlte probleme\n");
+            addParagraphToDocument(document, font, "- Înregistrări accidente de muncă, situații de urgență;\n" +
+                    "- Servicii neprogramate suplimentare;\n" +
+                    "- Orice alte rapoarte și procese verbale solicitate de ADI Salubris Alba.\n\n");
 
-            addParagraphToDocument(document,boldFont,"\n" +
+            addParagraphToDocument(document, boldFont, "\n" +
                     "Anexe\n");
 
-            addParagraphToDocument(document,font,"Operatorul anexează raportului  trimestrial următoarele documente: \n" +
+            addParagraphToDocument(document, font, "Operatorul anexează raportului  trimestrial următoarele documente: \n" +
                     "Fișe de încărcare/descărcare;\n" +
                     "Bonurile de cântar;\n" +
                     "Graficul de colectare.\n" +
@@ -195,6 +196,45 @@ public class PdfReportGenerator {
         return new ByteArrayInputStream(out.toByteArray());
 
     }
+
+    public ByteArrayInputStream generateMonthlyPdfReport() {
+        Document document = new Document();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        document.addTitle("Raport Lunar");
+        document.addHeader("header", "Raport Lunar");
+
+        BaseFont bf = null;
+        Font font = null;
+        Font boldFont = null;
+        try {
+            bf = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            BaseFont boldBaseFont = BaseFont.createFont(FONT_BOLD, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            font = new Font(bf);
+            boldFont = new Font(boldBaseFont);
+            PdfWriter.getInstance(document, out);
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        document.open();
+
+        MonthlyReportTables monthlyReportTables = new MonthlyReportTables();
+
+        try {
+            monthlyReportTables.createHeaderTable1(document, font, boldFont, "Mai 2022");
+            monthlyReportTables.createUrbanResidualGarbageTable2(document, font, boldFont);
+            monthlyReportTables.createRuralResidualGarbageTable3(document, font, boldFont);
+            monthlyReportTables.createTransferStationSubmittedGarbageTable4(document, font, boldFont);
+            monthlyReportTables.createDepositSubmittedGarbageTable5(document, font, boldFont);
+        } catch (DocumentException e) {
+            System.out.println(e);
+        }
+        document.close();
+
+        return new ByteArrayInputStream(out.toByteArray());
+    }
+
 
     private void addParagraphToDocument(Document document, Font font, String phrase) throws DocumentException {
         document.add(new Paragraph(phrase, font));
