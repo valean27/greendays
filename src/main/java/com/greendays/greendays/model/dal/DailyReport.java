@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.sql.Date;
 
-@Entity(name = "daily_report")
+@Entity
 @Table(name = "daily_report")
 @Data
 public class DailyReport {

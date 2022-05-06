@@ -5,7 +5,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 
 import java.io.*;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 import static java.util.Arrays.asList;
 
@@ -14,7 +14,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
 
     public void createFirstReportTable1(Document document, Font headFont, Font mainFont) throws DocumentException {
         PdfPTable firstRow = new PdfPTable(2);
-        firstRow.setWidthPercentage(80);
+        firstRow.setWidthPercentage(100);
         firstRow.setWidths(new int[]{4, 10});
         firstRow.setKeepTogether(true);
 
@@ -152,7 +152,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
             document.add(new Paragraph("\n"));
 
             PdfPTable mainTable = new PdfPTable(5);
-            mainTable.setWidthPercentage(80);
+            mainTable.setWidthPercentage(100);
             mainTable.setWidths(new int[]{6, 4, 4, 4, 4});
             mainTable.setKeepTogether(true);
 
@@ -164,18 +164,16 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
             addCellToTable(mainTable, "Stație transfer \n -Destinație finală* ", headFont);
 
             addCellToTable(mainTable, "Blaj", headFont);
-            addTableToTable(mainTable, 2, mainFont, asList("Casnic", "Non-casnic"));
+            addTableToTable(mainTable, 2, mainFont, asList("Casnic", "Non-casnic"), getHeightAdjustingConsumer("Casnic"));
             addTableToTable(mainTable, 8, mainFont, asList("Hârtie și carton", "Plastic", "Metal", "Sticlă", "Hârtie și carton", "Plastic", "Metal", "Sticlă"));
             addTableToTable(mainTable, 8, mainFont, asList(" ", " ", " ", "   ", " ", " ", " ", "   "));
-            addTableToTable(mainTable, 4, mainFont, asList(" ", " ", " ", "  "));
+            addTableToTable(mainTable, 8, mainFont, asList(" ", " ", " ", "   ", " ", " ", " ", "   "));
 
             addCellToTable(mainTable, "Total Urban", headFont);
-            addTableToTable(mainTable, 2, headFont, asList("Casnic", "Non-casnic"));
+            addTableToTable(mainTable, 2, headFont, asList("Casnic", "Non-casnic"), getHeightAdjustingConsumer("Casnic"));
             addTableToTable(mainTable, 8, headFont, asList("Hârtie și carton", "Plastic", "Metal", "Sticlă", "Hârtie și carton", "Plastic", "Metal", "Sticlă"));
             addTableToTable(mainTable, 8, mainFont, asList(" ", " ", " ", "   ", " ", " ", " ", "   "));
             addTableToTable(mainTable, 8, mainFont, asList(" ", " ", " ", "  ", " ", " ", " ", "  "));
-
-            //TODO: Aici e o problema de spatiere
 
             document.add(mainTable);
 
@@ -195,12 +193,20 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
 
     }
 
+    private BiConsumer<PdfPCell, String> getHeightAdjustingConsumer(String cellContent) {
+        return (cell, string) -> {
+            if (string.equals(cellContent)) {
+                cell.setFixedHeight(64);
+            }
+        };
+    }
+
     public void createRecyclableRuralTable6(Document document, Font headFont, Font mainFont) throws DocumentException {
         document.add(new Paragraph("\n"));
         document.add(new Paragraph("\n"));
 
         PdfPTable mainTable = new PdfPTable(5);
-        mainTable.setWidthPercentage(80);
+        mainTable.setWidthPercentage(100);
         mainTable.setWidths(new int[]{6, 4, 4, 4, 4});
         mainTable.setKeepTogether(true);
 
@@ -214,7 +220,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
 
         multiplyCodeForGarbageType(uat -> {
             addCellToTable(mainTable, uat, headFont);
-            addTableToTable(mainTable, 2, mainFont, asList("Casnic", "Non-casnic"));
+            addTableToTable(mainTable, 2, mainFont, asList("Casnic", "Non-casnic"),getHeightAdjustingConsumer("Casnic"));
             addTableToTable(mainTable, 8, mainFont, asList("Hârtie și carton", "Plastic", "Metal", "Sticlă", "Hârtie și carton", "Plastic", "Metal", "Sticlă"));
             addTableToTable(mainTable, 8, mainFont, asList(" ", " ", " ", "   ", " ", " ", " ", "   "));
             addTableToTable(mainTable, 8, mainFont, asList(" ", " ", " ", "  ", " ", " ", " ", "  "));
@@ -222,7 +228,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
         }, asList("Crăciunelu de Jos", "Bucerdea Grânoasă", "Șona", "Jidvei", "Cergău", "Cenade", "Cetatea de Baltă", "Roșia de Secaș", "Sâncel", "Valea Lungă"));
 
         addCellToTable(mainTable, "Total Rural", headFont);
-        addTableToTable(mainTable, 2, headFont, asList("Casnic", "Non-casnic"));
+        addTableToTable(mainTable, 2, headFont, asList("Casnic", "Non-casnic"),getHeightAdjustingConsumer("Casnic"));
         addTableToTable(mainTable, 8, headFont, asList("Hârtie și carton", "Plastic", "Metal", "Sticlă", "Hârtie și carton", "Plastic", "Metal", "Sticlă"));
         addTableToTable(mainTable, 8, mainFont, asList(" ", " ", " ", "   ", " ", " ", " ", "   "));
         addTableToTable(mainTable, 8, mainFont, asList(" ", " ", " ", "  ", " ", " ", " ", "  "));
@@ -235,7 +241,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
         document.add(new Paragraph("\n"));
 
         PdfPTable mainTable = new PdfPTable(4);
-        mainTable.setWidthPercentage(80);
+        mainTable.setWidthPercentage(100);
         mainTable.setWidths(new int[]{6, 6, 6, 6});
         mainTable.setKeepTogether(true);
 
@@ -258,7 +264,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
         document.add(new Paragraph("\n"));
 
         PdfPTable mainTable = new PdfPTable(4);
-        mainTable.setWidthPercentage(80);
+        mainTable.setWidthPercentage(100);
         mainTable.setWidths(new int[]{6, 6, 6, 6});
         mainTable.setKeepTogether(true);
 
@@ -282,7 +288,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
         document.add(new Paragraph("\n"));
 
         PdfPTable mainTable = new PdfPTable(4);
-        mainTable.setWidthPercentage(80);
+        mainTable.setWidthPercentage(100);
         mainTable.setWidths(new int[]{6, 6, 6, 6});
         mainTable.setKeepTogether(true);
 
@@ -293,7 +299,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
 
 
         addCellToTable(mainTable, "SS CMID Galda de Jos", headFont);
-        addTableToTable(mainTable, 2, mainFont, asList("Casnic", "Non-casnic"));
+        addTableToTable(mainTable, 2, mainFont, asList("Casnic", "Non-casnic"),getHeightAdjustingConsumer("Casnicc"));
         addTableToTable(mainTable, 8, mainFont, asList("Hârtie și carton", "Plastic", "Metal", "Sticlă", "Hârtie și carton", "Plastic", "Metal", "Sticlă"));
         addTableToTable(mainTable, 8, mainFont, asList(" ", " ", " ", "   ", " ", " ", " ", "   "));
 
@@ -319,7 +325,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
         document.add(new Paragraph("\n"));
 
         PdfPTable mainTable = new PdfPTable(4);
-        mainTable.setWidthPercentage(80);
+        mainTable.setWidthPercentage(100);
         mainTable.setWidths(new int[]{6, 6, 6, 6});
         mainTable.setKeepTogether(true);
 
@@ -352,7 +358,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
         document.add(new Paragraph("\n"));
 
         PdfPTable mainTable = new PdfPTable(4);
-        mainTable.setWidthPercentage(80);
+        mainTable.setWidthPercentage(100);
         mainTable.setWidths(new int[]{6, 6, 6, 6});
         mainTable.setKeepTogether(true);
 
@@ -415,7 +421,6 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
         }
 
     }
-
 
 
     public void createTrimestrialUatPaymentTable13(Document document, Font headFont, Font mainFont) {

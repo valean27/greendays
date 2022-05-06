@@ -7,12 +7,13 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class TablesCreatorHelper {
     protected PdfPTable getCentralisingTable(int colNumber) throws DocumentException {
         PdfPTable mainTable = new PdfPTable(colNumber);
-        mainTable.setWidthPercentage(80);
+        mainTable.setWidthPercentage(100);
         mainTable.setWidths(new int[]{4, 4, 4, 4});
         mainTable.setKeepTogether(true);
         return mainTable;
@@ -54,8 +55,20 @@ public class TablesCreatorHelper {
         pdfPTable.addCell(innerCell);
     }
 
+    protected void addTableToTable(PdfPTable pdfPTable, int rowNumber, Font font, java.util.List<String> args, BiConsumer<PdfPCell, String> applyMappingOnCellName) {
+        PdfPTable innerTable = new PdfPTable(1);
+        for (int i = 0; i < rowNumber; i++) {
+            PdfPCell cell = new PdfPCell(new Phrase(args.get(i), font));
+            applyMappingOnCellName.accept(cell, args.get(i));
+            innerTable.addCell(cell);
+        }
+        PdfPCell innerCell = new PdfPCell(innerTable);
+        innerCell.setBorder(0);
+        pdfPTable.addCell(innerCell);
+    }
 
-    protected void addTableToTable(PdfPTable pdfPTable, int rowNumber,int colNumber, Font font, java.util.List<String> args) {
+
+    protected void addTableToTable(PdfPTable pdfPTable, int rowNumber, int colNumber, Font font, java.util.List<String> args) {
         PdfPTable innerTable = new PdfPTable(colNumber);
         for (int i = 0; i < rowNumber; i++) {
             PdfPCell cell = new PdfPCell(new Phrase(args.get(i), font));

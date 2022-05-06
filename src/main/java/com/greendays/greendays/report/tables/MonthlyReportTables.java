@@ -13,7 +13,7 @@ public class MonthlyReportTables extends TablesCreatorHelper {
 
     public void createHeaderTable1(Document document, Font mainFont, Font headFont, String referenceDate) throws DocumentException {
         PdfPTable firstRow = new PdfPTable(2);
-        firstRow.setWidthPercentage(80);
+        firstRow.setWidthPercentage(100);
         firstRow.setWidths(new int[]{4, 10});
         firstRow.setKeepTogether(true);
 
@@ -39,7 +39,7 @@ public class MonthlyReportTables extends TablesCreatorHelper {
         document.add(new Paragraph("\n"));
 
         PdfPTable mainTable = new PdfPTable(3);
-        mainTable.setWidthPercentage(80);
+        mainTable.setWidthPercentage(100);
         mainTable.setWidths(new int[]{4, 5, 1});
         mainTable.setKeepTogether(true);
 
@@ -60,7 +60,7 @@ public class MonthlyReportTables extends TablesCreatorHelper {
         document.add(new Paragraph("\n"));
 
         PdfPTable mainTable = new PdfPTable(3);
-        mainTable.setWidthPercentage(80);
+        mainTable.setWidthPercentage(100);
         mainTable.setWidths(new int[]{4, 5, 1});
         mainTable.setKeepTogether(true);
 
@@ -77,12 +77,55 @@ public class MonthlyReportTables extends TablesCreatorHelper {
         document.add(mainTable);
     }
 
-    public void createTransferStationSubmittedGarbageTable4(Document document, Font mainFont, Font headFont) throws DocumentException {
+    public void createUrbanRecyclableGarbageTable4(Document document, Font mainFont, Font headFont) throws DocumentException {
+        document.add(new Paragraph("\n"));
+        document.add(new Paragraph("\n"));
+
+        PdfPTable mainTable = new PdfPTable(3);
+        mainTable.setWidthPercentage(100);
+        mainTable.setWidths(new int[]{4, 5, 1});
+        mainTable.setKeepTogether(true);
+
+        addCellToTableAlignedCenter(mainTable, "UAT", headFont);
+        addStrangeTableToTable(mainTable, headFont);
+        addCellToTable(mainTable, "Obs.", headFont);
+
+        addCellToTableAlignedCenter(mainTable, "Blaj", mainFont);
+        addTableToTable(mainTable, 3, 3, mainFont, asList(" ", " ", " "));
+        addCellToTable(mainTable, " ", mainFont);
+
+        document.add(mainTable);
+    }
+
+
+    public void createRuralRecyclableGarbageTable5(Document document, Font mainFont, Font headFont) throws DocumentException {
+        document.add(new Paragraph("\n"));
+        document.add(new Paragraph("\n"));
+
+        PdfPTable mainTable = new PdfPTable(3);
+        mainTable.setWidthPercentage(100);
+        mainTable.setWidths(new int[]{4, 5, 1});
+        mainTable.setKeepTogether(true);
+
+        addCellToTableAlignedCenter(mainTable, "UAT", headFont);
+        addStrangeTableToTable(mainTable, headFont);
+        addCellToTable(mainTable, "Obs.", headFont);
+
+        multiplyCodeForGarbageType(uat -> {
+            addCellToTableAlignedCenter(mainTable, uat, mainFont);
+            addTableToTable(mainTable, 3, 3, mainFont, asList(" ", " ", " "));
+            addCellToTable(mainTable, " ", mainFont);
+        }, asList("Crăciunelu de Jos", "Bucerdea Grânoasă", "Șona", "Jidvei", "Cergău", "Cenade", "Cetatea de Baltă", "Roșia de Secaș", "Sâncel", "Valea Lungă"));
+
+        document.add(mainTable);
+    }
+
+    public void createTransferStationSubmittedGarbageTable6(Document document, Font mainFont, Font headFont) throws DocumentException {
         document.add(new Paragraph("\n"));
         document.add(new Paragraph("\n"));
 
         PdfPTable mainTable = new PdfPTable(4);
-        mainTable.setWidthPercentage(80);
+        mainTable.setWidthPercentage(100);
         mainTable.setWidths(new int[]{4, 3, 3, 2});
         mainTable.setKeepTogether(true);
 
@@ -93,7 +136,7 @@ public class MonthlyReportTables extends TablesCreatorHelper {
 
 
         addCellToTableAlignedCenter(mainTable, "Blaj", headFont);
-        addTableToTable(mainTable, 5, mainFont, asList("Rezidual", "Hartie, carton", "Plastic", "Metal", "Sticla"));
+        addTableToTable(mainTable, 5, mainFont, asList("Rezidual", "Hartie, carton", "Plastic", "Metal", "Sticla"), (pdfPCell, s) -> pdfPCell.setFixedHeight(32));
         addTableToTable(mainTable, 10, mainFont, asList("casnici", "non-casnici", "casnici", "non-casnici", "casnici", "non-casnici", "casnici", "non-casnici", "casnici", "non-casnici"));
         addTableToTable(mainTable, 10, mainFont, asList(" ", " ", " ", " ", " ", " ", " ", " ", " ", " "));
 
@@ -101,12 +144,12 @@ public class MonthlyReportTables extends TablesCreatorHelper {
         //TODO: add total
     }
 
-    public void createDepositSubmittedGarbageTable5(Document document, Font mainFont, Font headFont) throws DocumentException {
+    public void createDepositSubmittedGarbageTable7(Document document, Font mainFont, Font headFont) throws DocumentException {
         document.add(new Paragraph("\n"));
         document.add(new Paragraph("\n"));
 
         PdfPTable mainTable = new PdfPTable(4);
-        mainTable.setWidthPercentage(80);
+        mainTable.setWidthPercentage(100);
         mainTable.setWidths(new int[]{4, 3, 3, 2});
         mainTable.setKeepTogether(true);
 
@@ -117,7 +160,7 @@ public class MonthlyReportTables extends TablesCreatorHelper {
 
 
         addCellToTableAlignedCenter(mainTable, "Galda de Jos", headFont);
-        addTableToTable(mainTable, 5, mainFont, asList("Rezidual", "Hartie, carton", "Plastic", "Metal", "Sticla"));
+        addTableToTable(mainTable, 5, mainFont, asList("Rezidual", "Hartie, carton", "Plastic", "Metal", "Sticla"), (pdfPCell, s) -> pdfPCell.setFixedHeight(32));
         addTableToTable(mainTable, 10, mainFont, asList("casnici", "non-casnici", "casnici", "non-casnici", "casnici", "non-casnici", "casnici", "non-casnici", "casnici", "non-casnici"));
         addTableToTable(mainTable, 10, mainFont, asList(" ", " ", " ", " ", " ", " ", " ", " ", " ", " "));
 

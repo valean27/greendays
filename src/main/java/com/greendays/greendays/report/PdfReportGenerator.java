@@ -222,11 +222,45 @@ public class PdfReportGenerator {
         MonthlyReportTables monthlyReportTables = new MonthlyReportTables();
 
         try {
+            addParagraphToDocument(document, boldFont, "ROMANIA");
+            addParagraphToDocument(document, boldFont, "JUDETUL ALBA");
+            addParagraphToDocument(document, boldFont, "ASOCIATIA DE DEZVOLTARE INTERCOMUNITARA SALUBRIS ALBA");
+            addParagraphToDocument(document, boldFont, "Alba Iulia P-ta Ion I.C. Bratianu, nr. 1 cod postal 510118");
+            addParagraphToDocument(document, boldFont, "email: albaadisalubris@gmail.com");
+            addParagraphToDocument(document, boldFont, "\n\n\n");
+            addParagraphToDocument(document, boldFont, "RAPORT LUNAR DE MONITORIZARE");
+            addParagraphToDocument(document, boldFont, "\n\n\n");
+
+
             monthlyReportTables.createHeaderTable1(document, font, boldFont, "Mai 2022");
+
+            addParagraphToDocument(document, boldFont, "\n\n\n");
+            addParagraphToDocument(document, boldFont, "Date cuprinse in raportul lunar Ianuarie 2022 transmis de operatorul delegat\n");
+            addParagraphToDocument(document, boldFont, "1. Cantitati de deseuri munincipale colectate\n");
+            addParagraphToDocument(document, boldFont, "1.1. Deseuri reziduale colectate\n\n ");
+            addParagraphToDocument(document, boldFont, "1.1.1. Mediul urban:\n\n ");
+
             monthlyReportTables.createUrbanResidualGarbageTable2(document, font, boldFont);
+
+            addParagraphToDocument(document, boldFont, "1.1.1. Mediul rural:\n\n ");
             monthlyReportTables.createRuralResidualGarbageTable3(document, font, boldFont);
-            monthlyReportTables.createTransferStationSubmittedGarbageTable4(document, font, boldFont);
-            monthlyReportTables.createDepositSubmittedGarbageTable5(document, font, boldFont);
+
+            addParagraphToDocument(document, boldFont, "1.2. Deseuri reciclabile colectate: \n\n ");
+            addParagraphToDocument(document, boldFont, "1.2.1. Mediul urban: \n\n ");
+            monthlyReportTables.createUrbanRecyclableGarbageTable4(document, font, boldFont);
+
+            addParagraphToDocument(document, boldFont, "1.2.2. Mediul rural:\n\n ");
+            monthlyReportTables.createRuralRecyclableGarbageTable5(document, font, boldFont);
+
+            addParagraphToDocument(document, boldFont, "1.3. Alte tipuri de deseuri colectate:\n\n ");
+            addParagraphToDocument(document, boldFont, "2. Cantitati de deseuri munincipale colectate si predate la instalatii\n\n ");
+            addParagraphToDocument(document, boldFont, "2.1. Deseuri predate statiei de transfer Blaj\n\n ");
+
+            monthlyReportTables.createTransferStationSubmittedGarbageTable6(document, font, boldFont);
+
+            monthlyReportTables.createDepositSubmittedGarbageTable7(document, font, boldFont);
+
+
         } catch (DocumentException e) {
             System.out.println(e);
         }

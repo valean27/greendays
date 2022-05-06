@@ -28,4 +28,9 @@ public class DailyReportService {
     public List<DailyReport> getAllReportsFromThisMonth() {
         return dailyReportRepository.findAllByDateBetween(Date.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth())), Date.valueOf(LocalDate.now().with(TemporalAdjusters.lastDayOfMonth())));
     }
+
+    public List<DailyReport> getAllReportsForQuarter(Quarter quarter, int year) {
+        return dailyReportRepository.findAllForQuarter(quarter.getMonth1(), quarter.getMonth2(), quarter.getMonth3(), year);
+    }
+
 }
