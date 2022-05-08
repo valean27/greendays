@@ -64,6 +64,10 @@ public class MainController {
         }
 
         initializeDailyReportModel(model);
+        String foaieParcursAsFullPath = storageService.load(foaieParcurs.getName()).toString();
+        String talonCantarireAsFullPath = storageService.load(talonCantarire.getName()).toString();
+        paramMap.add("talonCantarire", talonCantarireAsFullPath);
+        paramMap.add("foaieParcurs", foaieParcursAsFullPath);
         DailyReport report = populateReportFromParamMap(paramMap);
         String result = dailyReportService.postDailyReport(report);
         model.addAttribute("result", result);
@@ -90,6 +94,8 @@ public class MainController {
         garbage.setGarbageCode(paramMap.getFirst("codDeseu"));
         report.setGarbage(garbage);
         report.setUat(paramMap.getFirst("uat"));
+        report.setWeightTalon(paramMap.getFirst("talonCantarire"));
+        report.setRouteSheet(paramMap.getFirst("foaieParcurs"));
         return report;
     }
 

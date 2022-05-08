@@ -1,5 +1,7 @@
 package com.greendays.greendays.service;
 
+import com.greendays.greendays.exception.StorageException;
+import com.greendays.greendays.exception.StorageFileNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
