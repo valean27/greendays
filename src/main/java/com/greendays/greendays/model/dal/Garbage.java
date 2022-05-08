@@ -12,7 +12,7 @@ public class Garbage {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "garbage_code", nullable = false)
+    @Column(name = "garbage_code", nullable = false, unique = true)
     private String garbageCode;
 
     @Column(name = "garbage_name", nullable = false)
