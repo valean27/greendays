@@ -1,23 +1,39 @@
-package com.greendays.greendays.report;
+package com.greendays.greendays.service;
 
+import com.greendays.greendays.mapper.DailyReportEntityToDailyReportDtoMapper;
+import com.greendays.greendays.model.dto.DailyReportDto;
+import com.greendays.greendays.model.totals.MonthlyReportData;
 import com.greendays.greendays.report.tables.MonthlyReportTables;
 import com.greendays.greendays.report.tables.TrimestrialReportTablesCreator;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
+@Service
 public class PdfReportGenerator {
 
     private static final Logger logger = LoggerFactory.getLogger(PdfReportGenerator.class.getName());
     public static final String FONT = "src/main/resources/FreeSans.ttf";
     public static final String FONT_BOLD = "src/main/resources/FreeSansBold.ttf";
 
+    @Autowired
+    private DailyReportService dailyReportService;
 
     public ByteArrayInputStream generateTrimestrialPdfReport() {
         Document document = new Document();
@@ -197,7 +213,7 @@ public class PdfReportGenerator {
 
     }
 
-    public ByteArrayInputStream generateMonthlyPdfReport() {
+    public ByteArrayInputStream generateMonthlyPdfReport(Date date) {
         Document document = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         document.addTitle("Raport Lunar");
@@ -219,6 +235,12 @@ public class PdfReportGenerator {
         }
         document.open();
 
+        LocalDate localDate = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        List<DailyReportDto> dailyReportDtos = dailyReportService.getAllReportsOfMonth(localDate.getMonthValue(), localDate.getYear()).stream()
+                .map(DailyReportEntityToDailyReportDtoMapper::mapEntityToDto)
+                .collect(Collectors.toList());
+        MonthlyReportData monthlyReportData = new MonthlyReportData(dailyReportDtos, date.getMonth(), date.getYear());
+
         MonthlyReportTables monthlyReportTables = new MonthlyReportTables();
 
         try {
@@ -232,7 +254,7 @@ public class PdfReportGenerator {
             addParagraphToDocument(document, boldFont, "\n\n\n");
 
 
-            monthlyReportTables.createHeaderTable1(document, font, boldFont, "Mai 2022");
+            monthlyReportTables.createHeaderTable1(document, font, boldFont, "Mai 2022", monthlyReportData);
 
             addParagraphToDocument(document, boldFont, "\n\n\n");
             addParagraphToDocument(document, boldFont, "Date cuprinse in raportul lunar Ianuarie 2022 transmis de operatorul delegat\n");
@@ -240,26 +262,44 @@ public class PdfReportGenerator {
             addParagraphToDocument(document, boldFont, "1.1. Deseuri reziduale colectate\n\n ");
             addParagraphToDocument(document, boldFont, "1.1.1. Mediul urban:\n\n ");
 
-            monthlyReportTables.createUrbanResidualGarbageTable2(document, font, boldFont);
+            monthlyReportTables.createUrbanResidualGarbageTable2(document, font, boldFont, monthlyReportData);
 
             addParagraphToDocument(document, boldFont, "1.1.1. Mediul rural:\n\n ");
-            monthlyReportTables.createRuralResidualGarbageTable3(document, font, boldFont);
+            monthlyReportTables.createRuralResidualGarbageTable3(document, font, boldFont, monthlyReportData);
 
             addParagraphToDocument(document, boldFont, "1.2. Deseuri reciclabile colectate: \n\n ");
             addParagraphToDocument(document, boldFont, "1.2.1. Mediul urban: \n\n ");
-            monthlyReportTables.createUrbanRecyclableGarbageTable4(document, font, boldFont);
+            monthlyReportTables.createUrbanRecyclableGarbageTable4(document, font, boldFont, monthlyReportData);
 
             addParagraphToDocument(document, boldFont, "1.2.2. Mediul rural:\n\n ");
-            monthlyReportTables.createRuralRecyclableGarbageTable5(document, font, boldFont);
+            monthlyReportTables.createRuralRecyclableGarbageTable5(document, font, boldFont, monthlyReportData);
 
             addParagraphToDocument(document, boldFont, "1.3. Alte tipuri de deseuri colectate:\n\n ");
             addParagraphToDocument(document, boldFont, "2. Cantitati de deseuri munincipale colectate si predate la instalatii\n\n ");
             addParagraphToDocument(document, boldFont, "2.1. Deseuri predate statiei de transfer Blaj\n\n ");
 
-            monthlyReportTables.createTransferStationSubmittedGarbageTable6(document, font, boldFont);
+            monthlyReportTables.createTransferStationSubmittedGarbageTable6(document, font, boldFont, monthlyReportData);
 
-            monthlyReportTables.createDepositSubmittedGarbageTable7(document, font, boldFont);
+            addParagraphToDocument(document, font, "Observatie\n");
+            addParagraphToDocument(document, font, "Toate deseurile reciclabile colectate separat au fost dirijate direct la Statia de sortare din cadrul CMID Galda de Jos, fara sa fie predate statiei de sortare Blaj\n\n");
+            addParagraphToDocument(document, boldFont, "2.2. Deseuri predate statiei de sortare\n");
+            addParagraphToDocument(document, boldFont, "Cantitatea de deseuri reciclabile colectate separat predate direct Statiei de sortare din cadrul CMID Galda de Jos este de %s tone \n\n");
 
+            addParagraphToDocument(document, boldFont, "2.3. Deseuri predate statiei de tratare mecano-biologica\n");
+            addParagraphToDocument(document, font, "2.3. Cantitatea de deseuri reziduale colectate separat predate direct Statiei TMB din cadrul CMID Galda de Jos este de %s tone.\n\n");
+            addParagraphToDocument(document, boldFont, "2.4. Deseuri predate la depozit.\n\n");
+
+
+            monthlyReportTables.createDepositSubmittedGarbageTable7(document, font, boldFont, monthlyReportData);
+
+            addParagraphToDocument(document, boldFont, "Observatie\n");
+            addParagraphToDocument(document, font, "Nu a fost respectat fluxul deseurilor, o parte din deseurile colectate fiind dirijate direct la CMID Galda de Jos , fara sa fie predate statiei de transfer Blaj.\n\n");
+
+            addParagraphToDocument(document, boldFont, "Reclamatii, sesizari\n");
+            addParagraphToDocument(document, font, "Nu au fost raportate. Nu a fost prezentat registrul de inregistrare a reclamatiilor/sesizarilor. Pe site-ul operatorului nu exista portal separat dedicat sesizarilor utilizatorilor privind serviciul prestat.\n\n");
+
+            addParagraphToDocument(document, boldFont, "Situatia contractarii si dotarii cu recipienti.\n");
+            addParagraphToDocument(document, font, "Nu a fost raportata.\n\n");
 
         } catch (DocumentException e) {
             System.out.println(e);

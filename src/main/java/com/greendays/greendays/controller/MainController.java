@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
@@ -29,7 +30,6 @@ public class MainController {
     private final GarbageService garbageService;
     private final IncidentService incidentService;
     private final StorageService storageService;
-
 
     @GetMapping("/")
     public String index() {

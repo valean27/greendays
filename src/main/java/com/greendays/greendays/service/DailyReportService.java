@@ -33,4 +33,8 @@ public class DailyReportService {
         return dailyReportRepository.findAllForQuarter(quarter.getMonth1(), quarter.getMonth2(), quarter.getMonth3(), year);
     }
 
+    public List<DailyReport> getAllReportsOfMonth(int month, int year) {
+        return dailyReportRepository.findAllForMonth(month, year);
+    }
+
 }

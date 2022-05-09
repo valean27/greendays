@@ -12,4 +12,7 @@ public interface DailyReportRepository extends JpaRepository<DailyReport, Long> 
 
     @Query("SELECT dailyReport FROM DailyReport dailyReport WHERE (MONTH(DATE) = :firstMonth OR  MONTH(DATE) = :secondMonth OR  MONTH(DATE) = :thirdMonth) AND YEAR(DATE) = :year")
     List<DailyReport> findAllForQuarter(int firstMonth, int secondMonth, int thirdMonth, int year);
+
+    @Query("SELECT dailyReport FROM DailyReport dailyReport WHERE MONTH(DATE) = :month AND YEAR(DATE) = :year")
+    List<DailyReport> findAllForMonth(int month, int year);
 }

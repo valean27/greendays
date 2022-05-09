@@ -1,17 +1,16 @@
 package com.greendays.greendays.report.tables;
 
+import com.greendays.greendays.model.dto.DailyReportDto;
+import com.greendays.greendays.model.totals.MonthlyReportData;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import org.springframework.security.core.parameters.P;
-
-import javax.print.Doc;
 
 import static java.util.Arrays.asList;
 
 public class MonthlyReportTables extends TablesCreatorHelper {
 
-    public void createHeaderTable1(Document document, Font mainFont, Font headFont, String referenceDate) throws DocumentException {
+    public void createHeaderTable1(Document document, Font mainFont, Font headFont, String referenceDate, MonthlyReportData monthlyReportData) throws DocumentException {
         PdfPTable firstRow = new PdfPTable(2);
         firstRow.setWidthPercentage(100);
         firstRow.setWidths(new int[]{4, 10});
@@ -34,7 +33,58 @@ public class MonthlyReportTables extends TablesCreatorHelper {
         document.add(firstRow);
     }
 
-    public void createUrbanResidualGarbageTable2(Document document, Font mainFont, Font headFont) throws DocumentException {
+    public void createUrbanResidualGarbageTable2(Document document, Font mainFont, Font headFont, MonthlyReportData monthlyReportData) throws DocumentException {
+        document.add(new Paragraph("\n"));
+        document.add(new Paragraph("\n"));
+
+        PdfPTable mainTable = new PdfPTable(3);
+        mainTable.setWidthPercentage(100);
+        mainTable.setWidths(new int[]{4, 5, 1});
+        mainTable.setKeepTogether(true);
+
+        addCellToTableAlignedCenter(mainTable, "UAT", headFont);
+        addStrangeTableToTable(mainTable, headFont);
+        addCellToTable(mainTable, "Obs.", headFont);
+
+        Double total = monthlyReportData.getRezidualGarbageReportsByUat("Blaj").stream().map(DailyReportDto::getQuantity).reduce(0D, Double::sum);
+        Double casnici = monthlyReportData.getRezidualGarbageReportsByUatAndClientType("Blaj", "casnic").stream().map(DailyReportDto::getQuantity).reduce(0D, Double::sum);
+        Double nonCasnici = monthlyReportData.getRezidualGarbageReportsByUatAndClientType("Blaj", "non-casnic").stream().map(DailyReportDto::getQuantity).reduce(0D, Double::sum);
+
+        addCellToTableAlignedCenter(mainTable, "Blaj", mainFont);
+        addTableToTable(mainTable, 3, 3, mainFont, asList(total.toString(), casnici.toString(), nonCasnici.toString()));
+        addCellToTable(mainTable, " ", mainFont);
+
+        document.add(mainTable);
+    }
+
+
+    public void createRuralResidualGarbageTable3(Document document, Font mainFont, Font headFont, MonthlyReportData monthlyReportData) throws DocumentException {
+        document.add(new Paragraph("\n"));
+        document.add(new Paragraph("\n"));
+
+        PdfPTable mainTable = new PdfPTable(3);
+        mainTable.setWidthPercentage(100);
+        mainTable.setWidths(new int[]{4, 5, 1});
+        mainTable.setKeepTogether(true);
+
+        addCellToTableAlignedCenter(mainTable, "UAT", headFont);
+        addStrangeTableToTable(mainTable, headFont);
+        addCellToTable(mainTable, "Obs.", headFont);
+
+        multiplyCodeForGarbageType(uat -> {
+            addCellToTableAlignedCenter(mainTable, uat, mainFont);
+            addTableToTable(mainTable, 3, 3, mainFont,
+                    asList(monthlyReportData.getTotalForUatAndGarbageName(uat, "rezidual").toString(),
+                            monthlyReportData.getTotalForUatClientTypeAndGarbageName(uat, "casnic", "rezidual").toString(),
+                            monthlyReportData.getTotalForUatClientTypeAndGarbageName(uat, "non-casnic", "rezidual").toString()));
+
+            addCellToTable(mainTable, " ", mainFont);
+        }, asList("Crăciunelu de Jos", "Bucerdea Grânoasă", "Șona", "Jidvei", "Cergău", "Cenade", "Cetatea de Baltă", "Roșia de Secaș", "Sâncel", "Valea Lungă"));
+
+        document.add(mainTable);
+    }
+
+    public void createUrbanRecyclableGarbageTable4(Document document, Font mainFont, Font headFont, MonthlyReportData monthlyReportData) throws DocumentException {
         document.add(new Paragraph("\n"));
         document.add(new Paragraph("\n"));
 
@@ -55,7 +105,7 @@ public class MonthlyReportTables extends TablesCreatorHelper {
     }
 
 
-    public void createRuralResidualGarbageTable3(Document document, Font mainFont, Font headFont) throws DocumentException {
+    public void createRuralRecyclableGarbageTable5(Document document, Font mainFont, Font headFont, MonthlyReportData monthlyReportData) throws DocumentException {
         document.add(new Paragraph("\n"));
         document.add(new Paragraph("\n"));
 
@@ -77,50 +127,7 @@ public class MonthlyReportTables extends TablesCreatorHelper {
         document.add(mainTable);
     }
 
-    public void createUrbanRecyclableGarbageTable4(Document document, Font mainFont, Font headFont) throws DocumentException {
-        document.add(new Paragraph("\n"));
-        document.add(new Paragraph("\n"));
-
-        PdfPTable mainTable = new PdfPTable(3);
-        mainTable.setWidthPercentage(100);
-        mainTable.setWidths(new int[]{4, 5, 1});
-        mainTable.setKeepTogether(true);
-
-        addCellToTableAlignedCenter(mainTable, "UAT", headFont);
-        addStrangeTableToTable(mainTable, headFont);
-        addCellToTable(mainTable, "Obs.", headFont);
-
-        addCellToTableAlignedCenter(mainTable, "Blaj", mainFont);
-        addTableToTable(mainTable, 3, 3, mainFont, asList(" ", " ", " "));
-        addCellToTable(mainTable, " ", mainFont);
-
-        document.add(mainTable);
-    }
-
-
-    public void createRuralRecyclableGarbageTable5(Document document, Font mainFont, Font headFont) throws DocumentException {
-        document.add(new Paragraph("\n"));
-        document.add(new Paragraph("\n"));
-
-        PdfPTable mainTable = new PdfPTable(3);
-        mainTable.setWidthPercentage(100);
-        mainTable.setWidths(new int[]{4, 5, 1});
-        mainTable.setKeepTogether(true);
-
-        addCellToTableAlignedCenter(mainTable, "UAT", headFont);
-        addStrangeTableToTable(mainTable, headFont);
-        addCellToTable(mainTable, "Obs.", headFont);
-
-        multiplyCodeForGarbageType(uat -> {
-            addCellToTableAlignedCenter(mainTable, uat, mainFont);
-            addTableToTable(mainTable, 3, 3, mainFont, asList(" ", " ", " "));
-            addCellToTable(mainTable, " ", mainFont);
-        }, asList("Crăciunelu de Jos", "Bucerdea Grânoasă", "Șona", "Jidvei", "Cergău", "Cenade", "Cetatea de Baltă", "Roșia de Secaș", "Sâncel", "Valea Lungă"));
-
-        document.add(mainTable);
-    }
-
-    public void createTransferStationSubmittedGarbageTable6(Document document, Font mainFont, Font headFont) throws DocumentException {
+    public void createTransferStationSubmittedGarbageTable6(Document document, Font mainFont, Font headFont, MonthlyReportData monthlyReportData) throws DocumentException {
         document.add(new Paragraph("\n"));
         document.add(new Paragraph("\n"));
 
@@ -144,7 +151,7 @@ public class MonthlyReportTables extends TablesCreatorHelper {
         //TODO: add total
     }
 
-    public void createDepositSubmittedGarbageTable7(Document document, Font mainFont, Font headFont) throws DocumentException {
+    public void createDepositSubmittedGarbageTable7(Document document, Font mainFont, Font headFont, MonthlyReportData monthlyReportData) throws DocumentException {
         document.add(new Paragraph("\n"));
         document.add(new Paragraph("\n"));
 
