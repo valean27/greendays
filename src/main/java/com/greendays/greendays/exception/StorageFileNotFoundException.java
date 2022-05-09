@@ -1,4 +1,4 @@
-package com.greendays.greendays.service;
+package com.greendays.greendays.exception;
 
 public class StorageFileNotFoundException extends StorageException {
 
