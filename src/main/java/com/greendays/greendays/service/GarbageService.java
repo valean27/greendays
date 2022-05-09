@@ -2,11 +2,9 @@ package com.greendays.greendays.service;
 
 import com.greendays.greendays.model.dal.Garbage;
 import com.greendays.greendays.model.dto.DailyReportDto;
-import com.greendays.greendays.report.PdfReportGenerator;
 import com.greendays.greendays.repository.DailyReportRepository;
 import com.greendays.greendays.repository.GarbageRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;

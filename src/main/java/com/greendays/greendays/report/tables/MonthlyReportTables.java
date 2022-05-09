@@ -98,7 +98,7 @@ public class MonthlyReportTables extends TablesCreatorHelper {
         addCellToTable(mainTable, "Obs.", headFont);
 
         addCellToTableAlignedCenter(mainTable, "Blaj", mainFont);
-        addTableToTable(mainTable, 3, 3, mainFont, asList(" ", " ", " "));
+        addTableToTable(mainTable, 3, 3, mainFont, asList(monthlyReportData.getTotalRecyclableByUat("Blaj").toString(), monthlyReportData.getTotalRecyclableByUatAndClientType("Blaj", "casnic").toString(), monthlyReportData.getTotalRecyclableByUatAndClientType("Blaj", "non-casnic").toString()));
         addCellToTable(mainTable, " ", mainFont);
 
         document.add(mainTable);
@@ -120,7 +120,7 @@ public class MonthlyReportTables extends TablesCreatorHelper {
 
         multiplyCodeForGarbageType(uat -> {
             addCellToTableAlignedCenter(mainTable, uat, mainFont);
-            addTableToTable(mainTable, 3, 3, mainFont, asList(" ", " ", " "));
+            addTableToTable(mainTable, 3, 3, mainFont, asList(monthlyReportData.getTotalRecyclableByUat(uat).toString(), monthlyReportData.getTotalRecyclableByUatAndClientType(uat, "casnic").toString(), monthlyReportData.getTotalRecyclableByUatAndClientType(uat, "non-casnic").toString()));
             addCellToTable(mainTable, " ", mainFont);
         }, asList("Crăciunelu de Jos", "Bucerdea Grânoasă", "Șona", "Jidvei", "Cergău", "Cenade", "Cetatea de Baltă", "Roșia de Secaș", "Sâncel", "Valea Lungă"));
 
@@ -145,7 +145,17 @@ public class MonthlyReportTables extends TablesCreatorHelper {
         addCellToTableAlignedCenter(mainTable, "Blaj", headFont);
         addTableToTable(mainTable, 5, mainFont, asList("Rezidual", "Hartie, carton", "Plastic", "Metal", "Sticla"), (pdfPCell, s) -> pdfPCell.setFixedHeight(32));
         addTableToTable(mainTable, 10, mainFont, asList("casnici", "non-casnici", "casnici", "non-casnici", "casnici", "non-casnici", "casnici", "non-casnici", "casnici", "non-casnici"));
-        addTableToTable(mainTable, 10, mainFont, asList(" ", " ", " ", " ", " ", " ", " ", " ", " ", " "));
+        addTableToTable(mainTable, 10, mainFont, asList(
+                monthlyReportData.getTotalTransferStationByGarbageNameAndClientType("Rezidual", "casnic").toString(),
+                monthlyReportData.getTotalTransferStationByGarbageNameAndClientType("Rezidual", "non-casnic").toString(),
+                monthlyReportData.getTotalTransferStationByGarbageNameAndClientType("Hârtie și carton", "casnic").toString(),
+                monthlyReportData.getTotalTransferStationByGarbageNameAndClientType("Hârtie și carton", "non-casnic").toString(),
+                monthlyReportData.getTotalTransferStationByGarbageNameAndClientType("Plastic", "casnic").toString(),
+                monthlyReportData.getTotalTransferStationByGarbageNameAndClientType("Plastic", "non-casnic").toString(),
+                monthlyReportData.getTotalTransferStationByGarbageNameAndClientType("Metal", "casnic").toString(),
+                monthlyReportData.getTotalTransferStationByGarbageNameAndClientType("Metal", "non-casnic").toString(),
+                monthlyReportData.getTotalTransferStationByGarbageNameAndClientType("Sticlă", "casnic").toString(),
+                monthlyReportData.getTotalTransferStationByGarbageNameAndClientType("Sticlă", "non-casnic").toString()));
 
         document.add(mainTable);
         //TODO: add total
@@ -169,7 +179,16 @@ public class MonthlyReportTables extends TablesCreatorHelper {
         addCellToTableAlignedCenter(mainTable, "Galda de Jos", headFont);
         addTableToTable(mainTable, 5, mainFont, asList("Rezidual", "Hartie, carton", "Plastic", "Metal", "Sticla"), (pdfPCell, s) -> pdfPCell.setFixedHeight(32));
         addTableToTable(mainTable, 10, mainFont, asList("casnici", "non-casnici", "casnici", "non-casnici", "casnici", "non-casnici", "casnici", "non-casnici", "casnici", "non-casnici"));
-        addTableToTable(mainTable, 10, mainFont, asList(" ", " ", " ", " ", " ", " ", " ", " ", " ", " "));
+        addTableToTable(mainTable, 10, mainFont, asList(monthlyReportData.getTotalTransferStationByGarbageNameAndClientType("Rezidual", "casnic").toString(),
+                monthlyReportData.getTotalCMIDGaldaSubmitedByGarbageNameAndClientType("Rezidual", "non-casnic").toString(),
+                monthlyReportData.getTotalCMIDGaldaSubmitedByGarbageNameAndClientType("Hârtie și carton", "casnic").toString(),
+                monthlyReportData.getTotalCMIDGaldaSubmitedByGarbageNameAndClientType("Hârtie și carton", "non-casnic").toString(),
+                monthlyReportData.getTotalCMIDGaldaSubmitedByGarbageNameAndClientType("Plastic", "casnic").toString(),
+                monthlyReportData.getTotalCMIDGaldaSubmitedByGarbageNameAndClientType("Plastic", "non-casnic").toString(),
+                monthlyReportData.getTotalCMIDGaldaSubmitedByGarbageNameAndClientType("Metal", "casnic").toString(),
+                monthlyReportData.getTotalCMIDGaldaSubmitedByGarbageNameAndClientType("Metal", "non-casnic").toString(),
+                monthlyReportData.getTotalCMIDGaldaSubmitedByGarbageNameAndClientType("Sticlă", "casnic").toString(),
+                monthlyReportData.getTotalCMIDGaldaSubmitedByGarbageNameAndClientType("Sticlă", "non-casnic").toString()));
 
         document.add(mainTable);
         //TODO: add total
