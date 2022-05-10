@@ -1,5 +1,6 @@
 package com.greendays.greendays.report.tables;
 
+import com.greendays.greendays.model.totals.TrimestrialReportData;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -12,7 +13,7 @@ import static java.util.Arrays.asList;
 public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
     public static final String FONT = "/Users/bogdan.filip/Desktop/greendays/src/main/resources/FreeSans.ttf";
 
-    public void createFirstReportTable1(Document document, Font headFont, Font mainFont) throws DocumentException {
+    public void createFirstReportTable1(Document document, Font headFont, Font mainFont, TrimestrialReportData trimestrialReportData) throws DocumentException {
         PdfPTable firstRow = new PdfPTable(2);
         firstRow.setWidthPercentage(100);
         firstRow.setWidths(new int[]{4, 10});
@@ -35,7 +36,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
         document.add(firstRow);
     }
 
-    public void createCentralisingTable2(Document document, Font headFont, Font mainFont) {
+    public void createCentralisingTable2(Document document, Font headFont, Font mainFont, TrimestrialReportData trimestrialReportData) {
         //todo: add according values
         try {
             document.add(new Paragraph("\n"));
@@ -52,14 +53,17 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
             multiplyCodeForGarbageType(garbageType -> {
                 addCellToTable(mainTable, garbageType, mainFont);
                 addTableToTable(mainTable, 2, mainFont, asList("Casnic", "Non-Casnic"));
-                addTableToTable(mainTable, 2, mainFont, asList(" ", " "));
-                addTableToTable(mainTable, 2, mainFont, asList(" ", " "));
-            }, asList("Rezidual", "Hârtie și carton", "Plastic", "Metal", "Sticlă", "Total 1"));
 
-            addCellToTable(mainTable, "Voluminoase", mainFont);
-            addCellToTable(mainTable, " ", mainFont);
-            addCellToTable(mainTable, " ", mainFont);
-            addCellToTable(mainTable, "  ", mainFont);
+                addTableToTable(mainTable, 2, mainFont, asList(
+                        trimestrialReportData.getTotalByClientTypeAndGarbageName("casnic", garbageType).toString(),
+                        trimestrialReportData.getTotalByClientTypeAndGarbageName("non-casnic", garbageType).toString())
+                );
+
+                addTableToTable(mainTable, 2, mainFont, asList("CMID Galda de Jos", "CMID Galda de Jos"));
+            }, asList("Rezidual", "Hârtie și carton", "Plastic", "Metal", "Sticlă"));
+
+            //todo:add total
+
 
             multiplyCodeForGarbageType(garbageType -> {
                 addCellToTable(mainTable, garbageType, mainFont);
@@ -67,6 +71,8 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
                 addCellToTable(mainTable, " ", mainFont);
                 addCellToTable(mainTable, "  ", mainFont);
             }, asList("Voluminoase", "Periculoase", "Abandonate", "Deșeuri din construcții și demolări"));
+
+            //todo: how to fill this
 
             document.add(mainTable);
 
@@ -77,7 +83,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
 
     }
 
-    public void createUrbanEnvTable3(Document document, Font headFont, Font mainFont) {
+    public void createUrbanEnvTable3(Document document, Font headFont, Font mainFont, TrimestrialReportData trimestrialReportData) {
         try {
             document.add(new Paragraph("\n"));
             document.add(new Paragraph("\n"));
@@ -92,8 +98,10 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
 
             addCellToTable(mainTable, "Blaj", mainFont);
             addTableToTable(mainTable, 2, mainFont, asList("Casnic", "Non-Casnic"));
-            addCellToTable(mainTable, " ", mainFont);
-            addCellToTable(mainTable, " ", mainFont);
+            addTableToTable(mainTable, 2, mainFont, asList(
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName("Blaj", "casnic", "rezidual").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName("Blaj", "non-casnic", "rezidual").toString()));
+            addTableToTable(mainTable, 2, mainFont, asList("CMID Galda de Jos", "CMID Galda de Jos"));
 
             document.add(mainTable);
         } catch (Exception e) {
@@ -104,7 +112,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
     }
 
 
-    public void createRuralEnvTable4(Document document, Font headFont, Font mainFont) {
+    public void createRuralEnvTable4(Document document, Font headFont, Font mainFont, TrimestrialReportData trimestrialReportData) {
         try {
             document.add(new Paragraph("\n"));
             document.add(new Paragraph("\n"));
@@ -118,11 +126,13 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
             addCellToTable(mainTable, "Stație transfer \n -Destinație finală* ", headFont);
 
 
-            multiplyCodeForGarbageType(garbageType -> {
-                addCellToTable(mainTable, garbageType, mainFont);
+            multiplyCodeForGarbageType(uat -> {
+                addCellToTable(mainTable, uat, mainFont);
                 addTableToTable(mainTable, 2, mainFont, asList("Casnic", "Non-Casnic"));
-                addTableToTable(mainTable, 2, mainFont, asList(" ", " "));
-                addTableToTable(mainTable, 2, mainFont, asList(" ", " "));
+                addTableToTable(mainTable, 2, mainFont, asList(
+                        trimestrialReportData.getTotalByUatClientTypeAndGarbageName(uat, "casnic", "rezidual").toString(),
+                        trimestrialReportData.getTotalByUatClientTypeAndGarbageName(uat, "non-casnic", "rezidual").toString()));
+                addTableToTable(mainTable, 2, mainFont, asList("CMID Galda de Jos", "CMID Galda de Jos"));
             }, asList("Crăciunelu de Jos", "Bucerdea Grânoasă", "Șona", "Jidvei", "Cergău", "Cenade", "Cetatea de Baltă", "Roșia de Secaș", "Sâncel", "Valea Lungă", "Total 1"));
 
 
@@ -145,7 +155,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
 
     }
 
-    public void createRecyclableUrbanTable5(Document document, Font headFont, Font mainFont) {
+    public void createRecyclableUrbanTable5(Document document, Font headFont, Font mainFont, TrimestrialReportData trimestrialReportData) {
 
         try {
             document.add(new Paragraph("\n"));
@@ -153,7 +163,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
 
             PdfPTable mainTable = new PdfPTable(5);
             mainTable.setWidthPercentage(100);
-            mainTable.setWidths(new int[]{6, 4, 4, 4, 4});
+            mainTable.setWidths(new int[]{4, 4, 4, 4, 6});
             mainTable.setKeepTogether(true);
 
 
@@ -166,14 +176,32 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
             addCellToTable(mainTable, "Blaj", headFont);
             addTableToTable(mainTable, 2, mainFont, asList("Casnic", "Non-casnic"), getHeightAdjustingConsumer("Casnic"));
             addTableToTable(mainTable, 8, mainFont, asList("Hârtie și carton", "Plastic", "Metal", "Sticlă", "Hârtie și carton", "Plastic", "Metal", "Sticlă"));
-            addTableToTable(mainTable, 8, mainFont, asList(" ", " ", " ", "   ", " ", " ", " ", "   "));
-            addTableToTable(mainTable, 8, mainFont, asList(" ", " ", " ", "   ", " ", " ", " ", "   "));
+            addTableToTable(mainTable, 8, mainFont, asList(
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName("Blaj", "casnic", "Hârtie și carton").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName("Blaj", "casnic", "Plastic").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName("Blaj", "casnic", "Metal").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName("Blaj", "casnic", "Sticlă").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName("Blaj", "non-casnic", "Hârtie și carton").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName("Blaj", "non-casnic", "Plastic").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName("Blaj", "non-casnic", "Metal").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName("Blaj", "non-casnic", "Sticlă").toString()
+            ));
+            addTableToTable(mainTable, 8, mainFont, asList("CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos"));
 
             addCellToTable(mainTable, "Total Urban", headFont);
             addTableToTable(mainTable, 2, headFont, asList("Casnic", "Non-casnic"), getHeightAdjustingConsumer("Casnic"));
             addTableToTable(mainTable, 8, headFont, asList("Hârtie și carton", "Plastic", "Metal", "Sticlă", "Hârtie și carton", "Plastic", "Metal", "Sticlă"));
-            addTableToTable(mainTable, 8, mainFont, asList(" ", " ", " ", "   ", " ", " ", " ", "   "));
-            addTableToTable(mainTable, 8, mainFont, asList(" ", " ", " ", "  ", " ", " ", " ", "  "));
+            addTableToTable(mainTable, 8, mainFont, asList(
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName("Blaj", "casnic", "Hârtie și carton").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName("Blaj", "casnic", "Plastic").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName("Blaj", "casnic", "Metal").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName("Blaj", "casnic", "Sticlă").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName("Blaj", "non-casnic", "Hârtie și carton").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName("Blaj", "non-casnic", "Plastic").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName("Blaj", "non-casnic", "Metal").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName("Blaj", "non-casnic", "Sticlă").toString()
+            ));
+            addTableToTable(mainTable, 8, mainFont, asList("CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos"));
 
             document.add(mainTable);
 
@@ -201,13 +229,13 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
         };
     }
 
-    public void createRecyclableRuralTable6(Document document, Font headFont, Font mainFont) throws DocumentException {
+    public void createRecyclableRuralTable6(Document document, Font headFont, Font mainFont, TrimestrialReportData trimestrialReportData) throws DocumentException {
         document.add(new Paragraph("\n"));
         document.add(new Paragraph("\n"));
 
         PdfPTable mainTable = new PdfPTable(5);
         mainTable.setWidthPercentage(100);
-        mainTable.setWidths(new int[]{6, 4, 4, 4, 4});
+        mainTable.setWidths(new int[]{4, 4, 4, 4, 6});
         mainTable.setKeepTogether(true);
 
 
@@ -220,23 +248,41 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
 
         multiplyCodeForGarbageType(uat -> {
             addCellToTable(mainTable, uat, headFont);
-            addTableToTable(mainTable, 2, mainFont, asList("Casnic", "Non-casnic"),getHeightAdjustingConsumer("Casnic"));
+            addTableToTable(mainTable, 2, mainFont, asList("Casnic", "Non-casnic"), getHeightAdjustingConsumer("Casnic"));
             addTableToTable(mainTable, 8, mainFont, asList("Hârtie și carton", "Plastic", "Metal", "Sticlă", "Hârtie și carton", "Plastic", "Metal", "Sticlă"));
-            addTableToTable(mainTable, 8, mainFont, asList(" ", " ", " ", "   ", " ", " ", " ", "   "));
-            addTableToTable(mainTable, 8, mainFont, asList(" ", " ", " ", "  ", " ", " ", " ", "  "));
+            addTableToTable(mainTable, 8, mainFont, asList(
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName(uat, "casnic", "Hârtie și carton").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName(uat, "casnic", "Plastic").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName(uat, "casnic", "Metal").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName(uat, "casnic", "Sticlă").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName(uat, "non-casnic", "Hârtie și carton").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName(uat, "non-casnic", "Plastic").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName(uat, "non-casnic", "Metal").toString(),
+                    trimestrialReportData.getTotalByUatClientTypeAndGarbageName(uat, "non-casnic", "Sticlă").toString()
+            ));
+            addTableToTable(mainTable, 8, mainFont, asList("CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos"));
 
         }, asList("Crăciunelu de Jos", "Bucerdea Grânoasă", "Șona", "Jidvei", "Cergău", "Cenade", "Cetatea de Baltă", "Roșia de Secaș", "Sâncel", "Valea Lungă"));
 
         addCellToTable(mainTable, "Total Rural", headFont);
-        addTableToTable(mainTable, 2, headFont, asList("Casnic", "Non-casnic"),getHeightAdjustingConsumer("Casnic"));
+        addTableToTable(mainTable, 2, headFont, asList("Casnic", "Non-casnic"), getHeightAdjustingConsumer("Casnic"));
         addTableToTable(mainTable, 8, headFont, asList("Hârtie și carton", "Plastic", "Metal", "Sticlă", "Hârtie și carton", "Plastic", "Metal", "Sticlă"));
-        addTableToTable(mainTable, 8, mainFont, asList(" ", " ", " ", "   ", " ", " ", " ", "   "));
-        addTableToTable(mainTable, 8, mainFont, asList(" ", " ", " ", "  ", " ", " ", " ", "  "));
+        addTableToTable(mainTable, 8, mainFont, asList(
+                trimestrialReportData.getTotalByClientTypeAndGarbageNameRural("casnic", "Hârtie și carton").toString(),
+                trimestrialReportData.getTotalByClientTypeAndGarbageNameRural("casnic", "Plastic").toString(),
+                trimestrialReportData.getTotalByClientTypeAndGarbageNameRural("casnic", "Metal").toString(),
+                trimestrialReportData.getTotalByClientTypeAndGarbageNameRural("casnic", "Sticlă").toString(),
+                trimestrialReportData.getTotalByClientTypeAndGarbageNameRural("non-casnic", "Hârtie și carton").toString(),
+                trimestrialReportData.getTotalByClientTypeAndGarbageNameRural("non-casnic", "Plastic").toString(),
+                trimestrialReportData.getTotalByClientTypeAndGarbageNameRural("non-casnic", "Metal").toString(),
+                trimestrialReportData.getTotalByClientTypeAndGarbageNameRural("non-casnic", "Sticlă").toString()
+        ));
+        addTableToTable(mainTable, 8, mainFont, asList("CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos"));
         document.add(mainTable);
         //TODO: ADD TOTAL RECYCLABLE RURAL
     }
 
-    public void createUrbanOtherTypesOfGarbageTable7(Document document, Font headFont, Font mainFont) throws DocumentException {
+    public void createUrbanOtherTypesOfGarbageTable7(Document document, Font headFont, Font mainFont, TrimestrialReportData trimestrialReportData) throws DocumentException {
         document.add(new Paragraph("\n"));
         document.add(new Paragraph("\n"));
 
@@ -252,14 +298,19 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
 
         addTableToTable(mainTable, 1, mainFont, asList("Blaj"));
         addTableToTable(mainTable, 4, headFont, asList("Voluminoase", "Periculoase", "Abandonate", "Deșeuri din construcții și demolări"));
-        addTableToTable(mainTable, 4, mainFont, asList(" ", " ", " ", "   "));
-        addTableToTable(mainTable, 4, mainFont, asList(" ", " ", " ", "   "));
+        addTableToTable(mainTable, 4, mainFont, asList(
+                trimestrialReportData.getTotalByUatAndGarbageName("Blaj", "Voluminoase").toString(),
+                trimestrialReportData.getTotalByUatAndGarbageName("Blaj", "Periculoase").toString(),
+                trimestrialReportData.getTotalByUatAndGarbageName("Blaj", "Abandonate").toString(),
+                trimestrialReportData.getTotalByUatAndGarbageName("Blaj", "Deșeuri din construcții și demolări").toString()
+        ));
+        addTableToTable(mainTable, 4, mainFont, asList("CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos", "CMID Galda de Jos"));
 
         document.add(mainTable);
         //TODO: Add total urban
     }
 
-    public void createRuralOtherTypesOfGarbageTable8(Document document, Font headFont, Font mainFont) throws DocumentException {
+    public void createRuralOtherTypesOfGarbageTable8(Document document, Font headFont, Font mainFont, TrimestrialReportData trimestrialReportData) throws DocumentException {
         document.add(new Paragraph("\n"));
         document.add(new Paragraph("\n"));
 
@@ -283,7 +334,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
         //TODO: ADD total
     }
 
-    public void createSortingStationTable9(Document document, Font headFont, Font mainFont) throws DocumentException {
+    public void createSortingStationTable9(Document document, Font headFont, Font mainFont, TrimestrialReportData trimestrialReportData) throws DocumentException {
         document.add(new Paragraph("\n"));
         document.add(new Paragraph("\n"));
 
@@ -299,7 +350,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
 
 
         addCellToTable(mainTable, "SS CMID Galda de Jos", headFont);
-        addTableToTable(mainTable, 2, mainFont, asList("Casnic", "Non-casnic"),getHeightAdjustingConsumer("Casnicc"));
+        addTableToTable(mainTable, 2, mainFont, asList("Casnic", "Non-casnic"), getHeightAdjustingConsumer("Casnicc"));
         addTableToTable(mainTable, 8, mainFont, asList("Hârtie și carton", "Plastic", "Metal", "Sticlă", "Hârtie și carton", "Plastic", "Metal", "Sticlă"));
         addTableToTable(mainTable, 8, mainFont, asList(" ", " ", " ", "   ", " ", " ", " ", "   "));
 
@@ -320,7 +371,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
     }
 
 
-    public void createBioTreatmentTable10(Document document, Font headFont, Font mainFont) throws DocumentException {
+    public void createBioTreatmentTable10(Document document, Font headFont, Font mainFont, TrimestrialReportData trimestrialReportData) throws DocumentException {
         document.add(new Paragraph("\n"));
         document.add(new Paragraph("\n"));
 
@@ -353,7 +404,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
         //TODO: Add Total
     }
 
-    public void createGarbageSubmittedToDepositTable11(Document document, Font headFont, Font mainFont) throws DocumentException {
+    public void createGarbageSubmittedToDepositTable11(Document document, Font headFont, Font mainFont, TrimestrialReportData trimestrialReportData) throws DocumentException {
         document.add(new Paragraph("\n"));
         document.add(new Paragraph("\n"));
 
@@ -387,7 +438,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
         document.add(mainTable);
     }
 
-    public void createAdiSalubrisPaymentTable12(Document document, Font headFont, Font mainFont) {
+    public void createAdiSalubrisPaymentTable12(Document document, Font headFont, Font mainFont, TrimestrialReportData trimestrialReportData) {
         try {
             document.add(new Paragraph("\n"));
             document.add(new Paragraph("\n"));
@@ -423,7 +474,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
     }
 
 
-    public void createTrimestrialUatPaymentTable13(Document document, Font headFont, Font mainFont) {
+    public void createTrimestrialUatPaymentTable13(Document document, Font headFont, Font mainFont, TrimestrialReportData trimestrialReportData) {
         try {
 
             document.add(new Paragraph("\n"));

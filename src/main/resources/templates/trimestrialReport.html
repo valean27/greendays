@@ -37,15 +37,19 @@
 <div class="container-contact100">
     <form class="contact100-form validate-form" th:action="pdfreport" th:method="GET" id="trimestrialReportGenerator" enctype="multipart/form-data">
 				<span class="contact100-form-title">
-					Generare Raport Trimestrial
+					Generare Raport Trimestrial An Current
 				</span>
-        <div class="wrap-input100 bg1 rs1-wrap-input100">
-            <span class="label-input100">Din Data De</span>
-            <input id="fromDate" class="input100" type="date" name="data">
-        </div>
-        <div class="wrap-input100 bg1 rs1-wrap-input100">
-            <span class="label-input100">Pana In Data De</span>
-            <input id="toDate" class="input100" type="date" name="data">
+        <div class="wrap-input100 validate-input bg1 rs1-wrap-input100">
+            <span class="label-input100">Selecteaza Trimestrul</span>
+            <div>
+                <select class="js-select2" name="quarter">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+                <div class="dropDownSelect2"></div>
+            </div>
         </div>
         <div class="container-contact100-form-btn">
             <button th:type="submit" class="contact100-form-btn" th:form="trimestrialReportGenerator">

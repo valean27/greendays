@@ -2,7 +2,9 @@ package com.greendays.greendays.service;
 
 import com.greendays.greendays.mapper.DailyReportEntityToDailyReportDtoMapper;
 import com.greendays.greendays.model.dto.DailyReportDto;
+import com.greendays.greendays.model.dto.Trimester;
 import com.greendays.greendays.model.totals.MonthlyReportData;
+import com.greendays.greendays.model.totals.TrimestrialReportData;
 import com.greendays.greendays.report.tables.MonthlyReportTables;
 import com.greendays.greendays.report.tables.TrimestrialReportTablesCreator;
 import com.itextpdf.text.*;
@@ -35,7 +37,7 @@ public class PdfReportGenerator {
     @Autowired
     private DailyReportService dailyReportService;
 
-    public ByteArrayInputStream generateTrimestrialPdfReport() {
+    public ByteArrayInputStream generateTrimestrialPdfReport(Trimester trimester) {
         Document document = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         document.addTitle("Raport Lunar");
@@ -57,6 +59,13 @@ public class PdfReportGenerator {
         }
         document.open();
 
+        List<DailyReportDto> dailyReportsOfTheQuarter = dailyReportService.getAllReportsForQuarter(trimester, LocalDate.now().getYear()).stream()
+                .map(DailyReportEntityToDailyReportDtoMapper::mapEntityToDto)
+                .collect(Collectors.toList());
+
+        TrimestrialReportData trimestrialReportData = new TrimestrialReportData(dailyReportsOfTheQuarter, trimester);
+
+
         TrimestrialReportTablesCreator trimestrialReportTablesCreator = new TrimestrialReportTablesCreator();
         try {
 
@@ -65,7 +74,7 @@ public class PdfReportGenerator {
             document.add(new Paragraph("\n"));
             document.add(new Paragraph("\n"));
 
-            trimestrialReportTablesCreator.createFirstReportTable1(document, boldFont, font);
+            trimestrialReportTablesCreator.createFirstReportTable1(document, boldFont, font, trimestrialReportData);
 
             addParagraphToDocument(document, font, "\n");
             addParagraphToDocument(document, boldFont, "Secțiunea I – Aspecte tehnice\n" +
@@ -73,19 +82,19 @@ public class PdfReportGenerator {
             addParagraphToDocument(document, font, "Operatorul delegat prezintă un tabel centralizator privind cantitățile de deșeuri municipale colectate din aria delegării și defalcată pe surse (beneficiari casnici și non-casnici) pentru trimestrul aferent raportului. ");
             addParagraphToDocument(document, boldFont, "Tabel 1: Tabel centralizator deșeuri colectate\n\n\n");
 
-            trimestrialReportTablesCreator.createCentralisingTable2(document, boldFont, font);
+            trimestrialReportTablesCreator.createCentralisingTable2(document, boldFont, font, trimestrialReportData);
             addParagraphToDocument(document, font, "\n");
             addParagraphToDocument(document, font, "Operatorul delegat prezintă tabele privind cantitățile de deșeuri colectate, pe tipuri de deșeuri, pentru trimestrul aferent raportului:\n");
             addParagraphToDocument(document, boldFont, "1.1. Deșeuri reziduale colectate\n" +
                     "1.1.1. Mediul urban:\n" +
                     "Tabel 2: Deșeuri reziduale colectate\n");
-            trimestrialReportTablesCreator.createUrbanEnvTable3(document, boldFont, font);
+            trimestrialReportTablesCreator.createUrbanEnvTable3(document, boldFont, font, trimestrialReportData);
             addParagraphToDocument(document, font, "Notă:\t\t\n" +
                     "* TMB, depozitare\n" +
                     "\n");
             addParagraphToDocument(document, boldFont, "1.1.2. Mediul rural:\n" +
                     "Tabel 3: Deșeuri reziduale colectate \n");
-            trimestrialReportTablesCreator.createRuralEnvTable4(document, boldFont, font);
+            trimestrialReportTablesCreator.createRuralEnvTable4(document, boldFont, font, trimestrialReportData);
             addParagraphToDocument(document, boldFont, "Notă:\t\t\n" +
                     "* TMB, depozitare\n" +
                     "\n" +
@@ -94,26 +103,26 @@ public class PdfReportGenerator {
                     "       1.2. Deșeuri reciclabile colectate\n" +
                     "1.2.1. Mediul urban: \n" +
                     "Tabel 4: Deșeuri reciclabile colectate separat\n");
-            trimestrialReportTablesCreator.createRecyclableUrbanTable5(document, boldFont, font);
+            trimestrialReportTablesCreator.createRecyclableUrbanTable5(document, boldFont, font, trimestrialReportData);
             addParagraphToDocument(document, boldFont, "Notă:\n" +
                     "* stație sortare, depozitare\n" +
                     "\n" +
                     "1.2.2. Mediul rural: \n" +
                     "Tabel 5: Deșeuri reciclabile colectate separat\n");
-            trimestrialReportTablesCreator.createRecyclableRuralTable6(document, boldFont, font);
+            trimestrialReportTablesCreator.createRecyclableRuralTable6(document, boldFont, font, trimestrialReportData);
             addParagraphToDocument(document, boldFont, "Notă:\n" +
                     "* stație sortare, depozitare\n" +
                     "1.3. Alte tipuri de deșeuri colectate\n" +
                     "1.3.1. Mediul urban: \n" +
                     "\n" +
                     "Tabel 6: Alte tipuri de deșeuri colectate\n");
-            trimestrialReportTablesCreator.createUrbanOtherTypesOfGarbageTable7(document, boldFont, font);
+            trimestrialReportTablesCreator.createUrbanOtherTypesOfGarbageTable7(document, boldFont, font, trimestrialReportData);
             addParagraphToDocument(document, boldFont, "Notă:\n" +
                     "* CMID Galda de Jos\n" +
                     "1.3.2. Mediul rural: \n" +
                     "\n" +
                     "Tabel 7: Alte tipuri de deșeuri colectate\n");
-            trimestrialReportTablesCreator.createRuralOtherTypesOfGarbageTable8(document, boldFont, font);
+            trimestrialReportTablesCreator.createRuralOtherTypesOfGarbageTable8(document, boldFont, font, trimestrialReportData);
             addParagraphToDocument(document, boldFont, "\n" +
                     "  Notă:\n" +
                     "* CMID Galda de Jos\n" +
@@ -122,11 +131,11 @@ public class PdfReportGenerator {
                     "\n" +
                     "Tabel 8: Deșeuri predate stației de sortare\n" +
                     "\n");
-            trimestrialReportTablesCreator.createSortingStationTable9(document, boldFont, font);
+            trimestrialReportTablesCreator.createSortingStationTable9(document, boldFont, font, trimestrialReportData);
             addParagraphToDocument(document, boldFont, "\nTabel 9: Deșeuri predate stației de tratare mecano-biologică\n");
-            trimestrialReportTablesCreator.createBioTreatmentTable10(document, boldFont, font);
+            trimestrialReportTablesCreator.createBioTreatmentTable10(document, boldFont, font, trimestrialReportData);
             addParagraphToDocument(document, boldFont, "\nTabel 10: Deșeuri predate depozitului de deșeuri\n");
-            trimestrialReportTablesCreator.createGarbageSubmittedToDepositTable11(document, boldFont, font);
+            trimestrialReportTablesCreator.createGarbageSubmittedToDepositTable11(document, boldFont, font, trimestrialReportData);
             addParagraphToDocument(document, font, "\nOperatorul prezintă situația cantităților de deșeuri colectate din locuri neamenajate/nepermise, precum și a deșeurilor respinse la colectare și cauzele respingerii.\n" +
                     "Operatorul prezintă o listă a tuturor beneficiarilor cu care au un contract de prestări de servicii încheiat.\n" +
                     "\n");
@@ -145,12 +154,12 @@ public class PdfReportGenerator {
                     "Capitolul 5. Redevența și taxa de administrare\n" +
                     "        1. Redevența\n" +
                     "   \n\n   Tabel 10: Calculul și plata redevenței datorate UAT-urilor pentru trimestrul ...\n");
-            trimestrialReportTablesCreator.createTrimestrialUatPaymentTable13(document, boldFont, font);
+            trimestrialReportTablesCreator.createTrimestrialUatPaymentTable13(document, boldFont, font, trimestrialReportData);
 
             addParagraphToDocument(document, boldFont, "        2. Taxa de administrare \n" +
                     "       Tabel 11: Calculul și plata taxei de administrare datorată către ADI Salubris Alba pentru trimestrul ...\n");
 
-            trimestrialReportTablesCreator.createAdiSalubrisPaymentTable12(document, boldFont, font);
+            trimestrialReportTablesCreator.createAdiSalubrisPaymentTable12(document, boldFont, font, trimestrialReportData);
 
             addParagraphToDocument(document, font, "\n" +
                     "       Observații:   (dacă este cazul).\n");

@@ -22,6 +22,7 @@ public class DailyReportDatatablePopulatorController {
         this.dailyReportDtoService = dailyReportDtoService;
     }
 
+    //TEST PURPOSE
     @PostMapping
     public Page<DailyReportDto> list(@RequestBody PagingRequest pagingRequest) {
 //        return garbageService.getMockDataDtos(pagingRequest); //this is the mock service

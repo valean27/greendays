@@ -1,6 +1,7 @@
 package com.greendays.greendays.controller;
 
 import com.greendays.greendays.model.dal.DailyReport;
+import com.greendays.greendays.model.dto.Trimester;
 import com.greendays.greendays.service.PdfReportGenerator;
 import com.greendays.greendays.service.DailyReportService;
 import com.greendays.greendays.service.Quarter;
@@ -34,15 +35,17 @@ public class ReportController {
 
     @RequestMapping(value = "/pdfreport", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<InputStreamResource> trimestrialPdfReport() {
+    public ResponseEntity<InputStreamResource> trimestrialPdfReport(@RequestParam String quarter) {
         var headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=monthlyReport.pdf");
+
+        Trimester trimester = Trimester.valueOf(Integer.parseInt(quarter));
 
         return ResponseEntity
                 .ok()
                 .headers(headers)
                 .contentType(MediaType.APPLICATION_PDF)
-                .body(new InputStreamResource(pdfReportGenerator.generateTrimestrialPdfReport()));
+                .body(new InputStreamResource(pdfReportGenerator.generateTrimestrialPdfReport(trimester)));
     }
 
 
@@ -66,7 +69,7 @@ public class ReportController {
     @ResponseBody
     @RequestMapping(value = "/getForQuarter", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<DailyReport> quarter() {
-       return dailyReportService.getAllReportsForQuarter(Quarter.FIRST_QUARTER, 2022);
+       return dailyReportService.getAllReportsForQuarter(Trimester.I, 2022);
     }
 
 }

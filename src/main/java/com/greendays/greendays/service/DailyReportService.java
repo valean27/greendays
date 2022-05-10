@@ -1,6 +1,7 @@
 package com.greendays.greendays.service;
 
 import com.greendays.greendays.model.dal.DailyReport;
+import com.greendays.greendays.model.dto.Trimester;
 import com.greendays.greendays.repository.DailyReportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,8 +30,8 @@ public class DailyReportService {
         return dailyReportRepository.findAllByDateBetween(Date.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth())), Date.valueOf(LocalDate.now().with(TemporalAdjusters.lastDayOfMonth())));
     }
 
-    public List<DailyReport> getAllReportsForQuarter(Quarter quarter, int year) {
-        return dailyReportRepository.findAllForQuarter(quarter.getMonth1(), quarter.getMonth2(), quarter.getMonth3(), year);
+    public List<DailyReport> getAllReportsForQuarter(Trimester trimester, int year) {
+        return dailyReportRepository.findAllForQuarter(trimester.getMonth1(), trimester.getMonth2(), trimester.getMonth3(), year);
     }
 
     public List<DailyReport> getAllReportsOfMonth(int month, int year) {
