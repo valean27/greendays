@@ -61,7 +61,6 @@
         } else {
             imagineFoaieParcurs.style.visibility = 'hidden';
         }
-        // uploadfoaieParcurs.value = null;
     }
 
     uploadTalonCantarire.onchange = evt => {
@@ -76,10 +75,7 @@
         } else {
             imagineTalonCantarire.style.visibility = 'hidden';
         }
-        // uploadTalonCantarire.value = null;
     }
-        var path = (window.URL || window.webkitURL).createObjectURL(file);
-        console.log('path', path);
 
     removeFoaieParcurs.onmousedown = () => {
         var removeButton = document.getElementById("removeFoaieParcurs");
