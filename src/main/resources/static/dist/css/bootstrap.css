@@ -3102,8 +3102,8 @@ select[multiple].input-lg {
   }
 }
 .btn {
-  display: inline-block;
-  margin-bottom: 0;
+  display: block;
+  margin-bottom: 2px;
   font-weight: normal;
   text-align: center;
   white-space: nowrap;
@@ -3112,7 +3112,6 @@ select[multiple].input-lg {
   touch-action: manipulation;
   cursor: pointer;
   background-image: none;
-  border: 1px solid transparent;
   padding: 6px 12px;
   font-size: 14px;
   line-height: 1.42857143;
@@ -3170,7 +3169,7 @@ fieldset[disabled] a.btn {
 }
 .btn-default:hover {
   color: #333;
-  background-color: #e6e6e6;
+  background-color: transparent;
   border-color: #adadad;
 }
 .btn-default:active,
@@ -3607,13 +3606,14 @@ tbody.collapse.in {
   font-size: 14px;
   text-align: left;
   list-style: none;
-  background-color: #fff;
+  background-color: #fff; /* here */
+  -webkit-background-clip: padding-box;
   background-clip: padding-box;
   border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0,0,0,.15);
   border-radius: 4px;
-  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);
 }
 .dropdown-menu.pull-right {
   right: 0;
@@ -4242,7 +4242,6 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar {
   position: relative;
   min-height: 50px;
-  margin-bottom: 20px;
   border: 1px solid transparent;
 }
 @media (min-width: 768px) {

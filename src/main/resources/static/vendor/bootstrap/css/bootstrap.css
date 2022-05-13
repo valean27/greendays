@@ -2601,7 +2601,7 @@ tbody.collapse.show {
   padding: 0.25rem 1.5rem;
   clear: both;
   font-weight: normal;
-  color: #212529;
+  color: #00ad5f!important;
   text-align: inherit;
   white-space: nowrap;
   background: none;
@@ -3297,6 +3297,7 @@ tbody.collapse.show {
 .navbar-nav .dropdown-menu {
   position: static;
   float: none;
+  border: none;
 }
 
 .navbar-text {

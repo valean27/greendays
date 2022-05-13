@@ -35,10 +35,11 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="header">
     <div class="navbar-header">
-        <span><a class="navbar-brand toplogo" href="#"><img th:src="@{/images/logo.png}"></a></span>
+        <a class="toplogo" th:href="'/'"><img th:src="@{/images/logo.png}"></a>
     </div>
-    <a class="navbar-brand" href="#">Greendays</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" th:href="'/'">Greendays</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -48,14 +49,15 @@
                 <a class="nav-link" th:href="'/'">Acasa <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
                     Rapoarte
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" th:href="dailyReport">Raport Zilnic</a>
-                    <a class="dropdown-item" th:href="monthlyReport">Raport Lunar</a>
-                    <a class="dropdown-item" th:href="trimestrialReport">Raport Trimestrial</a>
-                    <a class="dropdown-item" th:href="anualReport">Raport Anual</a>
+                    <a class="btn btn-default " style="background-color: #00ad5f" th:href="dailyReport">Raport Zilnic</a>
+                    <a class="btn btn-default " style="background-color: #00ad5f" th:href="monthlyReport">Raport Lunar</a>
+                    <a class="btn btn-default " style="background-color: #00ad5f" th:href="trimestrialReport">Raport Trimestrial</a>
+                    <a class="btn btn-default " style="background-color: #00ad5f" th:href="anualReport">Raport Anual</a>
                 </div>
 
             </li>
@@ -63,7 +65,7 @@
                 <a class="nav-link" th:href="'tabelArhiva'">Tabel Arhiva <span class="sr-only"></span></a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link" th:href="pdfreport" id="exportMonthlyReport" role="button" >
+                <a class="nav-link" th:href="pdfreport" id="exportMonthlyReport" role="button">
                     Exporta Raport Lunar
                 </a>
             </li>

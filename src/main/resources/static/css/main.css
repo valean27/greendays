@@ -59,6 +59,8 @@ body, html {
   height : 50px;
   width : 50px;
 }
+
+
 /*---------------------------------------------*/
 a {
 	font-family: Poppins-Regular;
@@ -196,8 +198,9 @@ iframe {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  padding: 15px;
-  background: #e6e6e6;
+  background-image: url('https://i.imgur.com/zgGRzpO.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
   
 }
 
