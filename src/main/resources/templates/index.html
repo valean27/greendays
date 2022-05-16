@@ -1,68 +1,71 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>Contact V5</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->
-	<link rel="icon" type="image/png" th:href="@{/images/icons/favicon.ico}"/>
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{/fonts/font-awesome-4.7.0/css/font-awesome.min.css}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{/fonts/iconic/css/material-design-iconic-font.min.css}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{/vendor/animate/animate.css}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{/vendor/css-hamburgers/hamburgers.min.css}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{/vendor/animsition/css/animsition.min.css}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{/vendor/select2/select2.min.css}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{/vendor/daterangepicker/daterangepicker.css}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{/vendor/noui/nouislider.min.css}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
-	<link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
-	<link rel="stylesheet" type="text/css" th:href="@{/dist/css/bootstrap.css}">
-	<!--===============================================================================================-->
-	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-<!--===============================================================================================-->
+    <title>Contact V5</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" th:href="@{/images/icons/favicon.ico}"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/fonts/font-awesome-4.7.0/css/font-awesome.min.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/fonts/iconic/css/material-design-iconic-font.min.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/animate/animate.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/css-hamburgers/hamburgers.min.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/animsition/css/animsition.min.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/select2/select2.min.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/daterangepicker/daterangepicker.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/noui/nouislider.min.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
+    <link th:href="@{css/layout.css}" rel="stylesheet" type="text/css" media="all">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/dist/css/bootstrap.css}">
+    <!--===============================================================================================-->
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <!--===============================================================================================-->
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
-<div class="container-contact100">
+<div class="container-contact200">
 </div>
 
+<script th:src="@{/js/jquery.easypiechart.min.js}"></script>
 
 <!--===============================================================================================-->
-	<script th:src="@{/vendor/jquery/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/vendor/jquery/jquery-3.2.1.min.js}"></script>
 <!--===============================================================================================-->
-	<script th:src="@{/vendor/animsition/js/animsition.min.js}"></script>
+<script th:src="@{/vendor/animsition/js/animsition.min.js}"></script>
 <!--===============================================================================================-->
-	<script th:src="@{/vendor/bootstrap/js/popper.js}"></script>
-	<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/popper.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
 <!--===============================================================================================-->
-	<script th:src="@{/vendor/select2/select2.min.js}"></script>
-	<script>
+<script th:src="@{/vendor/select2/select2.min.js}"></script>
+<script>
 		$(".js-select2").each(function(){
 			$(this).select2({
 				minimumResultsForSearch: 20,
 				dropdownParent: $(this).next('.dropDownSelect2')
 			});
 		})
-	</script>
+
+</script>
 <!--===============================================================================================-->
-	<script th:src="@{/vendor/daterangepicker/moment.min.js}"></script>
-	<script th:src="@{/vendor/daterangepicker/daterangepicker.js}"></script>
+<script th:src="@{/vendor/daterangepicker/moment.min.js}"></script>
+<script th:src="@{/vendor/daterangepicker/daterangepicker.js}"></script>
 <!--===============================================================================================-->
-	<script th:src="@{/vendor/countdowntime/countdowntime.js}"></script>
+<script th:src="@{/vendor/countdowntime/countdowntime.js}"></script>
 <!--===============================================================================================-->
-	<script th:src="@{/vendor/noui/nouislider.min.js}"></script>
-	<script>
+<script th:src="@{/vendor/noui/nouislider.min.js}"></script>
+<script>
 	    var filterBar = document.getElementById('filter-bar');
 
 	    noUiSlider.create(filterBar, {
@@ -84,9 +87,10 @@
 	        $('.contact100-form-range-value input[name="from-value"]').val($('#value-lower').html());
 	        $('.contact100-form-range-value input[name="to-value"]').val($('#value-upper').html());
 	    });
-	</script>
+
+</script>
 <!--===============================================================================================-->
-	<script th:src="@{/js/main.js}"></script>
+<script th:src="@{/js/main.js}"></script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
@@ -96,7 +100,85 @@
   gtag('js', new Date());
 
   gtag('config', 'UA-23581568-13');
+
 </script>
 
+
+<div class="bgded overlay light" style="background-image:url('images/background.jpeg');">
+    <section id="services" class="hoc container clear">
+        <!-- ################################################################################################ -->
+        <div class="sectiontitle">
+            <h2 class="heading font-x2">Alegeti serviciul dorit</h2>
+        </div>
+        <ul class="nospace group elements elements-three">
+            <li class="one_third">
+                <article><a href="/dailyReport"><i class="fas fa-hourglass-half"></i></a>
+                    <h6 class="heading">Raport Zilnic</h6>
+                    <p>Permite introducerea unui raport de activitate.</p>
+                </article>
+            </li>
+            <li class="one_third">
+                <article><a href="/monthlyReport"><i class="fas fa-paw"></i></a>
+                    <h6 class="heading">Raport Lunar</h6>
+                    <p>Exporta in format PDF raportul lunar pentru perioada aleasa.</p>
+                </article>
+            </li>
+            <li class="one_third">
+                <article><a href="/trimestrialReport"><i class="fas fa-sliders-h"></i></a>
+                    <h6 class="heading">Raport Trimestrial</h6>
+                    <p>Exporta in format PDF raportul trimestrial pentru trimestrul ales.</p>
+                </article>
+            </li>
+            <li class="one_third">
+                <article><a href="anualReport"><i class="fas fa-tty"></i></a>
+                    <h6 class="heading">Raport Anual</h6>
+                    <p>Exporta in format PDF, bazat pe anul ales, un raport anual de activitate.</p>
+                </article>
+            </li>
+            <li class="one_third">
+                <article><a href="tabelArhiva"><i class="fas fa-table"></i></a>
+                    <h6 class="heading">Tabel Arhiva</h6>
+                    <p>Afiseaza intr-un tabel toate rapoartele zilnice introduse de catre operator.</p>
+                </article>
+            </li>
+            <li class="one_third">
+                <article><a href="#"><i class="fas fa-hand-holding-usd"></i></a>
+                    <h6 class="heading">Neimplementat</h6>
+                    <p>Acest feature este inca in lucru.</p>
+                </article>
+            </li>
+        </ul>
+        <!-- ################################################################################################ -->
+    </section>
+</div>
+
+<div class="wrapper row3">
+    <section class="hoc container clear">
+        <!-- ################################################################################################ -->
+        <div class="sectiontitle">
+            <p class="nospace font-xs">Situatia pe luna in curs</p>
+            <h6 class="heading font-x2">Situatia pe luna in curs</h6>
+        </div>
+        <ul class="pr-charts nospace group center">
+            <li class="pr-chart-ctrl" data-animate="false">
+                <div class="pr-chart" data-percent="25"><i></i></div>
+                <p>Porttitor</p>
+            </li>
+            <li class="pr-chart-ctrl" data-animate="false">
+                <div class="pr-chart" data-percent="50"><i></i></div>
+                <p>Condimentum</p>
+            </li>
+            <li class="pr-chart-ctrl" data-animate="false">
+                <div class="pr-chart" data-percent="75"><i></i></div>
+                <p>Sollicitudin</p>
+            </li>
+            <li class="pr-chart-ctrl" data-animate="false">
+                <div class="pr-chart" data-percent="100"><i></i></div>
+                <p>Venenatis</p>
+            </li>
+        </ul>
+        <!-- ################################################################################################ -->
+    </section>
+</div>
 </body>
 </html>
