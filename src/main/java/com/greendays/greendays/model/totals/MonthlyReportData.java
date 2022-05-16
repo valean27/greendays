@@ -38,6 +38,20 @@ public class MonthlyReportData {
                 .collect(Collectors.toList());
     }
 
+
+    public List<DailyReportDto> getGarbageReportsByUatClientTypeGarbageNameAndDestination(String uat, String clientType, String garbageName, String destination) {
+        return dailyReportsFromThisMonth.stream()
+                .filter(report -> report.getGarbageName().equalsIgnoreCase(garbageName) && report.getUat().equalsIgnoreCase(uat) && report.getClientType().equalsIgnoreCase(clientType) && report.getDestination().equalsIgnoreCase(destination))
+                .collect(Collectors.toList());
+    }
+
+    public List<DailyReportDto> getGarbageReportsByClientTypeGarbageNameAndDestination(String clientType, String garbageName, String destination) {
+        return dailyReportsFromThisMonth.stream()
+                .filter(report -> report.getGarbageName().equalsIgnoreCase(garbageName) && report.getClientType().equalsIgnoreCase(clientType) && report.getDestination().equalsIgnoreCase(destination))
+                .collect(Collectors.toList());
+    }
+
+
     public List<DailyReportDto> getGarbageReportsByUatAndGarbageName(String uat, String garbageName) {
         return dailyReportsFromThisMonth.stream()
                 .filter(report -> report.getGarbageName().equalsIgnoreCase(garbageName) && report.getUat().equalsIgnoreCase(uat))
@@ -123,5 +137,83 @@ public class MonthlyReportData {
                 .reduce(0D, Double::sum);
     }
 
+    public Double getTotalForUatClientTypeGarbageNameAndDestination(String uat, String clientType, String garbageName, String destination) {
+        return getGarbageReportsByUatClientTypeGarbageNameAndDestination(uat, clientType, garbageName, destination).stream()
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum);
+    }
+
+    public Double getTotalForClientTypeGarbageNameAndDestination(String clientType, String garbageName, String destination) {
+        return getGarbageReportsByClientTypeGarbageNameAndDestination(clientType, garbageName, destination).stream()
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum);
+    }
+
+    public Double getTotalForClientTypeRecyclableAndDestination(String clientType, String garbageName, String destination) {
+        return dailyReportsFromThisMonth.stream()
+                .filter(report -> report.getGarbageName().equalsIgnoreCase("Sticlă") ||
+                        report.getGarbageName().equalsIgnoreCase("Hârtie și carton") ||
+                        report.getGarbageName().equalsIgnoreCase("Plastic") ||
+                        report.getGarbageName().equalsIgnoreCase("Metal"))
+                .filter(dailyReportDto -> dailyReportDto.getDestination().equalsIgnoreCase(destination))
+                .filter(dailyReportDto -> dailyReportDto.getGarbageName().equalsIgnoreCase(garbageName))
+                .filter(dailyReportDto -> dailyReportDto.getClientType().equalsIgnoreCase(clientType))
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum);
+    }
+
+    public Double getTotalForClientTypeResidualAndDestination(String clientType, String garbageName, String destination) {
+        return dailyReportsFromThisMonth.stream()
+                .filter(report -> report.getGarbageName().equalsIgnoreCase("rezidual"))
+                .filter(dailyReportDto -> dailyReportDto.getDestination().equalsIgnoreCase(destination))
+                .filter(dailyReportDto -> dailyReportDto.getGarbageName().equalsIgnoreCase(garbageName))
+                .filter(dailyReportDto -> dailyReportDto.getClientType().equalsIgnoreCase(clientType))
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum);
+    }
+
+
+    public Double getTotalForGarbageTypeAndDestination(String garbageName, String destination) {
+        return dailyReportsFromThisMonth.stream().filter(dailyReportDto -> dailyReportDto.getDestination().equalsIgnoreCase(destination) && dailyReportDto.getGarbageName().equalsIgnoreCase(garbageName))
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum);
+    }
+
+    public Double getTotalByGarbageName(String garbageName) {
+        return dailyReportsFromThisMonth.stream()
+                .filter(dailyReportDto -> dailyReportDto.getGarbageName().equalsIgnoreCase(garbageName))
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum);
+    }
+
+    public Double getTotalRecyclable() {
+        return dailyReportsFromThisMonth.stream()
+                .filter(report -> (report.getGarbageName().equalsIgnoreCase("Sticlă") ||
+                        report.getGarbageName().equalsIgnoreCase("Hârtie și carton") ||
+                        report.getGarbageName().equalsIgnoreCase("Plastic") ||
+                        report.getGarbageName().equalsIgnoreCase("Metal")))
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum);
+    }
+
+    public Double getTotalRecyclableByDestination(Destination destination) {
+        return dailyReportsFromThisMonth.stream()
+                .filter(report -> (report.getGarbageName().equalsIgnoreCase("Sticlă") ||
+                        report.getGarbageName().equalsIgnoreCase("Hârtie și carton") ||
+                        report.getGarbageName().equalsIgnoreCase("Plastic") ||
+                        report.getGarbageName().equalsIgnoreCase("Metal")) && report.getDestination().equalsIgnoreCase(destination.getDestinationName()))
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum);
+    }
+
+    public Double getTotalOtherTypes() {
+        return dailyReportsFromThisMonth.stream()
+                .filter(report -> (report.getGarbageName().equalsIgnoreCase("Voluminoase") ||
+                        report.getGarbageName().equalsIgnoreCase("Periculoase") ||
+                        report.getGarbageName().equalsIgnoreCase("Abandonate") ||
+                        report.getGarbageName().equalsIgnoreCase("Deșeuri din construcții și demolări")))
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum);
+    }
 
 }

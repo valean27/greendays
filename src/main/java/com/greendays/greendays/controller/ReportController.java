@@ -62,7 +62,7 @@ public class ReportController {
                 .ok()
                 .headers(headers)
                 .contentType(MediaType.APPLICATION_PDF)
-                .body(new InputStreamResource(pdfReportGenerator.generateMonthlyPdfReport(convertedCurrentDate)));
+                .body(new InputStreamResource(pdfReportGenerator.generateMonthlyPdfReports(convertedCurrentDate)));
     }
 
 

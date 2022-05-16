@@ -1,11 +1,17 @@
 package com.greendays.greendays.report.tables;
 
 import com.greendays.greendays.model.dto.DailyReportDto;
+import com.greendays.greendays.model.dto.Destination;
 import com.greendays.greendays.model.totals.MonthlyReportData;
+import com.greendays.greendays.model.totals.TrimestrialReportData;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+
+import static java.lang.String.format;
 import static java.util.Arrays.asList;
 
 public class MonthlyReportTables extends TablesCreatorHelper {
@@ -208,4 +214,448 @@ public class MonthlyReportTables extends TablesCreatorHelper {
         pdfPTable.addCell(innerTable);
         mainTable.addCell(pdfPTable);
     }
+
+    public void createCentralisingTable1(Document document, Font headFont, Font mainFont, MonthlyReportData monthlyReportData) {
+        //todo: add according values
+        try {
+            document.add(new Paragraph("\n"));
+            document.add(new Paragraph("\n"));
+
+
+            PdfPTable mainTable = getCentralisingTable(4);
+
+            addCellToTable(mainTable, "Categorie deșeu", headFont);
+            addCellToTable(mainTable, "Cantitate (tone)", headFont);
+            addCellToTable(mainTable, "Tip beneficiar", headFont);
+            addCellToTable(mainTable, "Destinație", headFont);
+
+            multiplyCodeForGarbageType(garbageType -> {
+                addCellToTable(mainTable, garbageType, mainFont);
+                addTableToTable(mainTable, 4, mainFont, asList(
+                        monthlyReportData.getTotalForClientTypeGarbageNameAndDestination("Casnic", garbageType, Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForClientTypeGarbageNameAndDestination("Casnic", garbageType, Destination.CMID_GALDA.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForClientTypeGarbageNameAndDestination("non-casnic", garbageType, Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForClientTypeGarbageNameAndDestination("non-casnic", garbageType, Destination.CMID_GALDA.getDestinationName()).toString()
+                ));
+                addTableToTable(mainTable, 2, mainFont, asList("Casnici", "Non-Casnici"), getHeightAdjustingConsumer("Casnici", 32));
+
+                if (garbageType.equalsIgnoreCase("rezidual")) {
+                    addTableToTable(mainTable, 4, mainFont, asList("statie transfer", "TMB", "statie transfer", "TMB"));
+                } else {
+                    addTableToTable(mainTable, 4, mainFont, asList("statie transfer", "depozit", "statie transfer", "depozit"));
+                }
+            }, asList("Rezidual", "Hârtie și carton", "Plastic", "Metal", "Sticlă"));
+
+
+            document.add(mainTable);
+
+            addParagraphToDocument(document, headFont, format("total rezidual st. transfer\t %s", monthlyReportData.getTotalForGarbageTypeAndDestination("rezidual", Destination.TRANSFER_STATION.getDestinationName())));
+            addParagraphToDocument(document, headFont, format("total rezidual depozit\t %s", monthlyReportData.getTotalForGarbageTypeAndDestination("rezidual", Destination.CMID_GALDA.getDestinationName())));
+            addParagraphToDocument(document, headFont, format("total plastic st.transfer\t %s", monthlyReportData.getTotalForGarbageTypeAndDestination("plastic", Destination.TRANSFER_STATION.getDestinationName())));
+            addParagraphToDocument(document, headFont, format("total plastic depozit\t %s", monthlyReportData.getTotalForGarbageTypeAndDestination("plastic", Destination.CMID_GALDA.getDestinationName())));
+            addParagraphToDocument(document, headFont, format("total carton st.transfer\t %s", monthlyReportData.getTotalForGarbageTypeAndDestination("Hârtie și carton", Destination.TRANSFER_STATION.getDestinationName())));
+            addParagraphToDocument(document, headFont, format("total carton depozit\t %s", monthlyReportData.getTotalForGarbageTypeAndDestination("Hârtie și carton", Destination.CMID_GALDA.getDestinationName())));
+            addParagraphToDocument(document, headFont, format("total sticla st.transfer\t %s", monthlyReportData.getTotalForGarbageTypeAndDestination("Sticlă", Destination.TRANSFER_STATION.getDestinationName())));
+            addParagraphToDocument(document, headFont, format("total sticla depozit\t %s", monthlyReportData.getTotalForGarbageTypeAndDestination("Sticlă", Destination.CMID_GALDA.getDestinationName())));
+            addParagraphToDocument(document, headFont, format("total rezidual =\t %s", monthlyReportData.getTotalByGarbageName("rezidual")));
+            addParagraphToDocument(document, headFont, format("total plastic =\t %s", monthlyReportData.getTotalByGarbageName("plastic")));
+            addParagraphToDocument(document, headFont, format("total carton =\t %s", monthlyReportData.getTotalByGarbageName("Hârtie și carton")));
+            addParagraphToDocument(document, headFont, format("total sticla =\t %s", monthlyReportData.getTotalByGarbageName("Sticlă")));
+            addParagraphToDocument(document, headFont, format("total reciclabil =\t %s", monthlyReportData.getTotalRecyclable()));
+
+        } catch (Exception e) {
+
+        }
+
+    }
+
+    public void createResidualTable2(Document document, Font headFont, Font mainFont, MonthlyReportData monthlyReportData) {
+        //todo: add according values
+        try {
+            addParagraphToDocument(document, headFont,
+                    "\t\n" +
+                            " Tabel 2 : Deseuri reziduale colectate\t\n" +
+                            "\t");
+
+            PdfPTable mainTable = getCentralisingTable(4);
+
+            addCellToTable(mainTable, "Unitatea administrativ teritoriala", headFont);
+            addCellToTable(mainTable, "Tip beneficiar", headFont);
+            addCellToTable(mainTable, "Cantitate (tone)", headFont);
+            addCellToTable(mainTable, "Destinație", headFont);
+
+            multiplyCodeForGarbageType(uat -> {
+                addCellToTable(mainTable, uat, headFont);
+                addTableToTable(mainTable, 2, mainFont, asList("Casnici", "Non-Casnici"), getHeightAdjustingConsumer("Casnici", 32));
+
+                addTableToTable(mainTable, 4, mainFont, asList(
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Casnic", "rezidual", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Casnic", "rezidual", Destination.CMID_GALDA.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Non-Casnic", "rezidual", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Non-Casnic", "rezidual", Destination.CMID_GALDA.getDestinationName()).toString()
+                ));
+
+                addTableToTable(mainTable, 4, mainFont, asList("statie transfer", "TMB", "statie transfer", "TMB"));
+            }, asList("Blaj", "Crăciunelu de Jos", "Bucerdea Grânoasă", "Șona", "Jidvei", "Cergău", "Cenade", "Cetatea de Baltă", "Roșia de Secaș", "Sâncel", "Valea Lungă"));
+
+
+            document.add(mainTable);
+
+            addParagraphToDocument(document, headFont, format("Total = %s ", monthlyReportData.getTotalByGarbageName("rezidual")));
+
+        } catch (Exception e) {
+
+        }
+
+    }
+
+
+    public void createRecyclableTable3(Document document, Font headFont, Font mainFont, MonthlyReportData monthlyReportData) {
+        //todo: add according values
+        try {
+            addParagraphToDocument(document, headFont,
+                    "\t\n" +
+                            " Tabel 3 : Deseuri reziduale colectate\t\n" +
+                            "\t");
+
+            PdfPTable mainTable = new PdfPTable(5);
+            mainTable.setWidthPercentage(100);
+            mainTable.setWidths(new int[]{4, 4, 4, 4, 4});
+            mainTable.setKeepTogether(true);
+
+            addCellToTable(mainTable, "Unitatea administrativ teritoriala", headFont);
+            addCellToTable(mainTable, "Tip beneficiar", headFont);
+            addCellToTable(mainTable, "Cantitate (tone)", headFont);
+            addCellToTable(mainTable, "Destinație", headFont);
+            addCellToTable(mainTable, "Categorie deseu", headFont);
+
+            multiplyCodeForGarbageType(uat -> {
+                addCellToTable(mainTable, uat, headFont);
+                addTableToTable(mainTable, 2, mainFont, asList("Casnici", "Non-Casnici"), getHeightAdjustingConsumer("Casnici", 32 * 4));
+                addTableToTable(mainTable, 16, mainFont, asList(
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Casnic", "Hârtie și carton", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Casnic", "Plastic", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Casnic", "Metal", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Casnic", "Sticlă", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Casnic", "Hârtie și carton", Destination.CMID_GALDA.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Casnic", "Plastic", Destination.CMID_GALDA.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Casnic", "Metal", Destination.CMID_GALDA.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Casnic", "Sticlă", Destination.CMID_GALDA.getDestinationName()).toString(),
+
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Non-Casnic", "Hârtie și carton", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Non-Casnic", "Plastic", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Non-Casnic", "Metal", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Non-Casnic", "Sticlă", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Non-Casnic", "Hârtie și carton", Destination.CMID_GALDA.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Non-Casnic", "Sticlă", Destination.CMID_GALDA.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Non-Casnic", "Metal", Destination.CMID_GALDA.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Non-Casnic", "Sticlă", Destination.CMID_GALDA.getDestinationName()).toString()
+                ));
+
+                addTableToTable(mainTable, 16, mainFont, asList(
+                        "statie transfer",
+                        "statie transfer",
+                        "statie transfer",
+                        "statie transfer",
+                        "depozit",
+                        "depozit",
+                        "depozit",
+                        "depozit",
+                        "statie transfer",
+                        "statie transfer",
+                        "statie transfer",
+                        "statie transfer",
+                        "depozit",
+                        "depozit",
+                        "depozit",
+                        "depozit"));
+
+                addTableToTable(mainTable, 16, mainFont, asList(
+                        "Hârtie și carton", "Plastic", "Metal", "Sticlă",
+                        "Hârtie și carton", "Plastic", "Metal", "Sticlă",
+                        "Hârtie și carton", "Plastic", "Metal", "Sticlă",
+                        "Hârtie și carton", "Plastic", "Metal", "Sticlă"
+                ));
+            }, asList("Blaj", "Crăciunelu de Jos", "Bucerdea Grânoasă", "Șona", "Jidvei", "Cergău", "Cenade", "Cetatea de Baltă", "Roșia de Secaș", "Sâncel", "Valea Lungă"));
+
+
+            document.add(mainTable);
+
+            addParagraphToDocument(document, headFont, format("Total = %s ", monthlyReportData.getTotalRecyclable()));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void createOtherTypesTable4(Document document, Font headFont, Font mainFont, MonthlyReportData monthlyReportData) {
+        //todo: add according values
+        try {
+            addParagraphToDocument(document, headFont, "\nTabel 4 : Deseuri reziduale colectate");
+
+            PdfPTable mainTable = new PdfPTable(5);
+            mainTable.setWidthPercentage(100);
+            mainTable.setWidths(new int[]{4, 3, 3, 4, 8});
+            mainTable.setKeepTogether(true);
+
+            addCellToTable(mainTable, "Unitatea administrativ teritoriala", headFont);
+            addCellToTable(mainTable, "Tip beneficiar", headFont);
+            addCellToTable(mainTable, "Cantitate (tone)", headFont);
+            addCellToTable(mainTable, "Destinație", headFont);
+            addCellToTable(mainTable, "Categorie deseu", headFont);
+
+
+            multiplyCodeForGarbageType(uat -> {
+                addCellToTable(mainTable, uat, headFont);
+                addTableToTable(mainTable, 2, mainFont, asList("Casnici", "Non-Casnici"), getHeightAdjustingConsumer("Casnici", 32 * 4));
+                addTableToTable(mainTable, 16, mainFont, asList(
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Casnic", "Voluminoase", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Casnic", "Periculoase", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Casnic", "Abandonate", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Casnic", "Deșeuri din construcții și demolări", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Casnic", "Voluminoase", Destination.CMID_GALDA.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Casnic", "Periculoase", Destination.CMID_GALDA.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Casnic", "Abandonate", Destination.CMID_GALDA.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Casnic", "Deșeuri din construcții și demolări", Destination.CMID_GALDA.getDestinationName()).toString(),
+
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Non-Casnic", "Voluminoase", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Non-Casnic", "Periculoase", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Non-Casnic", "Abandonate", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Non-Casnic", "Deșeuri din construcții și demolări", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Non-Casnic", "Voluminoase", Destination.CMID_GALDA.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Non-Casnic", "Periculoase", Destination.CMID_GALDA.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Non-Casnic", "Abandonate", Destination.CMID_GALDA.getDestinationName()).toString(),
+                        monthlyReportData.getTotalForUatClientTypeGarbageNameAndDestination(uat, "Non-Casnic", "Deșeuri din construcții și demolări", Destination.CMID_GALDA.getDestinationName()).toString()
+                ));
+
+                addTableToTable(mainTable, 16, mainFont, asList(
+                        "statie transfer",
+                        "statie transfer",
+                        "statie transfer",
+                        "statie transfer",
+                        "depozit",
+                        "depozit",
+                        "depozit",
+                        "depozit",
+                        "statie transfer",
+                        "statie transfer",
+                        "statie transfer",
+                        "statie transfer",
+                        "depozit",
+                        "depozit",
+                        "depozit",
+                        "depozit"));
+
+
+                addTableToTable(mainTable, 16, mainFont, asList(
+                        "Voluminoase",
+                        "Periculoase",
+                        "Abandonate",
+                        "Deșeuri din construcții și demolări",
+
+                        "Voluminoase",
+                        "Periculoase",
+                        "Abandonate",
+                        "Deșeuri din construcții și demolări",
+
+                        "Voluminoase",
+                        "Periculoase",
+                        "Abandonate",
+                        "Deșeuri din construcții și demolări",
+
+                        "Voluminoase",
+                        "Periculoase",
+                        "Abandonate",
+                        "Deșeuri din construcții și demolări"
+                ));
+
+            }, asList("Blaj", "Crăciunelu de Jos", "Bucerdea Grânoasă", "Șona", "Jidvei", "Cergău", "Cenade", "Cetatea de Baltă", "Roșia de Secaș", "Sâncel", "Valea Lungă"));
+
+
+            document.add(mainTable);
+
+            addParagraphToDocument(document, headFont, format("Total = %s ", monthlyReportData.getTotalOtherTypes()));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public void createTransferStationTable5(Document document, Font headFont, Font mainFont, MonthlyReportData monthlyReportData) {
+        //todo: add according values
+        try {
+            addParagraphToDocument(document, headFont, "\nTabel 5 : Deseuri predate statiei de transfer ");
+
+            document.add(new Paragraph("\n"));
+            document.add(new Paragraph("\n"));
+
+
+            PdfPTable mainTable = getCentralisingTable(4);
+
+            addCellToTable(mainTable, "Denumire statie de transfer", headFont);
+            addCellToTable(mainTable, "Categorie deseu", headFont);
+            addCellToTable(mainTable, "Tip beneficiar", headFont);
+            addCellToTable(mainTable, "Cantitate", headFont);
+
+            addCellToTable(mainTable, "Statie Blaj", headFont);
+
+            addTableToTable(mainTable, 5, mainFont, asList("Rezidual", "Hârtie și carton", "Plastic", "Metal", "Sticlă"), getHeightAdjustingConsumer(32));
+            addTableToTable(mainTable, 10, mainFont, asList("Casnici", "Non-Casnici", "Casnici", "Non-Casnici", "Casnici", "Non-Casnici", "Casnici", "Non-Casnici", "Casnici", "Non-Casnici"));
+            addTableToTable(mainTable, 10, mainFont, asList(
+                    monthlyReportData.getTotalForClientTypeGarbageNameAndDestination("Casnic", "Rezidual", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeGarbageNameAndDestination("non-casnic", "Rezidual", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeGarbageNameAndDestination("Casnic", "Hârtie și carton", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeGarbageNameAndDestination("non-casnic", "Hârtie și carton", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeGarbageNameAndDestination("Casnic", "Plastic", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeGarbageNameAndDestination("non-casnic", "Plastic", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeGarbageNameAndDestination("Casnic", "Metal", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeGarbageNameAndDestination("non-casnic", "Metal", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeGarbageNameAndDestination("Casnic", "Sticlă", Destination.TRANSFER_STATION.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeGarbageNameAndDestination("non-casnic", "Sticlă", Destination.TRANSFER_STATION.getDestinationName()).toString()
+
+            ));
+
+//            multiplyCodeForGarbageType(garbageType -> {
+//                addCellToTable(mainTable, garbageType, mainFont);
+//                addTableToTable(mainTable, 2, mainFont, asList("Casnici", "Non-Casnici"), getHeightAdjustingConsumer("Casnici", 32));
+//                addTableToTable(mainTable, 2, mainFont, asList(
+//                        monthlyReportData.getTotalForClientTypeGarbageNameAndDestination("Casnic", garbageType, Destination.TRANSFER_STATION.getDestinationName()).toString(),
+//                        monthlyReportData.getTotalForClientTypeGarbageNameAndDestination("non-casnic", garbageType, Destination.TRANSFER_STATION.getDestinationName()).toString()
+//                ));
+//
+//            }, asList("Rezidual", "Hârtie și carton", "Plastic", "Metal", "Sticlă"));
+//
+
+            document.add(mainTable);
+
+            addParagraphToDocument(document, headFont, format("total rezidual st. transfer\t %s", monthlyReportData.getTotalForGarbageTypeAndDestination("rezidual", Destination.TRANSFER_STATION.getDestinationName())));
+            addParagraphToDocument(document, headFont, format("total plastic st.transfer\t %s", monthlyReportData.getTotalForGarbageTypeAndDestination("plastic", Destination.TRANSFER_STATION.getDestinationName())));
+            addParagraphToDocument(document, headFont, format("total carton st.transfer\t %s", monthlyReportData.getTotalForGarbageTypeAndDestination("Hârtie și carton", Destination.TRANSFER_STATION.getDestinationName())));
+            addParagraphToDocument(document, headFont, format("total sticla st.transfer\t %s", monthlyReportData.getTotalForGarbageTypeAndDestination("Sticlă", Destination.TRANSFER_STATION.getDestinationName())));
+            addParagraphToDocument(document, headFont, format("total reciclabil statie =\t %s", monthlyReportData.getTotalRecyclableByDestination(Destination.TRANSFER_STATION)));
+
+        } catch (Exception e) {
+
+        }
+
+    }
+
+
+    public void createSortingStationTable6(Document document, Font headFont, Font mainFont, MonthlyReportData monthlyReportData) {
+        //todo: add according values
+        try {
+            document.add(new Paragraph("\n"));
+            addParagraphToDocument(document, headFont, "Tabel 5 : Deseuri predate statiei de sortare ");
+
+
+            PdfPTable mainTable = getCentralisingTable(4);
+
+            addCellToTable(mainTable, "Denumire statie de sortare", headFont);
+            addCellToTable(mainTable, "Categorie deseu", headFont);
+            addCellToTable(mainTable, "Tip beneficiar", headFont);
+            addCellToTable(mainTable, "Cantitate", headFont);
+
+            addCellToTable(mainTable, "Statia Galda de Jos", headFont);
+
+            addTableToTable(mainTable, 5, mainFont, asList("Rezidual", "Hârtie și carton", "Plastic", "Metal", "Sticlă"), getHeightAdjustingConsumer(32));
+            addTableToTable(mainTable, 10, mainFont, asList("Casnici", "Non-Casnici", "Casnici", "Non-Casnici", "Casnici", "Non-Casnici", "Casnici", "Non-Casnici", "Casnici", "Non-Casnici"));
+            addTableToTable(mainTable, 10, mainFont, asList(
+                    monthlyReportData.getTotalForClientTypeRecyclableAndDestination("Casnic", "Rezidual", Destination.CMID_GALDA.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeRecyclableAndDestination("non-casnic", "Rezidual", Destination.CMID_GALDA.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeRecyclableAndDestination("Casnic", "Hârtie și carton", Destination.CMID_GALDA.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeRecyclableAndDestination("non-casnic", "Hârtie și carton", Destination.CMID_GALDA.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeRecyclableAndDestination("Casnic", "Plastic", Destination.CMID_GALDA.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeRecyclableAndDestination("non-casnic", "Plastic", Destination.CMID_GALDA.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeRecyclableAndDestination("Casnic", "Metal", Destination.CMID_GALDA.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeRecyclableAndDestination("non-casnic", "Metal", Destination.CMID_GALDA.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeRecyclableAndDestination("Casnic", "Sticlă", Destination.CMID_GALDA.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeRecyclableAndDestination("non-casnic", "Sticlă", Destination.CMID_GALDA.getDestinationName()).toString()
+
+            ));
+
+            document.add(mainTable);
+
+            addParagraphToDocument(document, headFont, format("total rezidual st. transfer\t %s", monthlyReportData.getTotalForGarbageTypeAndDestination("rezidual", Destination.TRANSFER_STATION.getDestinationName())));
+            addParagraphToDocument(document, headFont, format("total plastic st.transfer\t %s", monthlyReportData.getTotalForGarbageTypeAndDestination("plastic", Destination.TRANSFER_STATION.getDestinationName())));
+            addParagraphToDocument(document, headFont, format("total carton st.transfer\t %s", monthlyReportData.getTotalForGarbageTypeAndDestination("Hârtie și carton", Destination.TRANSFER_STATION.getDestinationName())));
+            addParagraphToDocument(document, headFont, format("total sticla st.transfer\t %s", monthlyReportData.getTotalForGarbageTypeAndDestination("Sticlă", Destination.TRANSFER_STATION.getDestinationName())));
+            addParagraphToDocument(document, headFont, format("total reciclabil statie =\t %s", monthlyReportData.getTotalRecyclableByDestination(Destination.TRANSFER_STATION)));
+
+        } catch (Exception e) {
+
+        }
+
+    }
+
+    public void createDepositTable7(Document document, Font headFont, Font mainFont, MonthlyReportData monthlyReportData) {
+        //todo: add according values
+        try {
+            document.add(new Paragraph("\n"));
+            addParagraphToDocument(document, headFont, "Tabel 8 : Deseuri predate depozitului/depozitelor de deseuri");
+
+
+            PdfPTable mainTable = getCentralisingTable(4);
+
+
+            addCellToTable(mainTable, "Denumire depozit", headFont);
+            addCellToTable(mainTable, "Categorie deseu", headFont);
+            addCellToTable(mainTable, "Tip beneficiar", headFont);
+            addCellToTable(mainTable, "Cantitate", headFont);
+
+            addCellToTable(mainTable, "Galda de Jos", headFont);
+
+            addTableToTable(mainTable, 5, mainFont, asList("Rezidual", "Hârtie și carton", "Plastic", "Metal", "Sticlă"), getHeightAdjustingConsumer(32));
+            addTableToTable(mainTable, 10, mainFont, asList("Casnici", "Non-Casnici", "Casnici", "Non-Casnici", "Casnici", "Non-Casnici", "Casnici", "Non-Casnici", "Casnici", "Non-Casnici"));
+            addTableToTable(mainTable, 10, mainFont, asList(
+                    monthlyReportData.getTotalForClientTypeResidualAndDestination("Casnic", "Rezidual", Destination.CMID_GALDA.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeResidualAndDestination("non-casnic", "Rezidual", Destination.CMID_GALDA.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeResidualAndDestination("Casnic", "Hârtie și carton", Destination.CMID_GALDA.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeResidualAndDestination("non-casnic", "Hârtie și carton", Destination.CMID_GALDA.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeResidualAndDestination("Casnic", "Plastic", Destination.CMID_GALDA.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeResidualAndDestination("non-casnic", "Plastic", Destination.CMID_GALDA.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeResidualAndDestination("Casnic", "Metal", Destination.CMID_GALDA.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeResidualAndDestination("non-casnic", "Metal", Destination.CMID_GALDA.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeResidualAndDestination("Casnic", "Sticlă", Destination.CMID_GALDA.getDestinationName()).toString(),
+                    monthlyReportData.getTotalForClientTypeResidualAndDestination("non-casnic", "Sticlă", Destination.CMID_GALDA.getDestinationName()).toString()
+
+            ));
+
+            document.add(mainTable);
+
+            addParagraphToDocument(document, headFont, format("total rezidual st. transfer\t %s", monthlyReportData.getTotalForGarbageTypeAndDestination("rezidual", Destination.TRANSFER_STATION.getDestinationName())));
+            addParagraphToDocument(document, headFont, format("total plastic st.transfer\t %s", monthlyReportData.getTotalForGarbageTypeAndDestination("plastic", Destination.TRANSFER_STATION.getDestinationName())));
+            addParagraphToDocument(document, headFont, format("total carton st.transfer\t %s", monthlyReportData.getTotalForGarbageTypeAndDestination("Hârtie și carton", Destination.TRANSFER_STATION.getDestinationName())));
+            addParagraphToDocument(document, headFont, format("total sticla st.transfer\t %s", monthlyReportData.getTotalForGarbageTypeAndDestination("Sticlă", Destination.TRANSFER_STATION.getDestinationName())));
+            addParagraphToDocument(document, headFont, format("total reciclabil statie =\t %s", monthlyReportData.getTotalRecyclableByDestination(Destination.TRANSFER_STATION)));
+
+        } catch (Exception e) {
+
+        }
+
+    }
+
+    private BiConsumer<PdfPCell, String> getHeightAdjustingConsumer(String cellContent, int height) {
+        return (cell, string) -> {
+            if (string.equals(cellContent)) {
+                cell.setFixedHeight(height);
+            }
+        };
+    }
+
+
+    private Consumer<PdfPCell> getHeightAdjustingConsumer(int height) {
+        return (cell) -> cell.setFixedHeight(height);
+    }
+
+    private void addParagraphToDocument(Document document, Font font, String phrase) throws DocumentException {
+        document.add(new Paragraph(phrase, font));
+    }
+
 }

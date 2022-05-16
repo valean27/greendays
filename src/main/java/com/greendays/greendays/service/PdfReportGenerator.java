@@ -222,6 +222,7 @@ public class PdfReportGenerator {
 
     }
 
+    @Deprecated
     public ByteArrayInputStream generateMonthlyPdfReport(Date date) {
         Document document = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -322,5 +323,67 @@ public class PdfReportGenerator {
     private void addParagraphToDocument(Document document, Font font, String phrase) throws DocumentException {
         document.add(new Paragraph(phrase, font));
     }
+
+    public ByteArrayInputStream generateMonthlyPdfReports(Date date) {
+        Document document = new Document();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        document.addTitle("Raport Lunar");
+        document.addHeader("header", "Raport Lunar");
+
+        BaseFont bf = null;
+        Font font = null;
+        Font boldFont = null;
+        try {
+            bf = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            BaseFont boldBaseFont = BaseFont.createFont(FONT_BOLD, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            font = new Font(bf);
+            boldFont = new Font(boldBaseFont);
+            PdfWriter.getInstance(document, out);
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        document.open();
+
+        LocalDate localDate = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        List<DailyReportDto> dailyReportDtos = dailyReportService.getAllReportsOfMonth(localDate.getMonthValue(), localDate.getYear()).stream()
+                .map(DailyReportEntityToDailyReportDtoMapper::mapEntityToDto)
+                .collect(Collectors.toList());
+        MonthlyReportData monthlyReportData = new MonthlyReportData(dailyReportDtos, date.getMonth(), date.getYear());
+
+        MonthlyReportTables monthlyReportTables = new MonthlyReportTables();
+
+
+        try {
+            addParagraphToDocument(document, boldFont, "SC GREENDAYS SRL\t\n" +
+                    "BAIA MARE B-UL TRAIAN NR.22A\t\n" +
+                    "J24/1197/2006\t\n" +
+                    "CUI 18903400\t\n" +
+                    "PUNCT DE LUCRU BLAJ\t\n" +
+                    "\t\n" +
+                    "\t\n" +
+                    "\t\n" +
+                    "\t\n" +
+                    " Tabel 1 : Tabel centralizator deseuri colectate\t\n" +
+                    "\t");
+
+
+            monthlyReportTables.createCentralisingTable1(document, boldFont, font, monthlyReportData);
+            monthlyReportTables.createResidualTable2(document, boldFont, font, monthlyReportData);
+            monthlyReportTables.createRecyclableTable3(document, boldFont, font, monthlyReportData);
+            monthlyReportTables.createOtherTypesTable4(document, boldFont, font, monthlyReportData);
+            monthlyReportTables.createTransferStationTable5(document, boldFont, font, monthlyReportData);
+            monthlyReportTables.createSortingStationTable6(document, boldFont, font, monthlyReportData);
+            monthlyReportTables.createDepositTable7(document, boldFont, font, monthlyReportData);
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+
+
+        document.close();
+        return new ByteArrayInputStream(out.toByteArray());
+    }
+
 
 }
