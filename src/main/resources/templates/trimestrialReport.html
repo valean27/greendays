@@ -34,14 +34,14 @@
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
-<div class="container-contact100">
-    <form class="contact100-form validate-form" th:action="pdfreport" th:method="GET" id="trimestrialReportGenerator" enctype="multipart/form-data">
+<div class="container-contact100 d-flex ">
+    <form class="justify-content-center contact100-form validate-form" th:action="pdfreport" th:method="GET" id="trimestrialReportGenerator" enctype="multipart/form-data">
 				<span class="contact100-form-title">
 					Generare Raport Trimestrial An Current
 				</span>
         <div class="wrap-input100 validate-input bg1 rs1-wrap-input100">
             <span class="label-input100">Selecteaza Trimestrul</span>
-            <div>
+            <div class="">
                 <select class="js-select2" name="quarter">
                     <option>1</option>
                     <option>2</option>
