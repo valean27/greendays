@@ -30,22 +30,21 @@
     <link rel="stylesheet" type="text/css" th:href="@{/dist/css/bootstrap.css}">
     <!--===============================================================================================-->
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src='/dist/js/romanian.js' type='text/javascript'></script>
     <!--===============================================================================================-->
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
+
 <div class="container-contact100">
-    <form class="contact100-form validate-form" th:action="pdfMonthlyReport" th:method="GET" id="monthlyReportGenerator" enctype="multipart/form-data">
-				<span class="contact100-form-title">
+    <span class="contact100-form-title">
 					Generare Raport Lunar
 				</span>
-        <div class="wrap-input100 bg1 rs1-wrap-input100">
+    <form class="contact100-form validate-form" th:action="pdfMonthlyReport" th:method="GET" id="monthlyReportGenerator"
+          enctype="multipart/form-data">
+        <div class="bg1 rs1-wrap-input100 ">
             <span class="label-input100">Din Data De</span>
             <input id="fromDate" class="input100" type="date" name="data">
-        </div>
-        <div class="wrap-input100 bg1 rs1-wrap-input100">
-            <span class="label-input100">Pana In Data De</span>
-            <input id="toDate" class="input100" type="date" name="data2">
         </div>
         <div class="container-contact100-form-btn">
             <button th:type="submit" class="contact100-form-btn" th:form="monthlyReportGenerator">
@@ -69,7 +68,7 @@
 <!--===============================================================================================-->
 <script th:src="@{/vendor/select2/select2.min.js}"></script>
 <script>
-    $(".js-select2").each(function(){
+    $(".js-select2").each(function () {
         $(this).select2({
             minimumResultsForSearch: 20,
             dropdownParent: $(this).next('.dropDownSelect2')
@@ -87,7 +86,7 @@
     var filterBar = document.getElementById('filter-bar');
 
     noUiSlider.create(filterBar, {
-        start: [ 1500, 3900 ],
+        start: [1500, 3900],
         connect: true,
         range: {
             'min': 1500,
@@ -100,7 +99,7 @@
         document.getElementById('value-upper')
     ];
 
-    filterBar.noUiSlider.on('update', function( values, handle ) {
+    filterBar.noUiSlider.on('update', function (values, handle) {
         skipValues[handle].innerHTML = Math.round(values[handle]);
         $('.contact100-form-range-value input[name="from-value"]').val($('#value-lower').html());
         $('.contact100-form-range-value input[name="to-value"]').val($('#value-upper').html());
@@ -113,7 +112,11 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
     gtag('js', new Date());
 
     gtag('config', 'UA-23581568-13');

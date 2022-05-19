@@ -33,7 +33,7 @@
     <!--===============================================================================================-->
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="header">
+<nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top" th:fragment="header">
     <div class="navbar-header">
         <a class="toplogo" th:href="'/'"><img th:src="@{/images/logo.PNG}"></a>
     </div>
@@ -53,21 +53,16 @@
                    aria-haspopup="true" aria-expanded="false">
                     Rapoarte
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="btn btn-default " style="background-color: #00ad5f" th:href="dailyReport">Raport Zilnic</a>
-                    <a class="btn btn-default " style="background-color: #00ad5f" th:href="monthlyReport">Raport Lunar</a>
-                    <a class="btn btn-default " style="background-color: #00ad5f" th:href="trimestrialReport">Raport Trimestrial</a>
-                    <a class="btn btn-default " style="background-color: #00ad5f" th:href="anualReport">Raport Anual</a>
+                <div class="dropdown-menu bg-transparent" aria-labelledby="navbarDropdown">
+                    <a class="btn line-item"  th:href="dailyReport">Raport Zilnic</a>
+                    <a class="btn line-item" th:href="monthlyReport">Raport Lunar</a>
+                    <a class="btn line-item"  th:href="trimestrialReport">Raport Trimestrial</a>
+                    <a class="btn line-item"  th:href="anualReport">Raport Anual</a>
                 </div>
 
             </li>
             <li class="nav-item active">
                 <a class="nav-link" th:href="'tabelArhiva'">Tabel Arhiva <span class="sr-only"></span></a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link" th:href="pdfreport" id="exportMonthlyReport" role="button">
-                    Exporta Raport Lunar
-                </a>
             </li>
         </ul>
     </div>

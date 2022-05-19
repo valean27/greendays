@@ -192,6 +192,28 @@ a {
   text-decoration: none;
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
+
+}
+.navbar-item {
+  color: #007bff;
+  text-decoration: none;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+  display: inline-block;
+  font-weight: normal;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.25;
+  border-radius: 0.25rem;
+  transition: all 0.15s ease-in-out;
 }
 
 a:hover {
@@ -2601,11 +2623,15 @@ tbody.collapse.show {
   padding: 0.25rem 1.5rem;
   clear: both;
   font-weight: normal;
-  color: #00ad5f!important;
+  color: #00ad5f;
   text-align: inherit;
   white-space: nowrap;
   background: none;
   border: 0;
+}
+
+.dropdown-item:hover{
+  color: #00ad85;
 }
 
 .dropdown-item:focus, .dropdown-item:hover {

@@ -30,6 +30,10 @@ public class DailyReportService {
         return dailyReportRepository.findAllByDateBetween(Date.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth())), Date.valueOf(LocalDate.now().with(TemporalAdjusters.lastDayOfMonth())));
     }
 
+    public DailyReport getReportById(String id) {
+        return dailyReportRepository.getById(Long.parseLong(id));
+    }
+
     public List<DailyReport> getAllReportsForQuarter(Trimester trimester, int year) {
         return dailyReportRepository.findAllForQuarter(trimester.getMonth1(), trimester.getMonth2(), trimester.getMonth3(), year);
     }

@@ -37,7 +37,6 @@
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <!--===============================================================================================-->
 
-    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
     <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
     <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
     <script th:src="@{assets/datatable/datatables.js}"></script>
@@ -45,7 +44,32 @@
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
-<div class="mr-4 ml-4">
+<div class="mr-4 ml-4" style="display: inline;">
+    <div id="GSCCModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <form th:action="updateNonCasnicQuantity" th:method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Introduceti cantitatea Non-Casnica </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="wrap-input100 bg1 rs1-wrap-input100">
+                            <span class="label-input100">Cantitate Non-Casnica</span>
+                            <input id="cantitateNoncasnica" class="input100" type="text" name="cantitateNoncasnica">
+                        </div>
+                    </div>
+                    <input type="hidden" name="reportId" id="reportId">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Inchide</button>
+                        <button  type="submit" class="btn btn-primary">Salveaza</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="row">
 
         <div class="col-lg-12 mt-5 mb-5">
@@ -77,10 +101,25 @@
     </div>
 </div>
 
+
 <script>
+    $('#tabelRapoarteZilnice').on('click', 'td', function () {
+        var table = $('#tabelRapoarteZilnice').DataTable();
+        var cell = table.cell(this).data();          // returns correct cell data
+        console.log(cell);
+        var row = table.row(this).data();
+        // returns undefined
+        document.getElementById('cantitateNoncasnica').value = row.quantity;
+        document.getElementById('reportId').value = row.id;
+        $('#GSCCModal').modal('toggle');
+        console.log(document.getElementById('reportId').value)
+        console.log(row);
+    })
+
     $('#tabelRapoarteZilnice').DataTable({
         "processing": true,
         "serverSide": true,
+        "responsive": true,
         "ajax": {
             "url": "/garbage",
             "type": "POST",
@@ -112,8 +151,6 @@
 </script>
 
 <!--===============================================================================================-->
-<script th:src="@{/vendor/jquery/jquery-3.2.1.min.js}"></script>
-<!--===============================================================================================-->
 <script th:src="@{/vendor/animsition/js/animsition.min.js}"></script>
 <!--===============================================================================================-->
 <script th:src="@{/vendor/bootstrap/js/popper.js}"></script>
@@ -121,7 +158,7 @@
 <!--===============================================================================================-->
 <script th:src="@{/vendor/select2/select2.min.js}"></script>
 <script>
-    $(".js-select2").each(function(){
+    $(".js-select2").each(function () {
         $(this).select2({
             minimumResultsForSearch: 20,
             dropdownParent: $(this).next('.dropDownSelect2')
@@ -139,7 +176,7 @@
     var filterBar = document.getElementById('filter-bar');
 
     noUiSlider.create(filterBar, {
-        start: [ 1500, 3900 ],
+        start: [1500, 3900],
         connect: true,
         range: {
             'min': 1500,
@@ -152,7 +189,7 @@
         document.getElementById('value-upper')
     ];
 
-    filterBar.noUiSlider.on('update', function( values, handle ) {
+    filterBar.noUiSlider.on('update', function (values, handle) {
         skipValues[handle].innerHTML = Math.round(values[handle]);
         $('.contact100-form-range-value input[name="from-value"]').val($('#value-lower').html());
         $('.contact100-form-range-value input[name="to-value"]').val($('#value-upper').html());
@@ -165,12 +202,15 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
     gtag('js', new Date());
 
     gtag('config', 'UA-23581568-13');
 </script>
-
 
 </body>
 </html>
