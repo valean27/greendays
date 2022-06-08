@@ -17,10 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.sql.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -53,13 +50,13 @@ public class MainController {
     }
 
     @PostMapping("/postDailyReport")
-    public String postDailyReport(@RequestParam MultiValueMap<String, String> paramMap,@RequestParam("foaieParcurs") MultipartFile foaieParcurs, @RequestParam("talonCantarire") MultipartFile talonCantarire, Model model, RedirectAttributes redirectAttributes) {
-        if(!foaieParcurs.isEmpty()){
+    public String postDailyReport(@RequestParam MultiValueMap<String, String> paramMap, @RequestParam("foaieParcurs") MultipartFile foaieParcurs, @RequestParam("talonCantarire") MultipartFile talonCantarire, Model model, RedirectAttributes redirectAttributes) {
+        if (!foaieParcurs.isEmpty()) {
             storageService.store(foaieParcurs);
             redirectAttributes.addFlashAttribute("message",
                     "You successfully uploaded " + foaieParcurs.getOriginalFilename() + "!");
         }
-        if(!talonCantarire.isEmpty()){
+        if (!talonCantarire.isEmpty()) {
             storageService.store(talonCantarire);
             redirectAttributes.addFlashAttribute("message",
                     "You successfully uploaded " + talonCantarire.getOriginalFilename() + "!");
@@ -91,10 +88,15 @@ public class MainController {
         incident.setIncidentType(paramMap.getFirst("incident"));
         incident.setObservations(paramMap.getFirst("observatii"));
         report.setIncident(incident);
-        Garbage garbage = new Garbage();
-        garbage.setGarbageName(paramMap.getFirst("denumireDeseu"));
-        garbage.setGarbageCode(paramMap.getFirst("codDeseu"));
-        report.setGarbage(garbage);
+        Optional<Garbage> garbage = garbageService.getGarbages().stream().filter(garbage1 -> garbage1.getGarbageName().equalsIgnoreCase(paramMap.getFirst("denumireDeseu"))).findFirst();
+        if (garbage.isPresent()) {
+            report.setGarbage(garbage.get());
+        } else {
+            Garbage newGarbage = new Garbage();
+            newGarbage.setGarbageName(paramMap.getFirst("denumireDeseu"));
+            newGarbage.setGarbageCode(paramMap.getFirst("codDeseu"));
+            report.setGarbage(newGarbage);
+        }
         report.setUat(paramMap.getFirst("uat"));
         report.setWeightTalon(paramMap.getFirst("talonCantarire"));
         report.setRouteSheet(paramMap.getFirst("foaieParcurs"));
