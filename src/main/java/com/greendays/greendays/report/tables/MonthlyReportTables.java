@@ -14,6 +14,7 @@ import java.util.function.Consumer;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 
+
 public class MonthlyReportTables extends TablesCreatorHelper {
 
     public void createHeaderTable1(Document document, Font mainFont, Font headFont, String referenceDate, MonthlyReportData monthlyReportData) throws DocumentException {

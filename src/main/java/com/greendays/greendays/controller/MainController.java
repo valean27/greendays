@@ -6,6 +6,7 @@ import com.greendays.greendays.model.dal.Garbage;
 import com.greendays.greendays.model.dal.Incident;
 import com.greendays.greendays.service.*;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -51,22 +53,28 @@ public class MainController {
 
     @PostMapping("/postDailyReport")
     public String postDailyReport(@RequestParam MultiValueMap<String, String> paramMap, @RequestParam("foaieParcurs") MultipartFile foaieParcurs, @RequestParam("talonCantarire") MultipartFile talonCantarire, Model model, RedirectAttributes redirectAttributes) {
+        String talonCantarireAsFullPath = null;
+        String foaieParcursAsFullPath = null;
+
         if (!foaieParcurs.isEmpty()) {
-            storageService.store(foaieParcurs);
+            foaieParcursAsFullPath = "upload-dir/" + LocalDateTime.now() + "." + StringUtils.substringAfter(foaieParcurs.getOriginalFilename(), ".");
+            storageService.store(foaieParcurs, foaieParcursAsFullPath);
             redirectAttributes.addFlashAttribute("message",
                     "You successfully uploaded " + foaieParcurs.getOriginalFilename() + "!");
+
         }
         if (!talonCantarire.isEmpty()) {
-            storageService.store(talonCantarire);
+            talonCantarireAsFullPath = "upload-dir/" +LocalDateTime.now() + "." + StringUtils.substringAfter(talonCantarire.getOriginalFilename(), ".");
+            storageService.store(talonCantarire, talonCantarireAsFullPath);
             redirectAttributes.addFlashAttribute("message",
                     "You successfully uploaded " + talonCantarire.getOriginalFilename() + "!");
+
         }
 
         initializeDailyReportModel(model);
-        String foaieParcursAsFullPath = storageService.load(foaieParcurs.getName()).toString();
-        String talonCantarireAsFullPath = storageService.load(talonCantarire.getName()).toString();
-        paramMap.add("talonCantarire", talonCantarireAsFullPath);
-        paramMap.add("foaieParcurs", foaieParcursAsFullPath);
+
+        paramMap.add("talonCantarire", talonCantarireAsFullPath == null ? "" : talonCantarireAsFullPath);
+        paramMap.add("foaieParcurs", foaieParcursAsFullPath == null ? "" : foaieParcursAsFullPath);
         DailyReport report = populateReportFromParamMap(paramMap);
         String result = dailyReportService.postDailyReport(report);
         model.addAttribute("result", result);

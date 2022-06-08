@@ -1,31 +1,50 @@
 package com.greendays.greendays.service.scheduled;
 
+import com.greendays.greendays.mapper.DailyReportEntityToDailyReportDtoMapper;
+import com.greendays.greendays.model.dto.DailyReportDto;
+import com.greendays.greendays.repository.DailyReportRepository;
+import com.greendays.greendays.service.DailyReportService;
 import com.greendays.greendays.service.PdfReportGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Component
 @Slf4j
 @RequiredArgsConstructor
 public class MonthlyReportScheduler {
     private final PdfReportGenerator pdfReportGenerator;
+    private final DailyReportService dailyReportService;
 
     //TESTINGPURPOSE
-//    @Scheduled(fixedDelay = 1000)
+//    @Scheduled(initialDelay = 30000, fixedDelay = 60000)
     @Scheduled(cron = "0 0 7 3 * *")
     public void generateAndStoreMonthlyReport() {
+
         LocalDate localDate = LocalDate.now();
+        List<DailyReportDto> dailyReportDtos = dailyReportService.getAllReportsOfMonth(localDate.getMonthValue(), localDate.getYear()).stream()
+                .map(DailyReportEntityToDailyReportDtoMapper::mapEntityToDto)
+                .collect(Collectors.toList());
+
+
         log.info("Generare raport lunar pentru {}", localDate);
         Date date = Date.from(localDate.atStartOfDay()
                 .atZone(ZoneId.systemDefault())
@@ -36,7 +55,29 @@ public class MonthlyReportScheduler {
         if (!folder.exists()) {
             folder.mkdir();
         }
-        File file = new File("src/main/resources/arhiva/" + folder.getName()+ "/" + localDate + "_greendays-raport-lunar-activitate.pdf");
+
+        dailyReportDtos.stream()
+                .filter(dailyReportDto -> !isBlank(dailyReportDto.getWeightTalon()))
+                .forEach(weightTalons -> {
+                    try {
+                        Files.copy(Paths.get(weightTalons.getWeightTalon()), Paths.get(folder.getAbsolutePath() + "/" + StringUtils.remove(weightTalons.getWeightTalon(),"upload-dir/")));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+
+        dailyReportDtos.stream()
+                .filter(dailyReportDto -> !isBlank(dailyReportDto.getRouteSheet()))
+                .forEach(routeSheet -> {
+                    try {
+                        Files.copy(Paths.get(routeSheet.getRouteSheet()), Paths.get(folder.getAbsolutePath()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+
+
+        File file = new File("src/main/resources/arhiva/" + folder.getName() + "/" + localDate + "_greendays-raport-lunar-activitate.pdf");
 
         try {
             file.createNewFile();
