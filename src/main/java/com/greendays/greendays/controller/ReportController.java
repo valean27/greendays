@@ -24,11 +24,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -78,12 +88,12 @@ public class ReportController {
         report.setQuantity(report.getQuantity() - Double.parseDouble(Objects.requireNonNull(paramMap.getFirst("cantitateNoncasnica"))));
         dailyReportService.postDailyReport(report);
         Double newQuantity = (Double.valueOf(Objects.requireNonNull(paramMap.getFirst("cantitateNoncasnica"))));
-        DailyReport newReport =  getUpdatedReportFromReport(report, newQuantity);
+        DailyReport newReport = getUpdatedReportFromReport(report, newQuantity);
         dailyReportService.postDailyReport(newReport);
         return "redirect:tabelArhiva";
     }
 
-    public DailyReport getUpdatedReportFromReport(DailyReport dailyReport, Double quantity){
+    public DailyReport getUpdatedReportFromReport(DailyReport dailyReport, Double quantity) {
         DailyReport report = new DailyReport();
         Client client = new Client();
         client.setClientType("Non-Casnic");
@@ -115,4 +125,32 @@ public class ReportController {
         return dailyReportService.getAllReportsForQuarter(Trimester.I, 2022);
     }
 
+
+    @ResponseBody
+    @RequestMapping(value = "/zip", produces = "application/zip", method = RequestMethod.GET)
+    public ResponseEntity<InputStreamResource> getMonthlyReportFilesAsZip(@RequestParam String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date convertedCurrentDate = sdf.parse(date);
+            LocalDate localDate = Instant.ofEpochMilli(convertedCurrentDate.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+
+            Optional<Path> optionalPath = Files.list(Paths.get("src/main/resources/zipuri"))
+                    .filter(path -> path.toString().startsWith("src/main/resources/zipuri/" + localDate.getYear() + "-" + (localDate.getMonthValue() > 9 ? localDate.getMonthValue() : "0" + localDate.getMonthValue())))
+                            .findFirst();
+
+            if (optionalPath.isPresent()) {
+                return ResponseEntity.ok()
+                        .header("Content-Disposition", "attachment;filename=" + optionalPath.get().getFileName().toString())
+                        .header("Content-Type", "application/octet-stream")
+                        .body(new InputStreamResource(new ByteArrayInputStream(Files.readAllBytes(optionalPath.get()))));
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
