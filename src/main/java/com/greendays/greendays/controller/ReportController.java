@@ -4,11 +4,9 @@ import com.greendays.greendays.model.dal.Client;
 import com.greendays.greendays.model.dal.DailyReport;
 import com.greendays.greendays.model.dal.Garbage;
 import com.greendays.greendays.model.dal.Incident;
-import com.greendays.greendays.model.dto.DailyReportDto;
 import com.greendays.greendays.model.dto.Trimester;
 import com.greendays.greendays.service.PdfReportGenerator;
 import com.greendays.greendays.service.DailyReportService;
-import com.greendays.greendays.service.Quarter;
 import lombok.RequiredArgsConstructor;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -38,12 +35,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
 public class ReportController {
 
+    private static final String SAVE_VALUE = "Salveaza";
+    private static final String DELETE_VALUE = "Sterge Raport";
     @Autowired
     DailyReportService dailyReportService;
 
@@ -82,14 +80,21 @@ public class ReportController {
                 .body(new InputStreamResource(pdfReportGenerator.generateMonthlyPdfReports(convertedCurrentDate)));
     }
 
-    @RequestMapping(value = "/updateNonCasnicQuantity", method = RequestMethod.POST)
-    public String updateNonCasnicQuantity(@RequestParam MultiValueMap<String, String> paramMap) throws ParseException {
-        DailyReport report = dailyReportService.getReportById(paramMap.getFirst("reportId"));
-        report.setQuantity(report.getQuantity() - Double.parseDouble(Objects.requireNonNull(paramMap.getFirst("cantitateNoncasnica"))));
-        dailyReportService.postDailyReport(report);
-        Double newQuantity = (Double.valueOf(Objects.requireNonNull(paramMap.getFirst("cantitateNoncasnica"))));
-        DailyReport newReport = getUpdatedReportFromReport(report, newQuantity);
-        dailyReportService.postDailyReport(newReport);
+    @RequestMapping(value = "/updateArchiveTable", method = RequestMethod.POST)
+    public String updateNonCasnicQuantity(@RequestParam MultiValueMap<String, String> paramMap) {
+
+        if (DELETE_VALUE.equals(paramMap.getFirst("modalButton"))) {
+            long reportId = Long.parseLong(Objects.requireNonNull(paramMap.getFirst("reportId")));
+            dailyReportService.deleteReport(reportId);
+        } else {
+            DailyReport report = dailyReportService.getReportById(paramMap.getFirst("reportId"));
+            report.setQuantity(report.getQuantity() - Double.parseDouble(Objects.requireNonNull(paramMap.getFirst("cantitateNoncasnica"))));
+            dailyReportService.postDailyReport(report);
+            Double newQuantity = (Double.valueOf(Objects.requireNonNull(paramMap.getFirst("cantitateNoncasnica"))));
+            DailyReport newReport = getUpdatedReportFromReport(report, newQuantity);
+            dailyReportService.postDailyReport(newReport);
+        }
+
         return "redirect:tabelArhiva";
     }
 
@@ -136,7 +141,7 @@ public class ReportController {
 
             Optional<Path> optionalPath = Files.list(Paths.get("src/main/resources/zipuri"))
                     .filter(path -> path.toString().startsWith("src/main/resources/zipuri/" + localDate.getYear() + "-" + (localDate.getMonthValue() > 9 ? localDate.getMonthValue() : "0" + localDate.getMonthValue())))
-                            .findFirst();
+                    .findFirst();
 
             if (optionalPath.isPresent()) {
                 return ResponseEntity.ok()

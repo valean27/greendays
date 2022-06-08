@@ -48,7 +48,7 @@
     <div id="GSCCModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
-            <form th:action="updateNonCasnicQuantity" th:method="post" enctype="multipart/form-data">
+            <form th:action="updateArchiveTable" th:method="post" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -63,7 +63,10 @@
                     <input type="hidden" name="reportId" id="reportId">
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Inchide</button>
-                        <button  type="submit" class="btn btn-primary">Salveaza</button>
+                        <input  type="submit" name="modalButton" value="Salveaza" class="btn btn-primary">
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" name="modalButton" value="Sterge Raport" class="btn btn-primary btn-danger">
                     </div>
                 </div>
             </form>

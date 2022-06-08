@@ -42,4 +42,13 @@ public class DailyReportService {
         return dailyReportRepository.findAllForMonth(month, year);
     }
 
+    public String deleteReport(long reportId){
+        try{
+            dailyReportRepository.deleteById(reportId);
+        }catch (Exception e){
+            return "Raportul nu a putut fi sters";
+        }
+        return "Raportul a fost sters";
+    }
+
 }
