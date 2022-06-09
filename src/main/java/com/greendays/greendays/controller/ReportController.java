@@ -4,6 +4,7 @@ import com.greendays.greendays.model.dal.Client;
 import com.greendays.greendays.model.dal.DailyReport;
 import com.greendays.greendays.model.dal.Garbage;
 import com.greendays.greendays.model.dal.Incident;
+import com.greendays.greendays.model.dto.Statistics;
 import com.greendays.greendays.model.dto.Trimester;
 import com.greendays.greendays.service.PdfReportGenerator;
 import com.greendays.greendays.service.DailyReportService;
@@ -31,10 +32,8 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -158,4 +157,22 @@ public class ReportController {
 
         return null;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/getArchive", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<String> getArchive() {
+        try {
+            return Files.list(Paths.get("src/main/resources/zipuri")).map(Path::getFileName).map(Path::toString).collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/getStatistics", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Statistics> getStatistics(){
+   return null;
+    }
+
+
 }
