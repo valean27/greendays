@@ -6,6 +6,7 @@ import com.greendays.greendays.model.dal.DailyReport;
 import com.greendays.greendays.model.dal.Garbage;
 import com.greendays.greendays.model.dal.Incident;
 import com.greendays.greendays.model.dto.DailyReportDto;
+import com.greendays.greendays.model.dto.File;
 import com.greendays.greendays.model.dto.Statistics;
 import com.greendays.greendays.model.dto.Trimester;
 import com.greendays.greendays.model.totals.MonthlyReportData;
@@ -31,6 +32,8 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -164,9 +167,22 @@ public class ReportController {
 
     @ResponseBody
     @RequestMapping(value = "/getArchive", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<String> getArchive() {
+    public List<File> getArchive() {
         try {
-            return Files.list(Paths.get("src/main/resources/zipuri")).map(Path::getFileName).map(Path::toString).collect(Collectors.toList());
+
+            return Files.list(Paths.get("src/main/resources/zipuri")).map(path -> {
+                File file = new File();
+                file.setFileName(path.getFileName().toString());
+                try {
+                    file.setSize(Files.size(path));
+                    BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
+                    FileTime fileTime = attr.creationTime();
+                    file.setDate(fileTime.toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return file;
+            }).collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
