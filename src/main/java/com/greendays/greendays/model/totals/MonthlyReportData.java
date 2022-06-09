@@ -31,7 +31,6 @@ public class MonthlyReportData {
                 .collect(Collectors.toList());
     }
 
-
     public List<DailyReportDto> getGarbageReportsByUatClientTypeAndGarbageName(String uat, String clientType, String garbageName) {
         return dailyReportsFromThisMonth.stream()
                 .filter(report -> report.getGarbageName().equalsIgnoreCase(garbageName) && report.getUat().equalsIgnoreCase(uat) && report.getClientType().equalsIgnoreCase(clientType))
@@ -214,6 +213,10 @@ public class MonthlyReportData {
                         report.getGarbageName().equalsIgnoreCase("Deșeuri din construcții și demolări")))
                 .map(DailyReportDto::getQuantity)
                 .reduce(0D, Double::sum);
+    }
+
+    public Double getTotal() {
+        return dailyReportsFromThisMonth.stream().map(DailyReportDto::getQuantity).reduce(0D, Double::sum);
     }
 
 }

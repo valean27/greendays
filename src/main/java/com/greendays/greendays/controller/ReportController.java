@@ -1,11 +1,14 @@
 package com.greendays.greendays.controller;
 
+import com.greendays.greendays.mapper.DailyReportEntityToDailyReportDtoMapper;
 import com.greendays.greendays.model.dal.Client;
 import com.greendays.greendays.model.dal.DailyReport;
 import com.greendays.greendays.model.dal.Garbage;
 import com.greendays.greendays.model.dal.Incident;
+import com.greendays.greendays.model.dto.DailyReportDto;
 import com.greendays.greendays.model.dto.Statistics;
 import com.greendays.greendays.model.dto.Trimester;
+import com.greendays.greendays.model.totals.MonthlyReportData;
 import com.greendays.greendays.service.PdfReportGenerator;
 import com.greendays.greendays.service.DailyReportService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -170,8 +174,21 @@ public class ReportController {
 
     @ResponseBody
     @RequestMapping(value = "/getStatistics", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Statistics> getStatistics(){
-   return null;
+    public ResponseEntity<Statistics> getStatistics() {
+        LocalDate localDate = LocalDate.now();
+        List<DailyReportDto> dailyReportDtos = dailyReportService.getAllReportsOfMonth(localDate.getMonthValue(), localDate.getYear()).stream()
+                .map(DailyReportEntityToDailyReportDtoMapper::mapEntityToDto)
+                .collect(Collectors.toList());
+        MonthlyReportData monthlyReportData = new MonthlyReportData(dailyReportDtos, localDate.getMonthValue(), localDate.getYear());
+
+        Statistics statistics = new Statistics();
+
+        statistics.setNumberOfReports(dailyReportDtos.size());
+        statistics.setReciclable(BigDecimal.valueOf(monthlyReportData.getTotalRecyclable()));
+        statistics.setResiduals(BigDecimal.valueOf(monthlyReportData.getTotalByGarbageName("Rezidual")));
+        statistics.setTotal(BigDecimal.valueOf(monthlyReportData.getTotal()));
+        return ResponseEntity.ok(statistics);
+
     }
 
 
