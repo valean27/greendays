@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Contact V5</title>
     <meta charset="UTF-8">
@@ -103,6 +103,25 @@
 
 </script>
 
+<script th:type="module">
+    $(document).ready(function(){
+        $.ajax({
+            url: "/getStatistics",
+            type: 'GET',
+            dataType: 'json', // added data type
+            success: function(data) {
+                console.log(data.numberOfReports);
+                $("#dailyReportChart").attr("data-percent", data.numberOfReports.toString());
+                $("#rezidualChart").attr("data-percent", data.residuals.toString());
+                $("#recyclableChart").attr("data-percent", data.reciclable.toString());
+                $("#totalChart").attr("data-percent", data.total.toString());
+            },
+            error: function (){
+                alert("Something went wrong");
+            }
+        });
+    });
+</script>
 
 <div class="bgded overlay light" style="background-image:url('images/background.jpeg');">
     <section id="services" class="hoc container clear">
@@ -142,9 +161,9 @@
                 </article>
             </li>
             <li class="one_third">
-                <article><a href="#"><i class="fas fa-hand-holding-usd"></i></a>
-                    <h6 class="heading">Neimplementat</h6>
-                    <p>Acest feature este inca in lucru.</p>
+                <article><a href="reportsArchive"><i class="fas fa-hand-holding-usd"></i></a>
+                    <h6 class="heading">Arhiva Rapoarte</h6>
+                    <p>Afiseaza toate rapoartele lunare si trimestriale din arhiva</p>
                 </article>
             </li>
         </ul>
@@ -152,7 +171,7 @@
     </section>
 </div>
 
-<div class="wrapper row3">
+<div id="statisticsDiv" class="wrapper row3" >
     <section class="hoc container clear">
         <!-- ################################################################################################ -->
         <div class="sectiontitle">
@@ -161,19 +180,19 @@
         </div>
         <ul class="pr-charts nospace group center">
             <li class="pr-chart-ctrl" data-animate="false">
-                <div class="pr-chart" data-percent="25"><i></i></div>
+                <div class="pr-chart" id="dailyReportChart" ><i></i></div>
                 <p>Rapoarte Zilnice</p>
             </li>
             <li class="pr-chart-ctrl" data-animate="false">
-                <div class="pr-chart" data-percent="50"><i></i></div>
+                <div class="pr-chart" id="rezidualChart"><i></i></div>
                 <p>Reziduale</p>
             </li>
             <li class="pr-chart-ctrl" data-animate="false">
-                <div class="pr-chart" data-percent="75"><i></i></div>
+                <div class="pr-chart" id="recyclableChart" ><i></i></div>
                 <p>Reciclabile</p>
             </li>
             <li class="pr-chart-ctrl" data-animate="false">
-                <div class="pr-chart" data-percent="100"><i></i></div>
+                <div class="pr-chart" id="totalChart"><i></i></div>
                 <p>Total</p>
             </li>
         </ul>

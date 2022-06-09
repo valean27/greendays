@@ -4,6 +4,7 @@ import com.greendays.greendays.model.dal.Client;
 import com.greendays.greendays.model.dal.DailyReport;
 import com.greendays.greendays.model.dal.Garbage;
 import com.greendays.greendays.model.dal.Incident;
+import com.greendays.greendays.model.dto.File;
 import com.greendays.greendays.service.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -64,7 +69,7 @@ public class MainController {
 
         }
         if (!talonCantarire.isEmpty()) {
-            talonCantarireAsFullPath = "upload-dir/" +LocalDateTime.now() + "." + StringUtils.substringAfter(talonCantarire.getOriginalFilename(), ".");
+            talonCantarireAsFullPath = "upload-dir/" + LocalDateTime.now() + "." + StringUtils.substringAfter(talonCantarire.getOriginalFilename(), ".");
             storageService.store(talonCantarire, talonCantarireAsFullPath);
             redirectAttributes.addFlashAttribute("message",
                     "You successfully uploaded " + talonCantarire.getOriginalFilename() + "!");
@@ -137,6 +142,32 @@ public class MainController {
         model.addAttribute("name", name);
         return "anualReport";
     }
+
+    @GetMapping("/reportsArchive")
+    public String reportsArchive(@RequestParam(name = "name", required = false, defaultValue = "Stefan") String name, Model model) {
+        try {
+            List<File> files = Files.list(Paths.get("src/main/resources/zipuri")).map(path -> {
+                com.greendays.greendays.model.dto.File file = new File();
+                file.setFileName(path.getFileName().toString());
+                try {
+                    file.setSize(Files.size(path));
+                    BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
+                    FileTime fileTime = attr.creationTime();
+                    file.setDate(fileTime.toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return file;
+            }).collect(Collectors.toList());
+            model.addAttribute("files", files);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        model.addAttribute("name", name);
+
+        return "reportsArchive";
+    }
+
 
     @GetMapping("/tabelArhiva")
     public String archiveTable(@RequestParam(name = "name", required = false, defaultValue = "Stefan") String name, Model model) {

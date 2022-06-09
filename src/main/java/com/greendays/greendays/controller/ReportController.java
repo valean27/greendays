@@ -14,6 +14,7 @@ import com.greendays.greendays.service.PdfReportGenerator;
 import com.greendays.greendays.service.DailyReportService;
 import lombok.RequiredArgsConstructor;
 import lombok.var;
+import org.apache.commons.io.FileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -21,14 +22,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -138,15 +138,15 @@ public class ReportController {
 
 
     @ResponseBody
-    @RequestMapping(value = "/zip", produces = "application/zip", method = RequestMethod.GET)
-    public ResponseEntity<InputStreamResource> getMonthlyReportFilesAsZip(@RequestParam String date) {
+    @RequestMapping(value = "/zip/{date}", produces = "application/zip", method = RequestMethod.GET)
+    public ResponseEntity<InputStreamResource> getMonthlyReportFilesAsZip(@PathVariable String date) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date convertedCurrentDate = sdf.parse(date);
             LocalDate localDate = Instant.ofEpochMilli(convertedCurrentDate.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
 
             Optional<Path> optionalPath = Files.list(Paths.get("src/main/resources/zipuri"))
-                    .filter(path -> path.toString().startsWith("src/main/resources/zipuri/" + localDate.getYear() + "-" + (localDate.getMonthValue() > 9 ? localDate.getMonthValue() : "0" + localDate.getMonthValue())))
+                    .filter(path -> path.toString().startsWith("src" + FileSystems.getDefault().getSeparator() + "main" + FileSystems.getDefault().getSeparator() + "resources" + FileSystems.getDefault().getSeparator() + "zipuri" + FileSystems.getDefault().getSeparator() + localDate.getYear() + "-" + (localDate.getMonthValue() > 9 ? localDate.getMonthValue() : "0" + localDate.getMonthValue())))
                     .findFirst();
 
             if (optionalPath.isPresent()) {
