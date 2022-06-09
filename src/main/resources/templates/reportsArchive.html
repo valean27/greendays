@@ -34,24 +34,64 @@
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
-<div class="container-contact100">
-    <div class="form-horizontal">
-        <ul class="list-group list-group-light">
-            <li class="list-group-item d-flex justify-content-between align-items-center" th:each="file: ${files}">
-                <div class="d-flex align-items-center">
-                    <img th:src="@{/images/icons/zip.ico}" alt="" style="width: 45px; height: 45px; margin:5px"
-                         class="rounded-circle"/>
-                    <div class="ms-3">
-                        <a th:href="@{/zip/{fileDate}(fileDate=${file.date})}" class="fw-bold mb-1"
-                           th:text="${file.fileName}"/>
-                        <section class="text-muted mb-0" th:text="${file.date}"></section>
-                    </div>
-                </div>
-            </li>
-        </ul>
+<div class="container-contact1997">
+    <div class="form-horizontal" style="width: 1200px;">
+        <table class="table">
+            <thead class="table-secondary">
+            <tr>
+                <th scope="col">Raport</th>
+                <th scope="col">Data</th>
+                <!--            <th scope="col">Actiuni</th>-->
+            </tr>
+            <tbody>
+            <tr th:each="file : ${files}">
+                <th scope="row"><img th:src="@{/images/icons/zip.ico}" alt="" style="width: 45px; height: 45px; margin:5px"
+                                     class="rounded-circle"/>
+                    <span class="ms-3">
+                    <a th:href="@{/zip/{fileDate}(fileDate=${file.date})}" class="fw-bold mb-1"
+                       th:text="${file.fileName}"/>
+                </span>
+                </th>
+                <td>
+                    <section class="text-muted mb-0" th:text="${file.date}"></section>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
+
+
+    <!--    <div class="form-horizontal">-->
+<!--        <ul class="list-group list-group-light">-->
+<!--            <li class="list-group-item d-flex justify-content-between align-items-center" th:each="file: ${files}">-->
+<!--                <div class="d-flex align-items-center">-->
+<!--                    <img th:src="@{/images/icons/zip.ico}" alt="" style="width: 45px; height: 45px; margin:5px"-->
+<!--                         class="rounded-circle"/>-->
+<!--                    <div class="ms-3">-->
+<!--                        <a th:href="@{/zip/{fileDate}(fileDate=${file.date})}" class="fw-bold mb-1"-->
+<!--                           th:text="${file.fileName}"/>-->
+<!--                        <section class="text-muted mb-0" th:text="${file.date}"></section>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--</div>-->
 </div>
 
+
+<!--            <li class="list-group-item d-flex justify-content-between align-items-center" th:each="file: ${files}">-->
+<!--                <div class="d-flex align-items-center">-->
+<!--                    <img th:src="@{/images/icons/zip.ico}" alt="" style="width: 45px; height: 45px; margin:5px"-->
+<!--                         class="rounded-circle"/>-->
+<!--                    <div class="ms-3">-->
+<!--                        <a th:href="@{/zip/{fileDate}(fileDate=${file.date})}" class="fw-bold mb-1"-->
+<!--                           th:text="${file.fileName}"/>-->
+<!--                        <section class="text-muted mb-0" th:text="${file.date}"></section>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </li>-->
+</div>
 
 <!--===============================================================================================-->
 <script th:src="@{/vendor/jquery/jquery-3.2.1.min.js}"></script>
@@ -69,6 +109,7 @@
             dropdownParent: $(this).next('.dropDownSelect2')
         });
     })
+
 </script>
 <!--===============================================================================================-->
 <script th:src="@{/vendor/daterangepicker/moment.min.js}"></script>
@@ -99,6 +140,7 @@
         $('.contact100-form-range-value input[name="from-value"]').val($('#value-lower').html());
         $('.contact100-form-range-value input[name="to-value"]').val($('#value-upper').html());
     });
+
 </script>
 <!--===============================================================================================-->
 <script th:src="@{/js/main.js}"></script>
@@ -115,6 +157,7 @@
     gtag('js', new Date());
 
     gtag('config', 'UA-23581568-13');
+
 </script>
 
 </body>
