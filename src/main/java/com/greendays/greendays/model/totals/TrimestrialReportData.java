@@ -100,6 +100,13 @@ public class TrimestrialReportData {
                 .reduce(0D, Double::sum);
     }
 
+    public Double getTotalByUatGarbageNameAndDestination(String uat, String garbageName, Destination destination) {
+        return dailyReportsThisTrimester.stream()
+                .filter(dailyReportDto -> dailyReportDto.getUat().equalsIgnoreCase(uat) && dailyReportDto.getGarbageName().equalsIgnoreCase(garbageName))
+                .filter(dailyReportDto -> dailyReportDto.getDestination().equalsIgnoreCase(destination.getDestinationName()))
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum);
+    }
 
     public Double getTotalByClientTypeAndGarbageName(String clientType, String garbageName) {
         return getReportsByClientTypeAndGarbageName(clientType, garbageName)
@@ -122,4 +129,149 @@ public class TrimestrialReportData {
                 .map(DailyReportDto::getQuantity)
                 .reduce(0D, Double::sum);
     }
+
+    public Object getTotalByClientTypeDestinationAndRecyclableOrRezidual(String clientType, Destination transferStation) {
+        return dailyReportsThisTrimester.stream()
+                .filter(dailyReportDto -> isRecyclable(dailyReportDto))
+                .filter(dailyReportDto -> dailyReportDto.getClientType().equalsIgnoreCase(clientType))
+                .filter(dailyReportDto -> dailyReportDto.getDestination().equalsIgnoreCase(transferStation.getDestinationName()))
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum);
+    }
+
+    private boolean isRecyclable(DailyReportDto dailyReportDto) {
+        return dailyReportDto.getGarbageName().equalsIgnoreCase("Hârtie și carton") ||
+                dailyReportDto.getGarbageName().equalsIgnoreCase("Plastic") ||
+                dailyReportDto.getGarbageName().equalsIgnoreCase("Metal") ||
+                dailyReportDto.getGarbageName().equalsIgnoreCase("Sticlă");
+    }
+
+    public String getTotalOtherTypes() {
+        return dailyReportsThisTrimester.stream()
+                .filter(
+                        dailyReportDto -> dailyReportDto.getGarbageName().equalsIgnoreCase("Voluminoase") ||
+                                dailyReportDto.getGarbageName().equalsIgnoreCase("Periculoase") ||
+                                dailyReportDto.getGarbageName().equalsIgnoreCase("Abandonate") ||
+                                dailyReportDto.getGarbageName().equalsIgnoreCase("Deșeuri din construcții și demolări")
+                ).map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum)
+                .toString();
+    }
+
+    public String getTotalOtherTypesUrban() {
+        return dailyReportsThisTrimester.stream()
+                .filter(
+                        dailyReportDto -> dailyReportDto.getGarbageName().equalsIgnoreCase("Voluminoase") ||
+                                dailyReportDto.getGarbageName().equalsIgnoreCase("Periculoase") ||
+                                dailyReportDto.getGarbageName().equalsIgnoreCase("Abandonate") ||
+                                dailyReportDto.getGarbageName().equalsIgnoreCase("Deșeuri din construcții și demolări")
+                ).filter(dailyReportDto -> dailyReportDto.getUat().equalsIgnoreCase("Blaj"))
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum)
+                .toString();
+    }
+
+    public String getTotalOtherTypesRural() {
+        return dailyReportsThisTrimester.stream()
+                .filter(
+                        dailyReportDto -> dailyReportDto.getGarbageName().equalsIgnoreCase("Voluminoase") ||
+                                dailyReportDto.getGarbageName().equalsIgnoreCase("Periculoase") ||
+                                dailyReportDto.getGarbageName().equalsIgnoreCase("Abandonate") ||
+                                dailyReportDto.getGarbageName().equalsIgnoreCase("Deșeuri din construcții și demolări")
+                ).filter(dailyReportDto -> !dailyReportDto.getUat().equalsIgnoreCase("Blaj"))
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum)
+                .toString();
+    }
+
+    public String getTotalForTrimester() {
+        return dailyReportsThisTrimester.stream()
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum)
+                .toString();
+    }
+
+    public Double getTotalByUatGarbageNameAndClientType(String uat, String garbageName, String clientType) {
+        return dailyReportsThisTrimester.stream()
+                .filter(dailyReportDto -> dailyReportDto.getUat().equalsIgnoreCase(uat))
+                .filter(dailyReportDto -> dailyReportDto.getGarbageName().equalsIgnoreCase(garbageName))
+                .filter(dailyReportDto -> dailyReportDto.getClientType().equalsIgnoreCase(clientType))
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum);
+    }
+
+    public String getTotalRezidualRural() {
+        return dailyReportsThisTrimester.stream()
+                .filter(dailyReportDto -> !dailyReportDto.getUat().equalsIgnoreCase("Blaj"))
+                .filter(dailyReportDto -> dailyReportDto.getGarbageName().equalsIgnoreCase("rezidual"))
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum)
+                .toString();
+    }
+
+    public String getTotalRecyclableByUat(String uat) {
+        return dailyReportsThisTrimester.stream()
+                .filter(this::isRecyclable)
+                .filter(dailyReportDto -> dailyReportDto.getUat().equalsIgnoreCase(uat))
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum)
+                .toString();
+    }
+
+
+    public String getTotalRecyclableRural() {
+        return dailyReportsThisTrimester.stream()
+                .filter(this::isRecyclable)
+                .filter(dailyReportDto -> !dailyReportDto.getUat().equalsIgnoreCase("Blaj"))
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum)
+                .toString();
+    }
+
+    public String getTotalRecyclableByClientType(String clientType) {
+        return dailyReportsThisTrimester.stream()
+                .filter(this::isRecyclable)
+                .filter(dailyReportDto -> dailyReportDto.getClientType().equalsIgnoreCase(clientType))
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum)
+                .toString();
+    }
+
+    public String getTotalRecyclable() {
+        return dailyReportsThisTrimester.stream()
+                .filter(this::isRecyclable)
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum)
+                .toString();
+    }
+
+    public Double getTotalRuralByClientTypeAndGarbageName(String clientType, String garbageName) {
+        return dailyReportsThisTrimester.stream()
+                .filter(dailyReportDto -> !dailyReportDto.getUat().equalsIgnoreCase("Blaj"))
+                .filter(dailyReportDto -> dailyReportDto.getClientType().equalsIgnoreCase(clientType))
+                .filter(dailyReportDto -> dailyReportDto.getGarbageName().equalsIgnoreCase(garbageName))
+                .map(dailyReportDto -> dailyReportDto.getQuantity())
+                .reduce(0D, Double::sum);
+    }
+
+    public Object getTotalByGarbageNameAndDestination(String uat, String garbageName) {
+        return null;
+    }
+
+    public Double getTotalRuralByGarbageName(String garbageName) {
+        return dailyReportsThisTrimester.stream()
+                .filter(dailyReportDto -> dailyReportDto.getGarbageName().equalsIgnoreCase(garbageName))
+                .filter(dailyReportDto -> !dailyReportDto.getUat().equalsIgnoreCase("Blaj"))
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum);
+    }
+//
+//    public Double getTotalByUatGarbageNameAndClientType(String uat, String garbageName, String clientType) {
+//        return dailyReportsThisTrimester.stream()
+//                .filter(dailyReportDto -> dailyReportDto.getUat().equalsIgnoreCase(uat))
+//                .filter(dailyReportDto -> dailyReportDto.getGarbageName().equalsIgnoreCase(garbageName))
+//                .filter(dailyReportDto -> dailyReportDto.getClientType().equalsIgnoreCase(clientType))
+//                .map(DailyReportDto::getQuantity)
+//                .reduce(0D, Double::sum);
+//    }
 }
