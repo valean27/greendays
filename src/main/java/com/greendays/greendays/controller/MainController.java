@@ -1,10 +1,8 @@
 package com.greendays.greendays.controller;
 
-import com.greendays.greendays.model.dal.Client;
-import com.greendays.greendays.model.dal.DailyReport;
-import com.greendays.greendays.model.dal.Garbage;
-import com.greendays.greendays.model.dal.Incident;
+import com.greendays.greendays.model.dal.*;
 import com.greendays.greendays.model.dto.File;
+import com.greendays.greendays.repository.PaymentRepository;
 import com.greendays.greendays.service.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -18,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -36,6 +35,7 @@ public class MainController {
     private final GarbageService garbageService;
     private final IncidentService incidentService;
     private final StorageService storageService;
+    private final PaymentRepository paymentRepository;
 
     @GetMapping("/")
     public String index() {
@@ -84,6 +84,23 @@ public class MainController {
         String result = dailyReportService.postDailyReport(report);
         model.addAttribute("result", result);
         return "redirect:dailyReport";
+    }
+
+
+    @PostMapping("/postFinancialReport")
+    public String postFinancialReport(@RequestParam MultiValueMap<String, String> paramMap, Model model, RedirectAttributes redirectAttributes) {
+        Payment payment = new Payment();
+        payment.setDate(Date.valueOf(Objects.requireNonNull(paramMap.getFirst("dataPlatii"))));
+        payment.setTotalDc(BigDecimal.valueOf(Long.parseLong(Objects.requireNonNull(paramMap.getFirst("totalDc")))));
+        payment.setPhysicalPerson(BigDecimal.valueOf(Long.parseLong(Objects.requireNonNull(paramMap.getFirst("persoaneFizice")))));
+        payment.setJuridicalPerson(BigDecimal.valueOf(Long.parseLong(Objects.requireNonNull(paramMap.getFirst("presoaneJuridice")))));
+        payment.setOcasionalServices(BigDecimal.valueOf(Long.parseLong(Objects.requireNonNull(paramMap.getFirst("serviciiOcazionale")))));
+        payment.setRedevence(BigDecimal.valueOf(Long.parseLong(Objects.requireNonNull(paramMap.getFirst("redeventa")))));
+        payment.setTrimester(Integer.parseInt(Objects.requireNonNull(paramMap.getFirst("trimestru"))));
+        payment.setYear(Integer.parseInt(Objects.requireNonNull(paramMap.getFirst("an"))));
+        paymentRepository.save(payment);
+
+        return "Success";
     }
 
     private DailyReport populateReportFromParamMap(MultiValueMap<String, String> paramMap) {
@@ -143,6 +160,12 @@ public class MainController {
         return "anualReport";
     }
 
+    @GetMapping("/paymentReport")
+    public String paymentReport(@RequestParam(name = "name", required = false, defaultValue = "Stefan") String name, Model model) {
+        model.addAttribute("name", name);
+        return "paymentReport";
+    }
+
     @GetMapping("/reportsArchive")
     public String reportsArchive(@RequestParam(name = "name", required = false, defaultValue = "Stefan") String name, Model model) {
         try {
@@ -173,6 +196,12 @@ public class MainController {
     public String archiveTable(@RequestParam(name = "name", required = false, defaultValue = "Stefan") String name, Model model) {
         model.addAttribute("name", name);
         return "tabelArhiva";
+    }
+
+    @GetMapping("/generareRapoarte")
+    public String generareRapoarte(@RequestParam(name = "name", required = false, defaultValue = "Stefan") String name, Model model) {
+        model.addAttribute("name", name);
+        return "generareRapoarte";
     }
 
 }

@@ -72,7 +72,7 @@ public class ReportController {
 
     @RequestMapping(value = "/pdfMonthlyReport", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<InputStreamResource> monthlyReport(@RequestParam String data, @RequestParam String data2) throws ParseException {
+    public ResponseEntity<InputStreamResource> monthlyReport(@RequestParam String data) throws ParseException {
         var headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=monthlyReport.pdf");
 

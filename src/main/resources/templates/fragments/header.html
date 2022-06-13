@@ -48,21 +48,20 @@
             <li class="nav-item active">
                 <a class="nav-link" th:href="'/'">Acasa <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    Rapoarte
-                </a>
-                <div class="dropdown-menu bg-transparent" aria-labelledby="navbarDropdown">
-                    <a class="btn line-item"  th:href="dailyReport">Raport Zilnic</a>
-                    <a class="btn line-item" th:href="monthlyReport">Raport Lunar</a>
-                    <a class="btn line-item"  th:href="trimestrialReport">Raport Trimestrial</a>
-                    <a class="btn line-item"  th:href="anualReport">Raport Anual</a>
-                </div>
-
+            <li class="nav-item active">
+                <a class="nav-link" th:href="'/dailyReport'">Jurnal Activitate <span class="sr-only"></span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" th:href="'tabelArhiva'">Tabel Arhiva <span class="sr-only"></span></a>
+                <a class="nav-link" th:href="'/generareRapoarte'">Generare Rapoarte <span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" th:href="'/tabelArhiva'">Tabel Arhiva <span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" th:href="'/paymentReport'">Date Financiare Trimestriale<span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" th:href="'/reportsArchive'">Arhiva Rapoarte<span class="sr-only"></span></a>
             </li>
         </ul>
     </div>
