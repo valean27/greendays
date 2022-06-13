@@ -4,9 +4,12 @@ import com.greendays.greendays.model.dto.Destination;
 import com.greendays.greendays.model.totals.TrimestrialReportData;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPRow;
 import com.itextpdf.text.pdf.PdfPTable;
+import org.springframework.security.core.parameters.P;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -619,7 +622,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
             document.add(new Paragraph("\n"));
 
             PdfPTable table = new PdfPTable(6);
-            table.setWidthPercentage(95);
+            table.setWidthPercentage(98);
             table.setWidths(new float[]{2, 3, 10, 3, 3, 3});
 
             PdfPTable outsideTable = new PdfPTable(1);
@@ -693,10 +696,30 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
             hcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             table.addCell(hcell);
 
+            PdfPTable cifraDeAfaceriTable = new PdfPTable(4);
+            cifraDeAfaceriTable.setWidths(new float[]{4, 5, 4, 4.6f});
+            addCellToTable(cifraDeAfaceriTable, "2=3+4+5", mainFont);
+            addCellToTable(cifraDeAfaceriTable, "3", mainFont);
+            addCellToTable(cifraDeAfaceriTable, "4", mainFont);
+            addCellToTable(cifraDeAfaceriTable, "5", mainFont);
+            PdfPCell insideCell = new PdfPCell(cifraDeAfaceriTable);
+            insideCell.setBorder(0);
+            insideCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            insideCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+            addCellToTable(table, "", mainFont);
+            addCellToTable(table, "1", mainFont);
+            table.addCell(insideCell);
+            addCellToTable(table, "6", mainFont);
+            addCellToTable(table, "7", mainFont);
+            addCellToTable(table, "8", mainFont);
+
+
             document.add(table);
         } catch (DocumentException ex) {
             System.out.println(ex);
         }
+//            ----------------------------------------------------
 
         //TODO: Add data to this table
 

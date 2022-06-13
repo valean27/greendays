@@ -63,8 +63,9 @@ body, html {
 
 /*---------------------------------------------*/
 a {
-	font-family: Poppins-Regular;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 14px;
+    font-weight: bold;
 	line-height: 1.7;
 	color: #666666;
 	margin: 0px;
@@ -817,4 +818,13 @@ textarea.input100 {
   padding: 6px 12px;
   border: 1px solid #ccc;
   border-top: none;
+}
+
+@media only screen and (min-width: 992px) {
+  .navbar .navbar-nav .nav-item .nav-link {
+    padding: 0 0.5em;
+  }
+  .navbar .navbar-nav .nav-item:not(:last-child) .nav-link {
+    border-right: 2px solid #000000;
+  }
 }
