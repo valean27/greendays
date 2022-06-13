@@ -518,20 +518,24 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
         addCellToTable(mainTable, "TMB CMID Galda de Jos", headFont);
         addTableToTable(mainTable, 2, mainFont, asList("Casnic", "Non-Casnic"));
         addTableToTable(mainTable, 2, mainFont, asList("Rezidual", "Rezidual"));
-        addTableToTable(mainTable, 2, mainFont, asList(" ", " "));
+        addTableToTable(mainTable, 2, mainFont, asList(trimestrialReportData.getTotalByGarbageNameClientTypeAndDestination("casnic", "rezidual", Destination.CMID_GALDA.getDestinationName()).toString(), trimestrialReportData.getTotalByGarbageNameClientTypeAndDestination("non-casnic", "rezidual", Destination.CMID_GALDA.getDestinationName()).toString()));
 
         addCellToTable(mainTable, "Total 1", headFont);
         addCellToTable(mainTable, "Casnic", mainFont);
         addCellToTable(mainTable, "Rezidual", mainFont);
-        addCellToTable(mainTable, " ", mainFont);
+        addCellToTable(mainTable, trimestrialReportData.getTotalByGarbageNameClientTypeAndDestination("casnic", "rezidual", Destination.CMID_GALDA.getDestinationName()).toString(), mainFont);
 
         addCellToTable(mainTable, "Total 2", headFont);
         addCellToTable(mainTable, "Non-Casnic", mainFont);
         addCellToTable(mainTable, "Rezidual", mainFont);
+        addCellToTable(mainTable, trimestrialReportData.getTotalByGarbageNameClientTypeAndDestination("non-casnic", "rezidual", Destination.CMID_GALDA.getDestinationName()).toString(), mainFont);
+
+        addCellToTable(mainTable, "Total 1+2", headFont);
         addCellToTable(mainTable, " ", mainFont);
+        addCellToTable(mainTable, "Rezidual", mainFont);
+        addCellToTable(mainTable, Double.valueOf(Double.sum(trimestrialReportData.getTotalByGarbageNameClientTypeAndDestination("non-casnic", "rezidual", Destination.CMID_GALDA.getDestinationName()), trimestrialReportData.getTotalByGarbageNameClientTypeAndDestination("casnic", "rezidual", Destination.CMID_GALDA.getDestinationName()))).toString(), mainFont);
 
         document.add(mainTable);
-        //TODO: Add Total
     }
 
     public void createGarbageSubmittedToDepositTable11(Document document, Font headFont, Font mainFont, TrimestrialReportData trimestrialReportData) throws DocumentException {
@@ -551,19 +555,23 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
         addCellToTable(mainTable, "CMID Galda de Jos", headFont);
         addTableToTable(mainTable, 2, mainFont, asList("Casnic", "Non-Casnic"));
         addTableToTable(mainTable, 2, mainFont, asList("Rezidual", "Rezidual"));
-        addTableToTable(mainTable, 2, mainFont, asList(" ", " "));
+        addTableToTable(mainTable, 2, mainFont, asList("nu exista date", "nu exista date"));
 
         addCellToTable(mainTable, "Total 1", headFont);
         addCellToTable(mainTable, "Casnic", mainFont);
         addCellToTable(mainTable, "Rezidual", mainFont);
-        addCellToTable(mainTable, " ", mainFont);
+        addCellToTable(mainTable, "nu exista data", mainFont);
 
         addCellToTable(mainTable, "Total 2", headFont);
         addCellToTable(mainTable, "Non-Casnic", mainFont);
         addCellToTable(mainTable, "Rezidual", mainFont);
-        addCellToTable(mainTable, " ", mainFont);
+        addCellToTable(mainTable, "nu exista date", mainFont);
 
-        //TODO add total
+        addCellToTable(mainTable, "Total 1+2", headFont);
+        addCellToTable(mainTable, "Non-Casnic", mainFont);
+        addCellToTable(mainTable, "Rezidual", mainFont);
+        addCellToTable(mainTable, "nu exista date", mainFont);
+
 
         document.add(mainTable);
     }
@@ -689,6 +697,9 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
         } catch (DocumentException ex) {
             System.out.println(ex);
         }
+
+        //TODO: Add data to this table
+
     }
 
     private Consumer<PdfPCell> getHeightAdjustingConsumer(int height) {

@@ -265,6 +265,15 @@ public class TrimestrialReportData {
                 .map(DailyReportDto::getQuantity)
                 .reduce(0D, Double::sum);
     }
+
+    public Double getTotalByGarbageNameClientTypeAndDestination(String clientType, String garbageName, String destinationName) {
+        return dailyReportsThisTrimester.stream()
+                .filter(dailyReportDto -> dailyReportDto.getClientType().equalsIgnoreCase(clientType))
+                .filter(dailyReportDto -> dailyReportDto.getGarbageName().equalsIgnoreCase(garbageName))
+                .filter(dailyReportDto -> dailyReportDto.getDestination().equalsIgnoreCase(destinationName))
+                .map(DailyReportDto::getQuantity)
+                .reduce(0D, Double::sum);
+    }
 //
 //    public Double getTotalByUatGarbageNameAndClientType(String uat, String garbageName, String clientType) {
 //        return dailyReportsThisTrimester.stream()
