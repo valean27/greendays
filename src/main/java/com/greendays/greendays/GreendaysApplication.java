@@ -27,9 +27,6 @@ public class GreendaysApplication {
 		return (args) -> {
 			storageService.deleteAll();
 			storageService.init();
-			if(!Files.exists(Paths.get("/src/main/resources/zipuri"))){
-			Files.createDirectory(Paths.get("/src/main/resources/zipuri"));
-			}
 		};
 	}
 
