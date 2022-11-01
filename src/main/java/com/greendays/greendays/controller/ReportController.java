@@ -145,7 +145,7 @@ public class ReportController {
             Date convertedCurrentDate = sdf.parse(date);
             LocalDate localDate = Instant.ofEpochMilli(convertedCurrentDate.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
 
-            Optional<Path> optionalPath = Files.list(Paths.get("src/main/resources/zipuri"))
+            Optional<Path> optionalPath = Files.list(Paths.get("/usr/greendays/src/main/resources/zipuri"))
                     .filter(path -> path.toString().startsWith("src" + FileSystems.getDefault().getSeparator() + "main" + FileSystems.getDefault().getSeparator() + "resources" + FileSystems.getDefault().getSeparator() + "zipuri" + FileSystems.getDefault().getSeparator() + localDate.getYear() + "-" + (localDate.getMonthValue() > 9 ? localDate.getMonthValue() : "0" + localDate.getMonthValue())))
                     .findFirst();
 
@@ -170,7 +170,7 @@ public class ReportController {
     public List<File> getArchive() {
         try {
 
-            return Files.list(Paths.get("src/main/resources/zipuri")).map(path -> {
+            return Files.list(Paths.get("s/usr/greendays/src/main/resources/zipuri")).map(path -> {
                 File file = new File();
                 file.setFileName(path.getFileName().toString());
                 try {

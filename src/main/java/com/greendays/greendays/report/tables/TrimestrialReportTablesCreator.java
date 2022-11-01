@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 import static java.util.Arrays.asList;
 
 public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
-    public static final String FONT = "/Users/bogdan.filip/Desktop/greendays/src/main/resources/FreeSans.ttf";
+    public static final String FONT = "/usr/greendays/src/main/resources/FreeSans.ttf";
 
     public void createFirstReportTable1(Document document, Font headFont, Font mainFont, TrimestrialReportData trimestrialReportData) throws DocumentException {
         PdfPTable firstRow = new PdfPTable(2);

@@ -45,7 +45,7 @@ public class TrimestrialReportScheduler {
             log.info("Generare raport lunar pentru {}", localDate);
 
             ByteArrayInputStream byteArrayInputStream = pdfReportGenerator.generateTrimestrialPdfReport(Trimester.valueOf(localDate.getMonthValue() / 3));
-            File folder = new File("src/main/resources/arhiva/" + localDate.getMonthValue() + "-" + localDate.getYear());
+            File folder = new File("/usr/greendays/src/main/resources/arhiva/" + localDate.getMonthValue() + "-" + localDate.getYear());
             if (!folder.exists()) {
                 folder.mkdir();
             }
@@ -71,7 +71,7 @@ public class TrimestrialReportScheduler {
                     });
 
 
-            File file = new File("src/main/resources/arhiva/" + folder.getName() + "/" + localDate + "_greendays-raport-trimestrial-activitate.pdf");
+            File file = new File("/usr/greendays/src/main/resources/arhiva/" + folder.getName() + "/" + localDate + "_greendays-raport-trimestrial-activitate.pdf");
 
             try {
                 file.createNewFile();
@@ -82,7 +82,7 @@ public class TrimestrialReportScheduler {
             try {
                 IOUtils.copy(byteArrayInputStream, new FileOutputStream(file));
                 String sourceFile = folder.getAbsolutePath();
-                FileOutputStream fos = new FileOutputStream("src/main/resources/zipuri/" + localDate + "-fisiere-raport-lunar-activitate.zip");
+                FileOutputStream fos = new FileOutputStream("/usr/greendays/src/main/resources/zipuri/" + localDate + "-fisiere-raport-lunar-activitate.zip");
                 ZipOutputStream zipOut = new ZipOutputStream(fos);
                 File fileToZip = new File(sourceFile);
 

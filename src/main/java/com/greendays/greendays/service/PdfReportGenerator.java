@@ -31,8 +31,8 @@ import java.util.stream.Collectors;
 public class PdfReportGenerator {
 
     private static final Logger logger = LoggerFactory.getLogger(PdfReportGenerator.class.getName());
-    public static final String FONT = "src/main/resources/FreeSans.ttf";
-    public static final String FONT_BOLD = "src/main/resources/FreeSansBold.ttf";
+    public static final String FONT = "/usr/greendays/src/main/resources/FreeSans.ttf";
+    public static final String FONT_BOLD = "/usr/greendays/src/main/resources/FreeSansBold.ttf";
 
     @Autowired
     private DailyReportService dailyReportService;

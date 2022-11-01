@@ -51,7 +51,7 @@ public class MonthlyReportScheduler {
                 .toInstant());
 
         ByteArrayInputStream byteArrayInputStream = pdfReportGenerator.generateMonthlyPdfReports(date);
-        File folder = new File("src/main/resources/arhiva/" + localDate.getMonthValue() + "-" + localDate.getYear());
+        File folder = new File("/usr/greendays/src/main/resources/arhiva/" + localDate.getMonthValue() + "-" + localDate.getYear());
         if (!folder.exists()) {
             folder.mkdir();
         }
@@ -77,7 +77,7 @@ public class MonthlyReportScheduler {
                 });
 
 
-        File file = new File("src/main/resources/arhiva/" + folder.getName() + "/" + localDate + "_greendays-raport-lunar-activitate.pdf");
+        File file = new File("/usr/greendays/src/main/resources/arhiva/" + folder.getName() + "/" + localDate + "_greendays-raport-lunar-activitate.pdf");
 
         try {
             file.createNewFile();
@@ -88,7 +88,7 @@ public class MonthlyReportScheduler {
         try {
             IOUtils.copy(byteArrayInputStream, new FileOutputStream(file));
             String sourceFile = folder.getAbsolutePath();
-            FileOutputStream fos = new FileOutputStream("src/main/resources/zipuri/" + localDate + "-fisiere-raport-lunar-activitate.zip");
+            FileOutputStream fos = new FileOutputStream("/usr/greendays/src/main/resources/zipuri/" + localDate + "-fisiere-raport-lunar-activitate.zip");
             ZipOutputStream zipOut = new ZipOutputStream(fos);
             File fileToZip = new File(sourceFile);
 
