@@ -20,7 +20,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
+import java.util.EnumSet;
 import java.util.stream.Stream;
+
+import static java.nio.file.attribute.PosixFilePermission.*;
 
 @Service
 @RequiredArgsConstructor
@@ -92,7 +95,9 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public void init() {
         try {
+            if (!Files.exists(rootLocation)){
             Files.createDirectories(rootLocation);
+            }
         } catch (IOException e) {
             throw new StorageException("Could not initialize storage", e);
         }
