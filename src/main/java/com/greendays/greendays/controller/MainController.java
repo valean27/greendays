@@ -169,41 +169,7 @@ public class MainController {
     @GetMapping("/reportsArchive")
     public String reportsArchive(@RequestParam(name = "name", required = false, defaultValue = "Stefan") String name, Model model) {
         try {
-
-            try {
-                System.out.println(Files.list(Paths.get("/")).collect(Collectors.toList()));
-            }catch (Exception e){
-
-            }
-            try {
-                System.out.println(Files.list(Paths.get("/src/main/resources/zipuri")).collect(Collectors.toList()));
-            }catch (Exception e){
-
-            }
-            try {
-                System.out.println(Files.list(Paths.get("src")).collect(Collectors.toList()));
-            }catch (Exception e){
-
-            }
-            try {
-                System.out.println(Files.list(Paths.get("src/main/")).collect(Collectors.toList()));
-            }catch (Exception e){
-
-            }
-
-            try {
-                System.out.println(Files.list(Paths.get("src/main/resources/")).collect(Collectors.toList()));
-            }catch (Exception e){
-
-            }
-
-
-            try {
-                System.out.println(Files.list(Paths.get("src/main/resources")).collect(Collectors.toList()));
-            }catch (Exception e){
-
-            }
-            List<File> files = Files.list(Paths.get("src/main/resources/zipuri")).map(path -> {
+            List<File> files = Files.list(Paths.get("/usr/greendays/src/main/resources/zipuri")).map(path -> {
                 com.greendays.greendays.model.dto.File file = new File();
                 file.setFileName(path.getFileName().toString());
                 try {
