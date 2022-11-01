@@ -171,6 +171,11 @@ public class MainController {
         try {
 
             try {
+                System.out.println(Files.list(Paths.get("/")).collect(Collectors.toList()));
+            }catch (Exception e){
+
+            }
+            try {
                 System.out.println(Files.list(Paths.get("/src/main/resources/zipuri")).collect(Collectors.toList()));
             }catch (Exception e){
 
