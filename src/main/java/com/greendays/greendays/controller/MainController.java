@@ -130,6 +130,7 @@ public class MainController {
         report.setUat(paramMap.getFirst("uat"));
         report.setWeightTalon(paramMap.getFirst("talonCantarire"));
         report.setRouteSheet(paramMap.getFirst("foaieParcurs"));
+        System.out.println(report);
         return report;
     }
 

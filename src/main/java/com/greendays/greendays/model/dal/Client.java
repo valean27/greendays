@@ -18,4 +18,12 @@ public class Client {
 
     @Column(name = "client_type", nullable = false)
     private String clientType;
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", clientType='" + clientType + '\'' +
+                '}';
+    }
 }

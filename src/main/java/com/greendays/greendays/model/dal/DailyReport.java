@@ -52,4 +52,24 @@ public class DailyReport {
 
     @Column(name = "weight_talon", nullable = true)
     private String weightTalon;
+
+    @Override
+    public String toString() {
+        return "DailyReport{" +
+                "id=" + id +
+                ", date=" + date +
+                ", routeNumber=" + routeNumber +
+                ", uat='" + uat + '\'' +
+                ", quantity=" + quantity +
+                ", destination='" + destination + '\'' +
+                ", driverName='" + driverName + '\'' +
+                ", carNumber='" + carNumber + '\'' +
+                ", problems='" + problems + '\'' +
+                ", incident=" + incident +
+                ", client=" + client +
+                ", garbage=" + garbage +
+                ", routeSheet='" + routeSheet + '\'' +
+                ", weightTalon='" + weightTalon + '\'' +
+                '}';
+    }
 }
