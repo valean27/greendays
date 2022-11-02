@@ -105,9 +105,15 @@ public class MainController {
 
     private DailyReport populateReportFromParamMap(MultiValueMap<String, String> paramMap) {
         DailyReport report = new DailyReport();
-        Client client = new Client();
-        client.setClientType(paramMap.getFirst("client"));
-        report.setClient(client);
+        String clientType = paramMap.getFirst("client");
+        Optional<Client>dbClient = clientService.getClients().stream().filter(cl -> cl.getClientType().equals(clientType)).findAny();
+        if (dbClient.isPresent()){
+            report.setClient(dbClient.get());
+        }else {
+            Client client = new Client();
+            client.setClientType(paramMap.getFirst("client"));
+            report.setClient(client);
+        }
         report.setDate(Date.valueOf(Objects.requireNonNull(paramMap.getFirst("data"))));
         report.setDestination(paramMap.getFirst("destinatie"));
         report.setDriverName(paramMap.getFirst("numeSofer"));
