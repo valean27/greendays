@@ -134,12 +134,12 @@ public class MainController {
     }
 
     private void initializeDatabase() {
-        clientService.insertClient("Casnic");
-        clientService.insertClient("Non-Casnic");
-        clientService.insertClient("Mixt");
-        garbageService.insertGarbage("20 01 01", "Hartie si Carton");
-        garbageService.insertGarbage("20 01 02", "Sticla");
-        garbageService.insertGarbage("20 01 08", "Deseuri Biodegradabile");
+//        clientService.insertClient("Casnic");
+//        clientService.insertClient("Non-Casnic");
+//        clientService.insertClient("Mixt");
+//        garbageService.insertGarbage("20 01 01", "Hartie si Carton");
+//        garbageService.insertGarbage("20 01 02", "Sticla");
+//        garbageService.insertGarbage("20 01 08", "Deseuri Biodegradabile");
     }
 
     @GetMapping("/monthlyReport")
