@@ -65,10 +65,16 @@
             <span class="label-input100">Cod Deseu</span>
             <div>
                 <div>
-                    <select class="js-select2" th:name="codDeseu">
-                        <option th:each="garbage : ${garbageList}"
-                                th:value="${garbage.getGarbageCode()}"
-                                th:text="${garbage.getGarbageCode()}"></option>
+                    <select class="js-select2" name="denumireDeseu">
+                        <option>20 03 01</option>
+                        <option>20 03 07</option>
+                        <option>20 03 99</option>
+                        <option>15 01 01</option>
+                        <option>15 01 02</option>
+                        <option>15 01 04</option>
+                        <option>15 01 07</option>
+                        <option>15 01 06</option>
+                        <option>17 01 07</option>
                     </select>
                     <div class="dropDownSelect2"></div>
                 </div>
