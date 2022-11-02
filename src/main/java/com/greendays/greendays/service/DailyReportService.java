@@ -21,7 +21,7 @@ public class DailyReportService {
         try {
             dailyReportRepository.save(report);
         } catch (Exception e) {
-            return e.getMessage();
+         throw new RuntimeException(e);
         }
         return "Raport Salvat!";
     }
