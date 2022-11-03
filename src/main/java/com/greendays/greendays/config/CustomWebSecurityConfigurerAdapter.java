@@ -36,6 +36,16 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
                         .username("stefan")
                         .password(passwordEncoder.encode("petru"))
                         .roles("ADMIN")
+                        .build(),
+                User.builder()
+                        .username("Jorge")
+                        .password(passwordEncoder.encode("Rodrigues!12"))
+                        .roles("Admin")
+                        .build(),
+                User.builder()
+                        .username("GreendaysAdmin")
+                        .password(passwordEncoder.encode("AdminGreendays!12"))
+                        .roles("Admin")
                         .build()
         );
     }
