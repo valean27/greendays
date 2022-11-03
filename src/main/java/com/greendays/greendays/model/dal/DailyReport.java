@@ -38,7 +38,7 @@ public class DailyReport {
     @Column(name = "problems", nullable = true)
     private String problems;
 
-    @OneToOne(cascade = {CascadeType.REFRESH})
+    @OneToOne(cascade = {CascadeType.ALL})
     private Incident incident;
 
     @OneToOne(cascade = {CascadeType.REFRESH})
