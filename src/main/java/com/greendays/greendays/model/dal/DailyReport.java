@@ -38,13 +38,13 @@ public class DailyReport {
     @Column(name = "problems", nullable = true)
     private String problems;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne(cascade = {CascadeType.REFRESH})
     private Incident incident;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne(cascade = {CascadeType.REFRESH})
     private Client client;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne(cascade = {CascadeType.REFRESH})
     private Garbage garbage;
 
     @Column(name = "route_sheet", nullable = true)
