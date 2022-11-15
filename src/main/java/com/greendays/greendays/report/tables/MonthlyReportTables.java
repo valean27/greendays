@@ -8,6 +8,7 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 
+import java.math.BigDecimal;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -53,9 +54,9 @@ public class MonthlyReportTables extends TablesCreatorHelper {
         addStrangeTableToTable(mainTable, headFont);
         addCellToTable(mainTable, "Obs.", headFont);
 
-        Double total = monthlyReportData.getRezidualGarbageReportsByUat("Blaj").stream().map(DailyReportDto::getQuantity).reduce(0D, Double::sum);
-        Double casnici = monthlyReportData.getRezidualGarbageReportsByUatAndClientType("Blaj", "casnic").stream().map(DailyReportDto::getQuantity).reduce(0D, Double::sum);
-        Double nonCasnici = monthlyReportData.getRezidualGarbageReportsByUatAndClientType("Blaj", "non-casnic").stream().map(DailyReportDto::getQuantity).reduce(0D, Double::sum);
+        BigDecimal total = monthlyReportData.getRezidualGarbageReportsByUat("Blaj").stream().map(DailyReportDto::getQuantity).reduce(BigDecimal.valueOf(0D), BigDecimal::add);
+        BigDecimal casnici = monthlyReportData.getRezidualGarbageReportsByUatAndClientType("Blaj", "casnic").stream().map(DailyReportDto::getQuantity).reduce(BigDecimal.valueOf(0D), BigDecimal::add);
+        BigDecimal nonCasnici = monthlyReportData.getRezidualGarbageReportsByUatAndClientType("Blaj", "non-casnic").stream().map(DailyReportDto::getQuantity).reduce(BigDecimal.valueOf(0D), BigDecimal::add);
 
         addCellToTableAlignedCenter(mainTable, "Blaj", mainFont);
         addTableToTable(mainTable, 3, 3, mainFont, asList(total.toString(), casnici.toString(), nonCasnici.toString()));

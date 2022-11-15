@@ -3,6 +3,7 @@ package com.greendays.greendays.model.dal;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Date;
 
 @Entity
@@ -24,7 +25,7 @@ public class DailyReport {
     private String uat;
 
     @Column(name = "quantity", nullable = true)
-    private Double quantity;
+    private BigDecimal quantity;
 
     @Column(name = "destination", nullable = true)
     private String destination;

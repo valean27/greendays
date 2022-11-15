@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 @Getter
@@ -15,7 +16,7 @@ public class DailyReportDto {
     private Date date;
     private Integer routeNumber;
     private String uat;
-    private Double quantity;
+    private BigDecimal quantity;
     private String destination;
     private String driverName;
     private String carNumber;

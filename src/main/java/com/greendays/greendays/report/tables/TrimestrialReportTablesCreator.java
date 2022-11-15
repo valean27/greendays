@@ -9,6 +9,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import org.springframework.security.core.parameters.P;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -536,7 +537,10 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
         addCellToTable(mainTable, "Total 1+2", headFont);
         addCellToTable(mainTable, " ", mainFont);
         addCellToTable(mainTable, "Rezidual", mainFont);
-        addCellToTable(mainTable, Double.valueOf(Double.sum(trimestrialReportData.getTotalByGarbageNameClientTypeAndDestination("non-casnic", "rezidual", Destination.CMID_GALDA.getDestinationName()), trimestrialReportData.getTotalByGarbageNameClientTypeAndDestination("casnic", "rezidual", Destination.CMID_GALDA.getDestinationName()))).toString(), mainFont);
+        addCellToTable(mainTable,
+                trimestrialReportData.getTotalByGarbageNameClientTypeAndDestination("non-casnic", "rezidual", Destination.CMID_GALDA.getDestinationName())
+                        .add(trimestrialReportData.getTotalByGarbageNameClientTypeAndDestination("casnic", "rezidual", Destination.CMID_GALDA.getDestinationName()))
+                        .toString(), mainFont);
 
         document.add(mainTable);
     }

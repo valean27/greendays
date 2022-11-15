@@ -6,6 +6,7 @@ import com.greendays.greendays.model.dto.Trimester;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,74 +61,74 @@ public class TrimestrialReportData {
                 .collect(Collectors.toList());
     }
 
-    public Double getTotalForUatClientTypeGarbageNameAndDestination(String uat, String clientType, String garbageName, String destination) {
+    public BigDecimal getTotalForUatClientTypeGarbageNameAndDestination(String uat, String clientType, String garbageName, String destination) {
         return getGarbageReportsByUatClientTypeGarbageNameAndDestination(uat, clientType, garbageName, destination).stream()
                 .map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum);
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add);
     }
 
-    public Double getTotalForClientTypeGarbageNameAndDestination(String clientType, String garbageName, String destination) {
+    public BigDecimal getTotalForClientTypeGarbageNameAndDestination(String clientType, String garbageName, String destination) {
         return getGarbageReportsByClientTypeGarbageNameAndDestination(clientType, garbageName, destination).stream()
                 .map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum);
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add);
     }
 
 
-    public Double getTotalByUatAndClientType(String uat, String clientType) {
+    public BigDecimal getTotalByUatAndClientType(String uat, String clientType) {
         return getReportsByUatAndClientType(uat, clientType)
                 .stream().map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum);
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add);
     }
 
-    public Double getTotalTransferStationByGarbageNameAndClientType(String garbageName, String clientType) {
+    public BigDecimal getTotalTransferStationByGarbageNameAndClientType(String garbageName, String clientType) {
         return getTransferStationSubmitted()
                 .stream()
                 .filter(dailyReportDto -> dailyReportDto.getGarbageName().equalsIgnoreCase(garbageName) && dailyReportDto.getClientType().equalsIgnoreCase(clientType))
                 .map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum);
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add);
     }
 
-    public Double getTotalByUatClientTypeAndGarbageName(String uat, String clientType, String garbageName) {
+    public BigDecimal getTotalByUatClientTypeAndGarbageName(String uat, String clientType, String garbageName) {
         return getReportsByUatClientTypeAndGarbageName(uat, clientType, garbageName)
                 .stream().map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum);
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add);
     }
 
-    public Double getTotalByUatAndGarbageName(String uat, String garbageName) {
+    public BigDecimal getTotalByUatAndGarbageName(String uat, String garbageName) {
         return dailyReportsThisTrimester.stream()
                 .filter(dailyReportDto -> dailyReportDto.getUat().equalsIgnoreCase(uat) && dailyReportDto.getGarbageName().equalsIgnoreCase(garbageName))
                 .map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum);
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add);
     }
 
-    public Double getTotalByUatGarbageNameAndDestination(String uat, String garbageName, Destination destination) {
+    public BigDecimal getTotalByUatGarbageNameAndDestination(String uat, String garbageName, Destination destination) {
         return dailyReportsThisTrimester.stream()
                 .filter(dailyReportDto -> dailyReportDto.getUat().equalsIgnoreCase(uat) && dailyReportDto.getGarbageName().equalsIgnoreCase(garbageName))
                 .filter(dailyReportDto -> dailyReportDto.getDestination().equalsIgnoreCase(destination.getDestinationName()))
                 .map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum);
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add);
     }
 
-    public Double getTotalByClientTypeAndGarbageName(String clientType, String garbageName) {
+    public BigDecimal getTotalByClientTypeAndGarbageName(String clientType, String garbageName) {
         return getReportsByClientTypeAndGarbageName(clientType, garbageName)
                 .stream().map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum);
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add);
     }
 
 
-    public Double getTotalByClientTypeAndGarbageNameRural(String clientType, String garbageName) {
+    public BigDecimal getTotalByClientTypeAndGarbageNameRural(String clientType, String garbageName) {
         return getReportsByClientTypeAndGarbageName(clientType, garbageName)
                 .stream().filter(dailyReportDto -> !dailyReportDto.getUat().equalsIgnoreCase("Blaj"))
                 .map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum);
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add);
     }
 
 
-    public Double getTotalByClientTypeAndGarbageNameRuralAndDestination(String clientType, String garbageName, Destination destination) {
+    public BigDecimal getTotalByClientTypeAndGarbageNameRuralAndDestination(String clientType, String garbageName, Destination destination) {
         return getReportsByClientTypeAndGarbageNameAndDestination(clientType, garbageName, destination)
                 .stream().filter(dailyReportDto -> !dailyReportDto.getUat().equalsIgnoreCase("Blaj"))
                 .map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum);
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add);
     }
 
     public Object getTotalByClientTypeDestinationAndRecyclableOrRezidual(String clientType, Destination transferStation) {
@@ -136,7 +137,7 @@ public class TrimestrialReportData {
                 .filter(dailyReportDto -> dailyReportDto.getClientType().equalsIgnoreCase(clientType))
                 .filter(dailyReportDto -> dailyReportDto.getDestination().equalsIgnoreCase(transferStation.getDestinationName()))
                 .map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum);
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add);
     }
 
     private boolean isRecyclable(DailyReportDto dailyReportDto) {
@@ -154,7 +155,7 @@ public class TrimestrialReportData {
                                 dailyReportDto.getGarbageName().equalsIgnoreCase("Abandonate") ||
                                 dailyReportDto.getGarbageName().equalsIgnoreCase("Deșeuri din construcții și demolări")
                 ).map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum)
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add)
                 .toString();
     }
 
@@ -167,7 +168,7 @@ public class TrimestrialReportData {
                                 dailyReportDto.getGarbageName().equalsIgnoreCase("Deșeuri din construcții și demolări")
                 ).filter(dailyReportDto -> dailyReportDto.getUat().equalsIgnoreCase("Blaj"))
                 .map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum)
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add)
                 .toString();
     }
 
@@ -180,24 +181,24 @@ public class TrimestrialReportData {
                                 dailyReportDto.getGarbageName().equalsIgnoreCase("Deșeuri din construcții și demolări")
                 ).filter(dailyReportDto -> !dailyReportDto.getUat().equalsIgnoreCase("Blaj"))
                 .map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum)
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add)
                 .toString();
     }
 
     public String getTotalForTrimester() {
         return dailyReportsThisTrimester.stream()
                 .map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum)
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add)
                 .toString();
     }
 
-    public Double getTotalByUatGarbageNameAndClientType(String uat, String garbageName, String clientType) {
+    public BigDecimal getTotalByUatGarbageNameAndClientType(String uat, String garbageName, String clientType) {
         return dailyReportsThisTrimester.stream()
                 .filter(dailyReportDto -> dailyReportDto.getUat().equalsIgnoreCase(uat))
                 .filter(dailyReportDto -> dailyReportDto.getGarbageName().equalsIgnoreCase(garbageName))
                 .filter(dailyReportDto -> dailyReportDto.getClientType().equalsIgnoreCase(clientType))
                 .map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum);
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add);
     }
 
     public String getTotalRezidualRural() {
@@ -205,7 +206,7 @@ public class TrimestrialReportData {
                 .filter(dailyReportDto -> !dailyReportDto.getUat().equalsIgnoreCase("Blaj"))
                 .filter(dailyReportDto -> dailyReportDto.getGarbageName().equalsIgnoreCase("rezidual"))
                 .map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum)
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add)
                 .toString();
     }
 
@@ -214,7 +215,7 @@ public class TrimestrialReportData {
                 .filter(this::isRecyclable)
                 .filter(dailyReportDto -> dailyReportDto.getUat().equalsIgnoreCase(uat))
                 .map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum)
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add)
                 .toString();
     }
 
@@ -224,7 +225,7 @@ public class TrimestrialReportData {
                 .filter(this::isRecyclable)
                 .filter(dailyReportDto -> !dailyReportDto.getUat().equalsIgnoreCase("Blaj"))
                 .map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum)
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add)
                 .toString();
     }
 
@@ -233,7 +234,7 @@ public class TrimestrialReportData {
                 .filter(this::isRecyclable)
                 .filter(dailyReportDto -> dailyReportDto.getClientType().equalsIgnoreCase(clientType))
                 .map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum)
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add)
                 .toString();
     }
 
@@ -241,46 +242,46 @@ public class TrimestrialReportData {
         return dailyReportsThisTrimester.stream()
                 .filter(this::isRecyclable)
                 .map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum)
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add)
                 .toString();
     }
 
-    public Double getTotalRuralByClientTypeAndGarbageName(String clientType, String garbageName) {
+    public BigDecimal getTotalRuralByClientTypeAndGarbageName(String clientType, String garbageName) {
         return dailyReportsThisTrimester.stream()
                 .filter(dailyReportDto -> !dailyReportDto.getUat().equalsIgnoreCase("Blaj"))
                 .filter(dailyReportDto -> dailyReportDto.getClientType().equalsIgnoreCase(clientType))
                 .filter(dailyReportDto -> dailyReportDto.getGarbageName().equalsIgnoreCase(garbageName))
                 .map(dailyReportDto -> dailyReportDto.getQuantity())
-                .reduce(0D, Double::sum);
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add);
     }
 
     public Object getTotalByGarbageNameAndDestination(String uat, String garbageName) {
         return null;
     }
 
-    public Double getTotalRuralByGarbageName(String garbageName) {
+    public BigDecimal getTotalRuralByGarbageName(String garbageName) {
         return dailyReportsThisTrimester.stream()
                 .filter(dailyReportDto -> dailyReportDto.getGarbageName().equalsIgnoreCase(garbageName))
                 .filter(dailyReportDto -> !dailyReportDto.getUat().equalsIgnoreCase("Blaj"))
                 .map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum);
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add);
     }
 
-    public Double getTotalByGarbageNameClientTypeAndDestination(String clientType, String garbageName, String destinationName) {
+    public BigDecimal getTotalByGarbageNameClientTypeAndDestination(String clientType, String garbageName, String destinationName) {
         return dailyReportsThisTrimester.stream()
                 .filter(dailyReportDto -> dailyReportDto.getClientType().equalsIgnoreCase(clientType))
                 .filter(dailyReportDto -> dailyReportDto.getGarbageName().equalsIgnoreCase(garbageName))
                 .filter(dailyReportDto -> dailyReportDto.getDestination().equalsIgnoreCase(destinationName))
                 .map(DailyReportDto::getQuantity)
-                .reduce(0D, Double::sum);
+                .reduce(BigDecimal.valueOf(0D), BigDecimal::add);
     }
 //
-//    public Double getTotalByUatGarbageNameAndClientType(String uat, String garbageName, String clientType) {
+//    public BigDecimal getTotalByUatGarbageNameAndClientType(String uat, String garbageName, String clientType) {
 //        return dailyReportsThisTrimester.stream()
 //                .filter(dailyReportDto -> dailyReportDto.getUat().equalsIgnoreCase(uat))
 //                .filter(dailyReportDto -> dailyReportDto.getGarbageName().equalsIgnoreCase(garbageName))
 //                .filter(dailyReportDto -> dailyReportDto.getClientType().equalsIgnoreCase(clientType))
 //                .map(DailyReportDto::getQuantity)
-//                .reduce(0D, Double::sum);
+//                .reduce(BigDecimal.valueOf(0D), BigDecimal::add);
 //    }
 }

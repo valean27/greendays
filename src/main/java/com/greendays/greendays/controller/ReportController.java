@@ -103,9 +103,9 @@ public class ReportController {
             dailyReportService.deleteReport(reportId);
         } else {
             DailyReport report = dailyReportService.getReportById(paramMap.getFirst("reportId"));
-            report.setQuantity(report.getQuantity() - Double.parseDouble(Objects.requireNonNull(paramMap.getFirst("cantitateNoncasnica"))));
+            report.setQuantity(report.getQuantity().subtract(BigDecimal.valueOf(Double.parseDouble(Objects.requireNonNull(paramMap.getFirst("cantitateNoncasnica"))))));
             dailyReportService.postDailyReport(report);
-            Double newQuantity = (Double.valueOf(Objects.requireNonNull(paramMap.getFirst("cantitateNoncasnica"))));
+            BigDecimal newQuantity = BigDecimal.valueOf(Double.parseDouble(Objects.requireNonNull(paramMap.getFirst("cantitateNoncasnica"))));
             DailyReport newReport = getUpdatedReportFromReport(report, newQuantity);
             dailyReportService.postDailyReport(newReport);
         }
@@ -113,7 +113,7 @@ public class ReportController {
         return "redirect:tabelArhiva";
     }
 
-    public DailyReport getUpdatedReportFromReport(DailyReport dailyReport, Double quantity) {
+    public DailyReport getUpdatedReportFromReport(DailyReport dailyReport, BigDecimal quantity) {
         DailyReport report = new DailyReport();
         Optional<Client> optionalClient = clientService.getClients().stream().filter(client1 -> client1.getClientType().equals("Non-Casnic")).findAny();
         if (optionalClient.isPresent()){
@@ -215,9 +215,9 @@ public class ReportController {
         Statistics statistics = new Statistics();
 
         statistics.setNumberOfReports(dailyReportDtos.size());
-        statistics.setReciclable(BigDecimal.valueOf(monthlyReportData.getTotalRecyclable()));
-        statistics.setResiduals(BigDecimal.valueOf(monthlyReportData.getTotalByGarbageName("Rezidual")));
-        statistics.setTotal(BigDecimal.valueOf(monthlyReportData.getTotal()));
+        statistics.setReciclable(monthlyReportData.getTotalRecyclable());
+        statistics.setResiduals(monthlyReportData.getTotalByGarbageName("Rezidual"));
+        statistics.setTotal(monthlyReportData.getTotal());
         return ResponseEntity.ok(statistics);
 
     }

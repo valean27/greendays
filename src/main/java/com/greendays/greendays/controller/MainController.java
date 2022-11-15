@@ -119,7 +119,7 @@ public class MainController {
         report.setDriverName(paramMap.getFirst("numeSofer"));
         report.setProblems(paramMap.getFirst("alteProbleme"));
         report.setRouteNumber(Integer.valueOf(Objects.requireNonNull(paramMap.getFirst("numarTraseu"))));
-        report.setQuantity(Double.valueOf(Objects.requireNonNull(paramMap.getFirst("cantitate"))));
+        report.setQuantity(BigDecimal.valueOf(Double.parseDouble(Objects.requireNonNull(paramMap.getFirst("cantitate")))));
         Incident incident = new Incident();
         incident.setIncidentType(paramMap.getFirst("incident"));
         incident.setObservations(paramMap.getFirst("observatii"));
