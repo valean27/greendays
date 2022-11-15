@@ -12,6 +12,7 @@ import com.greendays.greendays.model.dto.Trimester;
 import com.greendays.greendays.model.totals.MonthlyReportData;
 import com.greendays.greendays.repository.ClientRepository;
 import com.greendays.greendays.service.ClientService;
+import com.greendays.greendays.service.GarbageService;
 import com.greendays.greendays.service.PdfReportGenerator;
 import com.greendays.greendays.service.DailyReportService;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +59,9 @@ public class ReportController {
 
     @Autowired
     ClientService clientService;
+
+    @Autowired
+    GarbageService garbageService;
 
     @RequestMapping(value = "/pdfreport", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_PDF_VALUE)
@@ -131,10 +135,9 @@ public class ReportController {
         incident.setIncidentType(dailyReport.getIncident().getIncidentType());
         incident.setObservations(dailyReport.getIncident().getObservations());
         report.setIncident(incident);
-        Garbage garbage = new Garbage();
-        garbage.setGarbageName(dailyReport.getGarbage().getGarbageName());
-        garbage.setGarbageCode(dailyReport.getGarbage().getGarbageCode());
-        report.setGarbage(garbage);
+        Optional<Garbage> garbage = garbageService.getGarbages().stream().filter(garbage1 -> garbage1.getGarbageName().equals(dailyReport.getGarbage().getGarbageName())).findFirst();
+        garbage.ifPresent(report::setGarbage);
+
         report.setUat(dailyReport.getUat());
         report.setWeightTalon(dailyReport.getWeightTalon());
         report.setRouteSheet(dailyReport.getRouteSheet());
