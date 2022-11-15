@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Table(name = "client")
 @Data
 public class Client {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

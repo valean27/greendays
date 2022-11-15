@@ -10,6 +10,8 @@ import com.greendays.greendays.model.dto.File;
 import com.greendays.greendays.model.dto.Statistics;
 import com.greendays.greendays.model.dto.Trimester;
 import com.greendays.greendays.model.totals.MonthlyReportData;
+import com.greendays.greendays.repository.ClientRepository;
+import com.greendays.greendays.service.ClientService;
 import com.greendays.greendays.service.PdfReportGenerator;
 import com.greendays.greendays.service.DailyReportService;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +55,9 @@ public class ReportController {
 
     @Autowired
     PdfReportGenerator pdfReportGenerator;
+
+    @Autowired
+    ClientService clientService;
 
     @RequestMapping(value = "/pdfreport", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_PDF_VALUE)
@@ -106,9 +111,16 @@ public class ReportController {
 
     public DailyReport getUpdatedReportFromReport(DailyReport dailyReport, Double quantity) {
         DailyReport report = new DailyReport();
-        Client client = new Client();
-        client.setClientType("Non-Casnic");
-        report.setClient(client);
+        Optional<Client> optionalClient = clientService.getClients().stream().filter(client1 -> client1.getClientType().equals("Non-Casnic")).findAny();
+        if (optionalClient.isPresent()){
+            Client client = optionalClient.get();
+            report.setClient(client);
+        }else {
+            Client client = new Client();
+            client.setClientType("Non-Casnic");
+            report.setClient(client);
+        }
+
         report.setDate(Objects.requireNonNull(dailyReport.getDate()));
         report.setDestination(dailyReport.getDestination());
         report.setDriverName(dailyReport.getDriverName());
