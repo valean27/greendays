@@ -610,6 +610,10 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
             hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(hcell);
 
+            addCellToTable(table, "1", mainFont);
+            addCellToTable(table, "2", mainFont);
+            addCellToTable(table, "3", mainFont);
+            addCellToTable(table, "4", mainFont);
             document.add(table);
 
         } catch (DocumentException ex) {
