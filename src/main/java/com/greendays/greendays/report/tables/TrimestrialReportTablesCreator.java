@@ -585,6 +585,7 @@ public class TrimestrialReportTablesCreator extends TablesCreatorHelper {
 
     public void createAdiSalubrisPaymentTable12(Document document, Font headFont, Font mainFont, TrimestrialReportData trimestrialReportData) {
         try {
+            document.newPage();
             document.add(new Paragraph("\n"));
             document.add(new Paragraph("\n"));
 
