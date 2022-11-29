@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -350,6 +351,8 @@ public class PdfReportGenerator {
         List<DailyReportDto> dailyReportDtos = dailyReportService.getAllReportsOfMonth(localDate.getMonthValue(), localDate.getYear()).stream()
                 .map(DailyReportEntityToDailyReportDtoMapper::mapEntityToDto)
                 .collect(Collectors.toList());
+
+        dailyReportDtos.forEach(dailyReportDto -> dailyReportDto.setQuantity(dailyReportDto.getQuantity().divide(new BigDecimal(1000))));
         MonthlyReportData monthlyReportData = new MonthlyReportData(dailyReportDtos, date.getMonth(), date.getYear());
 
         MonthlyReportTables monthlyReportTables = new MonthlyReportTables();
