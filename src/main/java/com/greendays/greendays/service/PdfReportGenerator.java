@@ -41,12 +41,6 @@ public class PdfReportGenerator {
     @Autowired
     private DailyReportService dailyReportService;
 
-    @Autowired
-    private ClientRepository clientRepository;
-
-    @Autowired
-    private DailyReportRepository dailyReportRepository;
-
     public ByteArrayInputStream generateTrimestrialPdfReport(Trimester trimester) {
         Document document = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -357,12 +351,6 @@ public class PdfReportGenerator {
         document.open();
 
         LocalDate localDate = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-        dailyReportService.getAllReportsOfMonth(localDate.getMonthValue(), localDate.getYear()).stream()
-                .filter(dailyReport -> dailyReport.getClient().getClientType().equals("Mixt"))
-                .forEach(dailyReport -> {
-                    dailyReport.setClient(clientRepository.getById(4L));
-                    dailyReportRepository.save(dailyReport);
-                });
 
         List<DailyReportDto> dailyReportDtos = dailyReportService.getAllReportsOfMonth(localDate.getMonthValue(), localDate.getYear()).stream()
                 .map(DailyReportEntityToDailyReportDtoMapper::mapEntityToDto)
