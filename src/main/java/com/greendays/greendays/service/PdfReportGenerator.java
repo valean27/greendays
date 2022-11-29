@@ -7,10 +7,13 @@ import com.greendays.greendays.model.totals.MonthlyReportData;
 import com.greendays.greendays.model.totals.TrimestrialReportData;
 import com.greendays.greendays.report.tables.MonthlyReportTables;
 import com.greendays.greendays.report.tables.TrimestrialReportTablesCreator;
+import com.greendays.greendays.repository.ClientRepository;
+import com.greendays.greendays.repository.DailyReportRepository;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.procedure.spi.ParameterRegistrationImplementor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +40,12 @@ public class PdfReportGenerator {
 
     @Autowired
     private DailyReportService dailyReportService;
+
+    @Autowired
+    private ClientRepository clientRepository;
+
+    @Autowired
+    private DailyReportRepository dailyReportRepository;
 
     public ByteArrayInputStream generateTrimestrialPdfReport(Trimester trimester) {
         Document document = new Document();
@@ -348,6 +357,13 @@ public class PdfReportGenerator {
         document.open();
 
         LocalDate localDate = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        dailyReportService.getAllReportsOfMonth(localDate.getMonthValue(), localDate.getYear()).stream()
+                .filter(dailyReport -> dailyReport.getClient().getClientType().equals("Mixt"))
+                .forEach(dailyReport -> {
+                    dailyReport.setClient(clientRepository.getById(4L));
+                    dailyReportRepository.save(dailyReport);
+                });
+
         List<DailyReportDto> dailyReportDtos = dailyReportService.getAllReportsOfMonth(localDate.getMonthValue(), localDate.getYear()).stream()
                 .map(DailyReportEntityToDailyReportDtoMapper::mapEntityToDto)
                 .collect(Collectors.toList());
