@@ -4,6 +4,7 @@ import com.greendays.greendays.model.dal.Client;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -11,6 +12,7 @@ import java.sql.Date;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class DailyReportDto {
     private Long id;
     private Date date;
