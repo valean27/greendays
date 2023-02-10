@@ -49,6 +49,7 @@ public class TrimestrialReportData {
     }
 
     public List<DailyReportDto> getGarbageReportsByClientTypeGarbageNameAndDestination(String clientType, String garbageName, String destination) {
+        System.out.println(dailyReportsThisTrimester);
         return dailyReportsThisTrimester.stream()
                 .filter(report -> report.getGarbageName().equalsIgnoreCase(garbageName) && report.getClientType().equalsIgnoreCase(clientType) && report.getDestination().equalsIgnoreCase(destination))
                 .collect(Collectors.toList());
