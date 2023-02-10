@@ -69,6 +69,8 @@ public class PdfReportGenerator {
 
         TrimestrialReportData trimestrialReportData = new TrimestrialReportData(dailyReportsOfTheQuarter, trimester);
 
+        trimestrialReportData.convertToTons();
+
 
         TrimestrialReportTablesCreator trimestrialReportTablesCreator = new TrimestrialReportTablesCreator();
         try {

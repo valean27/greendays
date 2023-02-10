@@ -276,6 +276,10 @@ public class TrimestrialReportData {
                 .map(DailyReportDto::getQuantity)
                 .reduce(BigDecimal.valueOf(0D), BigDecimal::add);
     }
+
+    public void convertToTons() {
+        dailyReportsThisTrimester.forEach(dailyReportDto -> dailyReportDto.setQuantity(dailyReportDto.getQuantity().divide(new BigDecimal(1000))));
+    }
 //
 //    public BigDecimal getTotalByUatGarbageNameAndClientType(String uat, String garbageName, String clientType) {
 //        return dailyReportsThisTrimester.stream()
