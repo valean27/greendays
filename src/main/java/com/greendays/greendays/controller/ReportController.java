@@ -18,6 +18,8 @@ import com.greendays.greendays.service.DailyReportService;
 import lombok.RequiredArgsConstructor;
 import lombok.var;
 import org.apache.commons.io.FileSystem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -49,6 +51,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ReportController {
 
+    private static final Logger log = LoggerFactory.getLogger(ReportController.class);
     private static final String SAVE_VALUE = "Salveaza";
     private static final String DELETE_VALUE = "Sterge Raport";
     @Autowired
@@ -158,11 +161,14 @@ public class ReportController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date convertedCurrentDate = sdf.parse(date);
+            log.info("Converted current date {}", convertedCurrentDate);
             LocalDate localDate = Instant.ofEpochMilli(convertedCurrentDate.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-
+log.info("Local date {} ", localDate);
             Optional<Path> optionalPath = Files.list(Paths.get("/usr/greendays/src/main/resources/zipuri"))
                     .filter(path -> path.toString().startsWith("src" + FileSystems.getDefault().getSeparator() + "main" + FileSystems.getDefault().getSeparator() + "resources" + FileSystems.getDefault().getSeparator() + "zipuri" + FileSystems.getDefault().getSeparator() + localDate.getYear() + "-" + (localDate.getMonthValue() > 9 ? localDate.getMonthValue() : "0" + localDate.getMonthValue())))
                     .findFirst();
+
+            log.info("optionalPath {} ", optionalPath);
 
             if (optionalPath.isPresent()) {
                 return ResponseEntity.ok()
@@ -172,8 +178,10 @@ public class ReportController {
             }
 
         } catch (ParseException e) {
+            log.error("",e);
             e.printStackTrace();
         } catch (IOException e) {
+            log.error("",e);
             e.printStackTrace();
         }
 
