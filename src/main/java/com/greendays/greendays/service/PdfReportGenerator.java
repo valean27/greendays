@@ -27,7 +27,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,8 +35,11 @@ import java.util.stream.Collectors;
 public class PdfReportGenerator {
 
     private static final Logger logger = LoggerFactory.getLogger(PdfReportGenerator.class.getName());
+
     public static final String FONT = "/usr/greendays/src/main/resources/FreeSans.ttf";
+    public static final String FONT_LOCAL = "/Users/bogdan.filip/Desktop/greendays/src/main/resources/FreeSans.ttf";
     public static final String FONT_BOLD = "/usr/greendays/src/main/resources/FreeSansBold.ttf";
+    public static final String FONT_BOLD_LOCAL = "/Users/bogdan.filip/Desktop/greendays/src/main/resources/FreeSansBold.ttf";
 
     @Autowired
     private DailyReportService dailyReportService;
@@ -51,8 +54,8 @@ public class PdfReportGenerator {
         Font font = null;
         Font boldFont = null;
         try {
-            bf = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-            BaseFont boldBaseFont = BaseFont.createFont(FONT_BOLD, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            bf = BaseFont.createFont(FONT_LOCAL, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            BaseFont boldBaseFont = BaseFont.createFont(FONT_BOLD_LOCAL, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             font = new Font(bf);
             boldFont = new Font(boldBaseFont);
             PdfWriter.getInstance(document, out);
@@ -61,6 +64,7 @@ public class PdfReportGenerator {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         document.open();
 
         List<DailyReportDto> dailyReportsOfTheQuarter = dailyReportService.getAllReportsForQuarter(trimester, LocalDate.now().getYear()).stream()
@@ -239,8 +243,8 @@ public class PdfReportGenerator {
         Font font = null;
         Font boldFont = null;
         try {
-            bf = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-            BaseFont boldBaseFont = BaseFont.createFont(FONT_BOLD, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            bf = BaseFont.createFont(FONT_LOCAL, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            BaseFont boldBaseFont = BaseFont.createFont(FONT_BOLD_LOCAL, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             font = new Font(bf);
             boldFont = new Font(boldBaseFont);
             PdfWriter.getInstance(document, out);
@@ -340,8 +344,8 @@ public class PdfReportGenerator {
         Font font = null;
         Font boldFont = null;
         try {
-            bf = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-            BaseFont boldBaseFont = BaseFont.createFont(FONT_BOLD, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            bf = BaseFont.createFont(FONT_LOCAL, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            BaseFont boldBaseFont = BaseFont.createFont(FONT_BOLD_LOCAL, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             font = new Font(bf);
             boldFont = new Font(boldBaseFont);
             PdfWriter.getInstance(document, out);

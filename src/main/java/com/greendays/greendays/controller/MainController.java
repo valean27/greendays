@@ -176,7 +176,7 @@ public class MainController {
     @GetMapping("/reportsArchive")
     public String reportsArchive(@RequestParam(name = "name", required = false, defaultValue = "Stefan") String name, Model model) {
         try {
-            List<File> files = Files.list(Paths.get("/usr/greendays/src/main/resources/zipuri")).map(path -> {
+            List<File> files = Files.list(Paths.get("/Users/bogdan.filip/Desktop/greendays/src/main/resources/zipuri")).map(path -> {
                 com.greendays.greendays.model.dto.File file = new File();
                 file.setFileName(path.getFileName().toString());
                 try {
